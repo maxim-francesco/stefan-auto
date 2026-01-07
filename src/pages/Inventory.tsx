@@ -28,7 +28,7 @@ const Inventory = () => {
 
   const { data: apiResponse, isLoading, isError, refetch } = useQuery({
     queryKey: ['publicListings', 'all'],
-    queryFn: fetchPublicListings,
+    queryFn: () => fetchPublicListings(),
   });
 
   const allCars = useMemo(() => {
@@ -239,7 +239,7 @@ const Inventory = () => {
           </motion.div>
 
           {/* Active Filters */}
-          {(selectedBrand !== "Toate" || selectedFuel !== "Toate" || selectedTransmission !== "Toate") && (
+          {!isLoading && (selectedBrand !== "Toate" || selectedFuel !== "Toate" || selectedTransmission !== "Toate") && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -273,7 +273,7 @@ const Inventory = () => {
           )}
 
           {/* Results Count */}
-          {!isLoading && !isError && (
+          {!isLoading && !isError && apiResponse && (
              <p className="text-muted-foreground text-sm mb-8">
               {filteredCars.length} {filteredCars.length === 1 ? "autoturism găsit" : "autoturisme găsite"}
             </p>
