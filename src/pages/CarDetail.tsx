@@ -155,6 +155,40 @@ const CarDetail = () => {
     onSuccess: () => setImageIndex(0)
   });
 
+  const carDetailsMemo = useMemo(() => {
+    if (!car) return {};
+    return {
+      marca: getAttribute(car, 'marca') as string || '',
+      model: getAttribute(car, 'model') as string || '',
+      year: getAttribute(car, 'an') as number || new Date().getFullYear(),
+      mileage: getAttribute(car, 'kilometraj') as number || 0,
+      price: car.price,
+    };
+  }, [car]);
+
+  useEffect(() => {
+    if (car) {
+      const { marca, model, year, mileage, price } = carDetailsMemo;
+      const newTitle = `${marca} ${model} ${year} | Stefan Auto GVR`;
+      const newDescription = `Descoperă acest ${marca} ${model} din ${year} la Stefan Auto GVR. ${mileage.toLocaleString('ro-RO')} km, stare impecabilă, preț ${price ? price.toLocaleString('ro-RO') + '€' : 'la cerere'}. Vezi detalii și finanțare.`;
+      const imageUrl = car.images[0]?.url || '';
+
+      document.title = newTitle;
+      document.querySelector('meta[name="description"]')?.setAttribute("content", newDescription);
+      
+      // Update Open Graph tags
+      document.querySelector('meta[property="og:title"]')?.setAttribute("content", newTitle);
+      document.querySelector('meta[property="og:description"]')?.setAttribute("content", newDescription);
+      document.querySelector('meta[property="og:image"]')?.setAttribute("content", imageUrl);
+      
+      // Update Twitter Card tags
+      document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", newTitle);
+      document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", newDescription);
+      document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", imageUrl);
+    }
+  }, [car, carDetailsMemo]);
+
+
   const { techSpecs, features } = useMemo(() => {
     if (!car?.attributeValues) {
       return { techSpecs: [], features: [] };
