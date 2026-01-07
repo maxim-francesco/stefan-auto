@@ -29,7 +29,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 
 const getAttribute = (car: ApiCar, attributeName: string): string | number | boolean | null => {
@@ -208,6 +208,25 @@ const CarDetail = () => {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isLightboxOpen) {
+        if (event.key === "ArrowRight") {
+          paginate(1);
+        } else if (event.key === "ArrowLeft") {
+          paginate(-1);
+        } else if (event.key === "Escape") {
+          setIsLightboxOpen(false);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isLightboxOpen, imageIndex, car]);
+
+
   const galleryVariants = {
     enter: { opacity: 0, scale: 0.95 },
     center: { zIndex: 1, opacity: 1, scale: 1 },
@@ -233,10 +252,13 @@ const CarDetail = () => {
               }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
-              onDragEnd={(_e, { offset }) => {
-                if (Math.abs(offset.x) > 100) {
-                  paginate(offset.x > 0 ? -1 : 1);
+              dragElastic={0.5}
+              onDragEnd={(_e, { offset, velocity }) => {
+                const swipePower = Math.abs(offset.x) * velocity.x;
+                if (swipePower < -10000) {
+                  paginate(1);
+                } else if (swipePower > 10000) {
+                  paginate(-1);
                 }
               }}
             />
@@ -246,7 +268,7 @@ const CarDetail = () => {
             <>
               {/* Prev Arrow */}
               <button 
-                onClick={() => paginate(-1)}
+                onClick={(e) => { e.stopPropagation(); paginate(-1); }}
                 className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center z-20"
               >
                 <ChevronLeft className="w-7 h-7 text-gold" />
@@ -254,7 +276,7 @@ const CarDetail = () => {
               
               {/* Next Arrow */}
               <button 
-                onClick={() => paginate(1)}
+                onClick={(e) => { e.stopPropagation(); paginate(1); }}
                 className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center z-20"
               >
                 <ChevronRight className="w-7 h-7 text-gold" />
@@ -334,7 +356,7 @@ const CarDetail = () => {
                 {/* Image Gallery */}
                 <div 
                   className="relative aspect-[16/10] rounded-xl overflow-hidden glass group cursor-pointer"
-                  onClick={() => setIsLightboxOpen(true)}
+                  onClick={() => images.length > 0 && setIsLightboxOpen(true)}
                 >
                   <AnimatePresence initial={false}>
                     <motion.img
@@ -349,6 +371,17 @@ const CarDetail = () => {
                         opacity: { duration: 0.3 },
                         scale: { duration: 0.3 }
                       }}
+                       drag="x"
+                       dragConstraints={{ left: 0, right: 0 }}
+                       dragElastic={0.5}
+                       onDragEnd={(_e, { offset, velocity }) => {
+                        const swipePower = Math.abs(offset.x) * velocity.x;
+                        if (swipePower < -10000) {
+                          paginate(1);
+                        } else if (swipePower > 10000) {
+                          paginate(-1);
+                        }
+                       }}
                     />
                   </AnimatePresence>
                   
