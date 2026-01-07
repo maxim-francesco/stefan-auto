@@ -16,6 +16,7 @@ import {
   Calculator,
   Building2,
   ChevronRight,
+  X,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -143,6 +144,8 @@ const CarDetail = () => {
   const contactFormRef = useRef<HTMLDivElement>(null);
 
   const [imageIndex, setImageIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
 
   const { data: car, isLoading, isError } = useQuery({
     queryKey: ["listing", id],
@@ -206,26 +209,66 @@ const CarDetail = () => {
   };
 
   const galleryVariants = {
-    enter: (direction: number) => {
-      return {
-        x: direction > 0 ? 1000 : -1000,
-        opacity: 0
-      };
-    },
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1
-    },
-    exit: (direction: number) => {
-      return {
-        zIndex: 0,
-        x: direction < 0 ? 1000 : -1000,
-        opacity: 0
-      };
-    }
+    enter: { opacity: 0, scale: 0.95 },
+    center: { zIndex: 1, opacity: 1, scale: 1 },
+    exit: { zIndex: 0, opacity: 0, scale: 0.95 },
   };
+
+  const images = car?.images || [];
   
+  const LightboxContent = () => (
+    <div className="relative w-full h-full flex items-center justify-center">
+       <AnimatePresence initial={false}>
+            <motion.img
+              key={imageIndex}
+              src={images[imageIndex]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă"}
+              className="max-w-full max-h-full object-contain"
+              variants={galleryVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                opacity: { duration: 0.3 },
+                scale: { duration: 0.3 }
+              }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={1}
+              onDragEnd={(_e, { offset }) => {
+                if (Math.abs(offset.x) > 100) {
+                  paginate(offset.x > 0 ? -1 : 1);
+                }
+              }}
+            />
+          </AnimatePresence>
+
+        {images.length > 1 && (
+            <>
+              {/* Prev Arrow */}
+              <button 
+                onClick={() => paginate(-1)}
+                className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center z-20"
+              >
+                <ChevronLeft className="w-7 h-7 text-gold" />
+              </button>
+              
+              {/* Next Arrow */}
+              <button 
+                onClick={() => paginate(1)}
+                className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center z-20"
+              >
+                <ChevronRight className="w-7 h-7 text-gold" />
+              </button>
+
+              {/* Image Counter */}
+              <div className="absolute bottom-4 right-4 bg-black/50 text-white text-sm px-4 py-2 rounded-full z-20 backdrop-blur-sm">
+                Poza {imageIndex + 1} din {images.length}
+              </div>
+            </>
+          )}
+    </div>
+  );
+
 
   if (isLoading) {
     return (
@@ -253,7 +296,6 @@ const CarDetail = () => {
     );
   }
 
-  const images = car.images || [];
 
   const carDetails = {
     year: getAttribute(car, 'an'),
@@ -290,7 +332,10 @@ const CarDetail = () => {
               <motion.div variants={staggerItem} className="lg:col-span-2 space-y-12">
                 
                 {/* Image Gallery */}
-                <div className="relative aspect-[16/10] rounded-xl overflow-hidden glass group">
+                <div 
+                  className="relative aspect-[16/10] rounded-xl overflow-hidden glass group cursor-pointer"
+                  onClick={() => setIsLightboxOpen(true)}
+                >
                   <AnimatePresence initial={false}>
                     <motion.img
                       key={imageIndex}
@@ -301,17 +346,8 @@ const CarDetail = () => {
                       animate="center"
                       exit="exit"
                       transition={{
-                        x: { type: "spring", stiffness: 300, damping: 30 },
-                        opacity: { duration: 0.2 }
-                      }}
-                      drag="x"
-                      dragConstraints={{ left: 0, right: 0 }}
-                      dragElastic={1}
-                      onDragEnd={(_e, { offset, velocity }) => {
-                        const swipe = Math.abs(offset.x);
-                        if (swipe > 100) {
-                          paginate(offset.x > 0 ? -1 : 1);
-                        }
+                        opacity: { duration: 0.3 },
+                        scale: { duration: 0.3 }
                       }}
                     />
                   </AnimatePresence>
@@ -320,7 +356,7 @@ const CarDetail = () => {
                     <>
                       {/* Prev Arrow */}
                       <button 
-                        onClick={() => paginate(-1)}
+                        onClick={(e) => { e.stopPropagation(); paginate(-1); }}
                         className="absolute top-1/2 left-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
                       >
                         <ChevronLeft className="w-6 h-6 text-gold" />
@@ -328,7 +364,7 @@ const CarDetail = () => {
                       
                       {/* Next Arrow */}
                        <button 
-                        onClick={() => paginate(1)}
+                        onClick={(e) => { e.stopPropagation(); paginate(1); }}
                         className="absolute top-1/2 right-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
                       >
                         <ChevronRight className="w-6 h-6 text-gold" />
@@ -500,6 +536,36 @@ const CarDetail = () => {
           </StaggerContainer>
         </div>
       </main>
+
+      {/* Lightbox */}
+       <AnimatePresence>
+        {isLightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="w-full h-full"
+              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on the content
+            >
+              <LightboxContent />
+            </motion.div>
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center z-[110]"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
        {/* Mobile Sticky Bar */}
       <motion.div 
