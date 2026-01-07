@@ -5,7 +5,7 @@ import logo from "@/assets/Stefan.png";
 const Footer = () => {
   return (
     <footer className="bg-navy-light border-t border-primary/10">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-2">
@@ -119,6 +119,13 @@ const Footer = () => {
               SOL
             </a>
           </div>
+        </div>
+        
+        {/* Credits Line */}
+        <div className="mt-10 text-center">
+            <p className="text-lg text-gold-gradient">
+                Construit și proiectat de Francesco Maxim | <a href="tel:+407058990675" className="hover:underline">+407058990675</a>
+            </p>
         </div>
       </div>
     </footer>
