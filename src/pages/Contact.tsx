@@ -30,7 +30,8 @@ const Contact = () => {
 
   const onSubmit = async (values: ContactFormValues) => {
     try {
-      await submitContactForm(values);
+      const response = await submitContactForm(values);
+      console.log("Form submission response:", response);
       toast({
         title: "Mesaj Trimis cu Succes!",
         description: "Vă mulțumim. Un consultant vă va contacta în cel mai scurt timp.",
