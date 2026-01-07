@@ -55,23 +55,22 @@ const SpecialServices = () => {
     const message = `
 CERERE MAȘINĂ LA COMANDĂ:
 
-Marcă și Model: ${values.marcaModel}
-Buget Maxim: ${values.bugetMaxim} €
-An Minim: ${values.anMinim}
-Kilometraj Maxim: ${values.kmMaximi} km
+Mașină dorită: ${values.marcaModel}
+Buget: ${values.bugetMaxim} €
+An minim: ${values.anMinim}
+Km maximi: ${values.kmMaximi} km
 Caroserie: ${values.caroserie}
 Combustibil: ${values.combustibil}
-Alte Detalii: ${values.alteDetalii || 'Niciunul'}
+Detalii suplimentare: ${values.alteDetalii || 'Niciunul'}
 
-Date Contact:
-Nume: ${values.nume}
+Date Contact Client:
 Telefon: ${values.telefon}
     `.trim();
 
     try {
       await submitContactForm({
         name: values.nume,
-        email: 'comanda@stefanautogvr.ro', // Placeholder email
+        email: 'comanda@stefanautogvr.ro', // Placeholder email as client doesn't provide one
         phone: values.telefon,
         message: message,
       });
@@ -412,5 +411,3 @@ Email: ${values.email}
 };
 
 export default SpecialServices;
-
-    

@@ -203,7 +203,9 @@ const CarDetail = () => {
 
     try {
       await submitContactForm({
-        ...values,
+        name: values.name,
+        email: values.email || 'contact@stefanautogvr.ro', // Use a placeholder if email is not required/provided
+        phone: values.phone,
         message: messageWithSubject,
       });
       toast({
