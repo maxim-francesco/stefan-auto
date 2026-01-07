@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,9 @@ import ScrollProgress from "./components/ScrollProgress";
 import FloatingCTA from "./components/FloatingCTA";
 import CarDetail from "./pages/CarDetail";
 import ScrollToTop from "./components/ScrollToTop";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookiePolicy from "./pages/CookiePolicy";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +47,9 @@ const AnimatedRoutes = () => {
           <Route path="/finantare" element={<Financing />} />
           <Route path="/servicii" element={<SpecialServices />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/termeni-si-conditii" element={<TermsAndConditions />} />
+          <Route path="/politica-de-confidentialitate" element={<PrivacyPolicy />} />
+          <Route path="/politica-de-cookies" element={<CookiePolicy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.div>

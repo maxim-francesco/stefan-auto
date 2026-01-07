@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import logo from "@/assets/Stefan.png";
@@ -6,9 +7,9 @@ const Footer = () => {
   return (
     <footer className="bg-navy-light border-t border-primary/10">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand Column */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <img
               src={logo}
               alt="STEFAN AUTO GVR SRL Logo"
@@ -46,17 +47,27 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Legal Info */}
           <div>
             <h4 className="font-display text-lg mb-6 text-gold-gradient">
-              Servicii
+              Informații Legale
             </h4>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>Finanțare Auto</li>
-              <li>Mașini la Comandă</li>
-              <li>Buy-Back Auto</li>
-              <li>Livrare în Țară</li>
-              <li>Numere Roșii</li>
+            <ul className="space-y-3">
+                <li>
+                    <Link to="/termeni-si-conditii" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                        Termeni și Condiții
+                    </Link>
+                </li>
+                 <li>
+                    <Link to="/politica-de-confidentialitate" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                        Politică de Confidențialitate
+                    </Link>
+                </li>
+                 <li>
+                    <Link to="/politica-de-cookies" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                        Politică de Cookies
+                    </Link>
+                </li>
             </ul>
           </div>
 
