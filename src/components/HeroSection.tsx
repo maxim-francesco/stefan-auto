@@ -6,7 +6,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden md:min-h-screen">
       {/* Background Image */}
       <div className="absolute inset-0">
         <motion.img
@@ -15,13 +15,13 @@ const HeroSection = () => {
           transition={{ duration: 1.5, ease: "easeOut" }}
           src={heroBg}
           alt="Showroom Auto Premium Stefan Auto GVR"
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
         />
         {/* Multi-layer gradient overlays for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/80 via-navy/50 to-navy" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/80 via-navy/60 to-navy" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy/70 via-transparent to-navy/40" />
         {/* Vignette effect */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(220_40%_3%/0.4)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(220_40%_3%/0.5)_100%)]" />
       </div>
       
       {/* Animated gradient orbs */}
