@@ -14,6 +14,7 @@ import {
   MessageCircle,
   Send,
   Calculator,
+  Building2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -26,7 +27,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Slider } from "@/components/ui/slider";
 
 const getAttribute = (car: ApiCar, attributeName: string): string | number | boolean | null => {
@@ -46,8 +47,16 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-const FinancingCalculator = ({ price }: { price: number }) => {
-  const [downPayment, setDownPayment] = useState(price * 0.15);
+const partners = [
+  "tbi bank",
+  "Mogo",
+  "Ontopay",
+  "BT",
+  "Porsche Leasing",
+];
+
+const FinancingCalculator = ({ price, carTitle, onCTAClick }: { price: number, carTitle: string, onCTAClick: () => void }) => {
+  const [downPayment, setDownPayment] = useState(Math.round(price * 0.15));
   const [term, setTerm] = useState(60);
   const interestRate = 8.9 / 100; // 8.9% annual interest rate
 
@@ -62,7 +71,7 @@ const FinancingCalculator = ({ price }: { price: number }) => {
       : 0;
 
   return (
-    <div className="glass rounded-2xl p-6 md:p-8 mt-8">
+    <div className="glass rounded-2xl p-6 md:p-8 mt-8 border border-primary/20">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
             <Calculator className="w-6 h-6 text-primary-foreground" />
@@ -73,7 +82,7 @@ const FinancingCalculator = ({ price }: { price: number }) => {
       <div className="space-y-6">
         <div>
           <div className="flex justify-between items-end mb-2">
-            <FormLabel>Avans</FormLabel>
+            <label className="text-sm font-medium text-muted-foreground">Avans</label>
             <span className="text-primary font-medium">{downPayment.toLocaleString('ro-RO')} €</span>
           </div>
           <Slider
@@ -86,7 +95,7 @@ const FinancingCalculator = ({ price }: { price: number }) => {
         </div>
         <div>
           <div className="flex justify-between items-end mb-2">
-            <FormLabel>Perioadă</FormLabel>
+            <label className="text-sm font-medium text-muted-foreground">Perioadă</label>
             <span className="text-primary font-medium">{term} luni</span>
           </div>
           <Slider
@@ -103,6 +112,25 @@ const FinancingCalculator = ({ price }: { price: number }) => {
                 {Math.round(monthlyPayment).toLocaleString('ro-RO')} € / lună
             </p>
         </div>
+        
+        <button 
+          onClick={onCTAClick}
+          className="btn-luxury-filled w-full text-center py-3"
+        >
+          Solicită Ofertă Personalizată
+        </button>
+
+        <div className="text-center pt-4 border-t border-border/50">
+            <div className="flex items-center justify-center gap-2 mb-4">
+                <Building2 className="w-4 h-4 text-muted-foreground" />
+                <span className="text-muted-foreground text-xs">Parteneri de încredere</span>
+            </div>
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+                {partners.map(p => (
+                    <span key={p} className="text-xs text-muted-foreground/80">{p}</span>
+                ))}
+            </div>
+        </div>
       </div>
     </div>
   );
@@ -111,6 +139,7 @@ const FinancingCalculator = ({ price }: { price: number }) => {
 
 const CarDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const contactFormRef = useRef<HTMLDivElement>(null);
 
   const { data: car, isLoading, isError } = useQuery({
     queryKey: ["listing", id],
@@ -155,6 +184,10 @@ const CarDetail = () => {
     }
   };
 
+  const handleFinancingCTA = () => {
+    contactFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+    form.setValue('message', `Salut, sunt interesat de o ofertă de finanțare pentru ${car?.title}.`);
+  }
 
   if (isLoading) {
     return (
@@ -231,7 +264,7 @@ const CarDetail = () => {
                 </div>
 
                 {/* Contact Form */}
-                <motion.div variants={staggerItem} className="glass rounded-2xl p-6 md:p-8">
+                <motion.div ref={contactFormRef} variants={staggerItem} className="glass rounded-2xl p-6 md:p-8">
                   <h2 className="font-display text-2xl mb-6">Contactează-ne pentru acest vehicul</h2>
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -372,7 +405,7 @@ const CarDetail = () => {
                     </div>
                   </div>
                   
-                  {car.price && <FinancingCalculator price={car.price} />}
+                  {car.price && <FinancingCalculator price={car.price} carTitle={car.title} onCTAClick={handleFinancingCTA} />}
                 </div>
 
               </motion.div>
