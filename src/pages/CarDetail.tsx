@@ -172,7 +172,7 @@ const CarDetail = () => {
       const { attribute, stringValue, numberValue, booleanValue } = attr;
       const attrNameLower = attribute.name.toLowerCase();
       
-      if (attribute.type === 'STRING' || attribute.type === 'NUMBER') {
+      if ((attribute.type === 'STRING' || attribute.type === 'NUMBER') && (stringValue !== null || numberValue !== null)) {
         let value = stringValue ?? numberValue;
         if (value !== null && !displayedSpecs.has(attrNameLower)) {
           // Format specific values with units
@@ -181,7 +181,7 @@ const CarDetail = () => {
           } else if (attrNameLower === 'capacitate cilindrica' && typeof value === 'number') {
             value = `${value.toLocaleString('ro-RO')} cm³`;
           }
-          techSpecs.push({ name: attribute.name, value: value });
+          techSpecs.push({ name: attribute.name, value: value! });
         }
       } else if (attribute.type === 'BOOLEAN' && booleanValue === true) {
         features.push(attribute.name);
@@ -357,6 +357,8 @@ const CarDetail = () => {
 
 
   const carDetails = {
+    marca: getAttribute(car, 'marca'),
+    model: getAttribute(car, 'model'),
     year: getAttribute(car, 'an'),
     mileage: getAttribute(car, 'kilometraj'),
     fuel: getAttribute(car, 'combustibil'),
@@ -384,13 +386,23 @@ const CarDetail = () => {
             <motion.h1 variants={staggerItem} className="font-display text-4xl md:text-5xl mt-2 mb-4">
               {car.title}
             </motion.h1>
+            
+            {car.price ? (
+              <motion.p variants={staggerItem} className="font-display text-4xl text-gold-gradient mb-6">
+                {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
+              </motion.p>
+            ) : (
+              <motion.p variants={staggerItem} className="bg-primary/10 text-primary px-4 py-2 rounded-lg mb-6 inline-block">
+                Preț la cerere
+              </motion.p>
+            )}
 
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-3 gap-8 mt-8">
-              {/* Left Column - Gallery & Description */}
+              {/* Left Column */}
               <motion.div variants={staggerItem} className="lg:col-span-2 space-y-12">
                 
-                {/* Image Gallery */}
+                {/* 1. Image Gallery */}
                 <div 
                   className="relative aspect-[16/10] rounded-xl overflow-hidden glass group cursor-pointer"
                   onClick={() => images.length > 0 && setIsLightboxOpen(true)}
@@ -448,15 +460,10 @@ const CarDetail = () => {
                   )}
                 </div>
                 
-                {/* Description, Specs, and Features */}
+                {/* Sections */}
                 <div className="space-y-12">
-                  <div>
-                    <h2 className="font-display text-2xl mb-4 text-gold-gradient">Descriere</h2>
-                    <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed">
-                      <p>{car.description || "Descriere indisponibilă."}</p>
-                    </div>
-                  </div>
-
+                  
+                  {/* 3. Specificații Tehnice */}
                   {techSpecs.length > 0 && (
                     <div>
                       <h2 className="font-display text-2xl mb-6 text-gold-gradient">Specificații Tehnice</h2>
@@ -464,13 +471,14 @@ const CarDetail = () => {
                         {techSpecs.map((spec) => (
                           <div key={spec.name} className="flex justify-between border-b border-border/50 pb-2">
                             <span className="text-muted-foreground">{spec.name}</span>
-                            <span className="font-medium text-foreground">{String(spec.value)}</span>
+                            <span className="font-medium text-foreground text-right">{String(spec.value)}</span>
                           </div>
                         ))}
                       </div>
                     </div>
                   )}
 
+                  {/* 4. Dotări și Echipamente */}
                   {features.length > 0 && (
                     <div>
                       <h2 className="font-display text-2xl mb-6 text-gold-gradient">Dotări și Echipamente</h2>
@@ -484,9 +492,86 @@ const CarDetail = () => {
                       </div>
                     </div>
                   )}
+
+                  {/* 5. Descriere */}
+                  <div>
+                    <h2 className="font-display text-2xl mb-4 text-gold-gradient">Descriere</h2>
+                    <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                      <p>{car.description || "Descriere indisponibilă."}</p>
+                    </div>
+                  </div>
+
                 </div>
 
-                {/* Contact Form */}
+              </motion.div>
+
+              {/* Right Column */}
+              <motion.div variants={staggerItem} className="lg:col-span-1">
+                <div className="sticky top-24 space-y-8">
+                  {/* 2. Detalii Vehicul */}
+                  <div className="glass rounded-2xl p-6">
+                    <h2 className="font-display text-2xl mb-4">Detalii Vehicul</h2>
+                    
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div className="flex items-center gap-3">
+                        <Calendar className="w-5 h-5 text-primary/70" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">An</p>
+                          <p className="text-sm font-medium">{String(carDetails.year) || 'N/A'}</p>
+                        </div>
+                      </div>
+                       <div className="flex items-center gap-3">
+                        <Gauge className="w-5 h-5 text-primary/70" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Kilometraj</p>
+                          <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString('ro-RO')} km` : 'N/A'}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Fuel className="w-5 h-5 text-primary/70" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Combustibil</p>
+                          <p className="text-sm font-medium">{String(carDetails.fuel) || 'N/A'}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Settings2 className="w-5 h-5 text-primary/70" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Transmisie</p>
+                          <p className="text-sm font-medium">{String(carDetails.transmission) || 'N/A'}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-border pt-6 flex-col gap-3 hidden lg:flex">
+                       <a
+                          href="tel:0731758666"
+                          className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
+                        >
+                          <Phone className="w-4 h-4" />
+                          Sună Acum
+                        </a>
+                        <a
+                          href="https://wa.me/40731758666"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-luxury w-full flex items-center justify-center gap-2 py-3"
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                          Contactează pe WhatsApp
+                        </a>
+                    </div>
+                  </div>
+                  
+                  {/* 6. Calculator Finanțare */}
+                  {car.price && <FinancingCalculator price={car.price} carTitle={car.title} onCTAClick={handleFinancingCTA} />}
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-8 mt-12">
+              <div className="lg:col-span-2">
+                 {/* 7. Contact Form */}
                 <motion.div ref={contactFormRef} variants={staggerItem} className="glass rounded-2xl p-6 md:p-8">
                   <h2 className="font-display text-2xl mb-6">Contactează-ne pentru acest vehicul</h2>
                   <Form {...form}>
@@ -558,81 +643,9 @@ const CarDetail = () => {
                     </form>
                   </Form>
                 </motion.div>
-              </motion.div>
-
-              {/* Right Column - Details & CTA */}
-              <motion.div variants={staggerItem} className="lg:col-span-1">
-                <div className="sticky top-24">
-                  <div className="glass rounded-2xl p-6">
-                    <h2 className="font-display text-2xl mb-4">Detalii Vehicul</h2>
-                    
-                    {car.price ? (
-                      <p className="font-display text-4xl text-gold-gradient mb-6">
-                        {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
-                      </p>
-                    ) : (
-                      <p className="bg-primary/10 text-primary px-4 py-2 rounded-lg mb-6">
-                        Preț la cerere
-                      </p>
-                    )}
-
-                    {/* Specs */}
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="flex items-center gap-3">
-                        <Calendar className="w-5 h-5 text-primary/70" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">An</p>
-                          <p className="text-sm font-medium">{String(carDetails.year) || 'N/A'}</p>
-                        </div>
-                      </div>
-                       <div className="flex items-center gap-3">
-                        <Gauge className="w-5 h-5 text-primary/70" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Kilometraj</p>
-                          <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString('ro-RO')} km` : 'N/A'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Fuel className="w-5 h-5 text-primary/70" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Combustibil</p>
-                          <p className="text-sm font-medium">{String(carDetails.fuel) || 'N/A'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Settings2 className="w-5 h-5 text-primary/70" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Transmisie</p>
-                          <p className="text-sm font-medium">{String(carDetails.transmission) || 'N/A'}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="border-t border-border pt-6 flex-col gap-3 hidden lg:flex">
-                       <a
-                          href="tel:0731758666"
-                          className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
-                        >
-                          <Phone className="w-4 h-4" />
-                          Sună Acum
-                        </a>
-                        <a
-                          href="https://wa.me/40731758666"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-luxury w-full flex items-center justify-center gap-2 py-3"
-                        >
-                          <MessageCircle className="w-4 h-4" />
-                          Contactează pe WhatsApp
-                        </a>
-                    </div>
-                  </div>
-                  
-                  {car.price && <FinancingCalculator price={car.price} carTitle={car.title} onCTAClick={handleFinancingCTA} />}
-                </div>
-
-              </motion.div>
+              </div>
             </div>
+
           </StaggerContainer>
         </div>
       </main>
