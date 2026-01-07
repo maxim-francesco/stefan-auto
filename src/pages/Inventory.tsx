@@ -37,7 +37,6 @@ const Inventory = () => {
       transmission: getAttribute(car, "cutie de viteze") as string || 'N/A',
       price: car.price ?? undefined,
       priceOnRequest: !car.price,
-      financing: true, // Assuming all can be financed for now
     }));
   }, [apiResponse]);
 

@@ -14,7 +14,6 @@ interface CarCardProps {
   transmission: string;
   price?: number;
   priceOnRequest?: boolean;
-  financing?: boolean;
   index?: number;
 }
 
@@ -29,7 +28,6 @@ const CarCard = ({
   transmission,
   price,
   priceOnRequest,
-  financing,
   index = 0,
 }: CarCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -87,11 +85,6 @@ const CarCard = ({
           {priceOnRequest && (
             <span className="bg-primary/95 text-primary-foreground text-xs px-3 py-1.5 rounded-sm font-medium tracking-wide">
               Preț la Cerere
-            </span>
-          )}
-          {financing && (
-            <span className="glass text-xs px-3 py-1.5 rounded-sm tracking-wide">
-              Finanțare Disponibilă
             </span>
           )}
         </div>
