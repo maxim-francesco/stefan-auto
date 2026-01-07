@@ -17,6 +17,7 @@ import {
   Building2,
   ChevronRight,
   X,
+  CheckCircle,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -29,7 +30,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Slider } from "@/components/ui/slider";
 
 const getAttribute = (car: ApiCar, attributeName: string): string | number | boolean | null => {
@@ -153,6 +154,31 @@ const CarDetail = () => {
     enabled: !!id,
     onSuccess: () => setImageIndex(0)
   });
+
+  const { techSpecs, features } = useMemo(() => {
+    if (!car?.attributeValues) {
+      return { techSpecs: [], features: [] };
+    }
+
+    const techSpecs: { name: string; value: string | number }[] = [];
+    const features: string[] = [];
+    const displayedSpecs = new Set(['an', 'kilometraj', 'combustibil', 'cutie de viteze']);
+
+    car.attributeValues.forEach(attr => {
+        const { attribute, stringValue, numberValue, booleanValue } = attr;
+        
+        if (attribute.type === 'STRING' || attribute.type === 'NUMBER') {
+            const value = stringValue ?? numberValue;
+            if (value !== null && !displayedSpecs.has(attribute.name.toLowerCase())) {
+                techSpecs.push({ name: attribute.name, value: value });
+            }
+        } else if (attribute.type === 'BOOLEAN' && booleanValue === true) {
+            features.push(attribute.name);
+        }
+    });
+
+    return { techSpecs, features };
+  }, [car]);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -411,12 +437,42 @@ const CarDetail = () => {
                   )}
                 </div>
                 
-                {/* Description */}
-                <div>
-                  <h2 className="font-display text-2xl mb-4 text-gold-gradient">Descriere</h2>
-                  <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed">
-                    <p>{car.description}</p>
+                {/* Description, Specs, and Features */}
+                <div className="space-y-12">
+                  <div>
+                    <h2 className="font-display text-2xl mb-4 text-gold-gradient">Descriere</h2>
+                    <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed">
+                      <p>{car.description || "Descriere indisponibilă."}</p>
+                    </div>
                   </div>
+
+                  {techSpecs.length > 0 && (
+                    <div>
+                      <h2 className="font-display text-2xl mb-6 text-gold-gradient">Specificații Tehnice</h2>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                        {techSpecs.map((spec) => (
+                          <div key={spec.name} className="flex justify-between border-b border-border/50 pb-2">
+                            <span className="text-muted-foreground">{spec.name}</span>
+                            <span className="font-medium text-foreground">{spec.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {features.length > 0 && (
+                    <div>
+                      <h2 className="font-display text-2xl mb-6 text-gold-gradient">Dotări și Echipamente</h2>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                        {features.map((feature) => (
+                          <div key={feature} className="flex items-center gap-3">
+                            <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span className="text-foreground/90">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Contact Form */}
