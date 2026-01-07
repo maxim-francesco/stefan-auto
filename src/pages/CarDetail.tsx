@@ -453,7 +453,7 @@ const CarDetail = () => {
                         {techSpecs.map((spec) => (
                           <div key={spec.name} className="flex justify-between border-b border-border/50 pb-2">
                             <span className="text-muted-foreground">{spec.name}</span>
-                            <span className="font-medium text-foreground">{spec.value}</span>
+                            <span className="font-medium text-foreground">{String(spec.value)}</span>
                           </div>
                         ))}
                       </div>
@@ -571,7 +571,7 @@ const CarDetail = () => {
                         <Calendar className="w-5 h-5 text-primary/70" />
                         <div>
                           <p className="text-xs text-muted-foreground">An</p>
-                          <p className="text-sm font-medium">{carDetails.year || 'N/A'}</p>
+                          <p className="text-sm font-medium">{String(carDetails.year) || 'N/A'}</p>
                         </div>
                       </div>
                        <div className="flex items-center gap-3">
@@ -585,14 +585,14 @@ const CarDetail = () => {
                         <Fuel className="w-5 h-5 text-primary/70" />
                         <div>
                           <p className="text-xs text-muted-foreground">Combustibil</p>
-                          <p className="text-sm font-medium">{carDetails.fuel || 'N/A'}</p>
+                          <p className="text-sm font-medium">{String(carDetails.fuel) || 'N/A'}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <Settings2 className="w-5 h-5 text-primary/70" />
                         <div>
                           <p className="text-xs text-muted-foreground">Transmisie</p>
-                          <p className="text-sm font-medium">{carDetails.transmission || 'N/A'}</p>
+                          <p className="text-sm font-medium">{String(carDetails.transmission) || 'N/A'}</p>
                         </div>
                       </div>
                     </div>
