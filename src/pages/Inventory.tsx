@@ -57,7 +57,7 @@ const Inventory = () => {
           animate={{ opacity: 1 }}
           className="text-center py-20 glass rounded-2xl"
         >
-          <h3 className="font-display text-xl text-destructive-foreground mb-2">Ceva nu a funcționat</h3>
+          <h2 className="font-display text-xl text-destructive-foreground mb-2">Ceva nu a funcționat</h2>
           <p className="text-muted-foreground mb-6">A apărut o eroare la încărcarea mașinilor.</p>
           <button
             onClick={() => refetch()}
@@ -78,7 +78,7 @@ const Inventory = () => {
           className="text-center py-20 glass rounded-2xl"
         >
           <Frown className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h3 className="font-display text-xl text-foreground mb-2">Niciun vehicul disponibil</h3>
+          <h2 className="font-display text-xl text-foreground mb-2">Niciun vehicul disponibil</h2>
           <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
             Stocul nostru se actualizează constant. Vă rugăm să reveniți mai târziu.
           </p>

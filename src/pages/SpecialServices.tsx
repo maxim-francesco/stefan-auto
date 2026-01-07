@@ -205,6 +205,7 @@ Email: ${values.email}
                   <a
                     href="tel:+40731758666"
                     className="btn-luxury-filled inline-flex items-center gap-2"
+                    aria-label="Sună pentru o consultație"
                   >
                     <Phone className="w-4 h-4" />
                     Sună pentru Consultanță
@@ -349,7 +350,7 @@ Email: ${values.email}
                       </motion.div>
                   ) : (
                   <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <h3 className="font-display text-xl mb-6">Detalii Mașină</h3>
+                    <h2 className="font-display text-xl mb-6">Detalii Mașină</h2>
                     <Form {...buyBackForm}>
                       <form onSubmit={buyBackForm.handleSubmit(onBuyBackSubmit)} className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">

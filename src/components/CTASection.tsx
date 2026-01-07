@@ -48,6 +48,7 @@ const CTASection = () => {
             <a
               href="tel:+40731758666"
               className="btn-luxury-filled flex items-center justify-center gap-3 py-4 px-8 rounded-sm touch-feedback"
+              aria-label="Sună acum la Stefan Auto GVR"
             >
               <Phone className="w-5 h-5" strokeWidth={1.5} />
               Sună Acum: +40 731 758 666
@@ -57,6 +58,7 @@ const CTASection = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="btn-luxury flex items-center justify-center gap-3 py-4 px-8 rounded-sm touch-feedback"
+              aria-label="Contactează Stefan Auto GVR pe WhatsApp"
             >
               <MessageCircle className="w-5 h-5" strokeWidth={1.5} />
               Scrie pe WhatsApp

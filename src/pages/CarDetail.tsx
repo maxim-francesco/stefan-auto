@@ -307,6 +307,7 @@ const CarDetail = () => {
             <motion.img
               key={imageIndex}
               src={images[imageIndex]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă"}
+              alt={`Foto ${car?.title} - Stefan Auto GVR Dobroesti (${imageIndex + 1}/${images.length})`}
               className="max-w-full max-h-full object-contain"
               variants={galleryVariants}
               initial="enter"
@@ -336,6 +337,7 @@ const CarDetail = () => {
               <button 
                 onClick={(e) => { e.stopPropagation(); paginate(-1); }}
                 className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center z-20"
+                aria-label="Imaginea anterioară"
               >
                 <ChevronLeft className="w-7 h-7 text-gold" />
               </button>
@@ -344,6 +346,7 @@ const CarDetail = () => {
               <button 
                 onClick={(e) => { e.stopPropagation(); paginate(1); }}
                 className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center z-20"
+                aria-label="Imaginea următoare"
               >
                 <ChevronRight className="w-7 h-7 text-gold" />
               </button>
@@ -371,7 +374,7 @@ const CarDetail = () => {
       <div className="min-h-screen bg-background flex items-center justify-center text-center px-4">
         <div>
           <AlertTriangle className="w-12 h-12 text-destructive mx-auto mb-4" />
-          <h2 className="font-display text-2xl text-destructive-foreground mb-2">Autoturism Indisponibil</h2>
+          <h1 className="font-display text-2xl text-destructive-foreground mb-2">Autoturism Indisponibil</h1>
           <p className="text-muted-foreground mb-6">
             Ne pare rău, acest anunț nu a fost găsit sau nu mai este disponibil.
           </p>
@@ -433,6 +436,7 @@ const CarDetail = () => {
                     <a
                         href="tel:+40731758666"
                         className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
+                        aria-label="Sună acum la Stefan Auto GVR"
                     >
                         <Phone className="w-4 h-4" />
                         Sună Acum
@@ -442,6 +446,7 @@ const CarDetail = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-luxury w-full flex items-center justify-center gap-2 py-3"
+                        aria-label="Contactează Stefan Auto GVR pe WhatsApp"
                     >
                         <MessageCircle className="w-4 h-4" />
                         Contactează pe WhatsApp
@@ -498,6 +503,7 @@ const CarDetail = () => {
                       <motion.img
                         key={imageIndex}
                         src={images[imageIndex]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă"}
+                        alt={`Foto ${car.title} - Stefan Auto GVR Dobroesti`}
                         className="absolute w-full h-full object-cover"
                         variants={galleryVariants}
                         initial="enter"
@@ -526,6 +532,7 @@ const CarDetail = () => {
                         <button 
                           onClick={(e) => { e.stopPropagation(); paginate(-1); }}
                           className="absolute top-1/2 left-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
+                          aria-label="Imaginea anterioară"
                         >
                           <ChevronLeft className="w-6 h-6 text-gold" />
                         </button>
@@ -533,6 +540,7 @@ const CarDetail = () => {
                         <button 
                           onClick={(e) => { e.stopPropagation(); paginate(1); }}
                           className="absolute top-1/2 right-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
+                          aria-label="Imaginea următoare"
                         >
                           <ChevronRight className="w-6 h-6 text-gold" />
                         </button>
@@ -704,6 +712,7 @@ const CarDetail = () => {
             <button
               onClick={() => setIsLightboxOpen(false)}
               className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center z-[110]"
+              aria-label="Închide galeria"
             >
               <X className="w-6 h-6" />
             </button>
@@ -718,11 +727,11 @@ const CarDetail = () => {
         transition={{ delay: 0.5, type: 'spring', stiffness: 100 }}
         className="fixed bottom-0 left-0 right-0 glass-strong p-3 flex gap-3 lg:hidden z-40"
       >
-        <a href="tel:+40731758666" className="btn-luxury flex-1 flex items-center justify-center py-3">
+        <a href="tel:+40731758666" className="btn-luxury flex-1 flex items-center justify-center py-3" aria-label="Sună acum">
           <Phone className="w-4 h-4 mr-2" />
           Sună Acum
         </a>
-         <a href="https://wa.me/40731758666" target="_blank" rel="noopener noreferrer" className="btn-luxury-filled flex-1 flex items-center justify-center py-3">
+         <a href="https://wa.me/40731758666" target="_blank" rel="noopener noreferrer" className="btn-luxury-filled flex-1 flex items-center justify-center py-3" aria-label="Contactează pe WhatsApp">
           <MessageCircle className="w-4 h-4 mr-2" />
           WhatsApp
         </a>

@@ -159,6 +159,7 @@ const Financing = () => {
                   <a
                     href="tel:+40731758666"
                     className="btn-luxury-filled w-full mt-6 text-center"
+                    aria-label="Solicită ofertă de finanțare"
                   >
                     Solicită Ofertă
                   </a>
@@ -201,7 +202,7 @@ const Financing = () => {
           >
             <div className="flex items-center justify-center gap-2 mb-8">
               <Building2 className="w-5 h-5 text-primary" />
-              <span className="text-muted-foreground text-sm">Partenerii Noștri de Finanțare</span>
+              <h2 className="text-muted-foreground text-sm">Partenerii Noștri de Finanțare</h2>
             </div>
             <div className="flex flex-wrap justify-center gap-6">
               {partners.map((partner) => (
@@ -225,9 +226,9 @@ const Financing = () => {
             className="max-w-2xl mx-auto text-center glass rounded-2xl p-8"
           >
             <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="font-display text-2xl mb-3">
+            <h2 className="font-display text-2xl mb-3">
               Garanție <span className="text-gold-gradient">Inclusă</span>
-            </h3>
+            </h2>
             <p className="text-muted-foreground">
               Toate autoturismele achiziționate prin finanțare beneficiază de garanție inclusă, 
               oferindu-ți liniște și încredere în investiția ta.

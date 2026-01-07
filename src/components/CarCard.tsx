@@ -78,7 +78,7 @@ const CarCard = ({
       <div className="relative img-zoom aspect-[16/10]">
         <img
           src={image}
-          alt={`${brand} ${model}`}
+          alt={`Foto ${brand} ${model} - Stefan Auto GVR Dobroesti`}
           className="w-full h-full object-cover"
         />
         

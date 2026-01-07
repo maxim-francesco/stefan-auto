@@ -13,7 +13,7 @@ const HeroSection = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           src={heroBg}
-          alt="Showroom Auto Premium"
+          alt="Showroom Auto Premium Stefan Auto GVR"
           className="w-full h-full object-cover"
         />
         {/* Multi-layer gradient overlays for depth */}
@@ -49,9 +49,9 @@ const HeroSection = () => {
             transition={{ duration: 0.9, delay: 0.4 }}
             className="font-display text-5xl md:text-6xl lg:text-7xl font-medium mb-6 leading-tight"
           >
-            <span className="text-foreground">Eleganță și</span>
+            <span className="text-foreground">Stefan Auto GVR -</span>
             <br />
-            <span className="text-gold-gradient text-shadow-luxury">Performanță</span>
+            <span className="text-gold-gradient text-shadow-luxury">Autoturisme Rulate Selecționate</span>
           </motion.h1>
 
           {/* Subtitle */}

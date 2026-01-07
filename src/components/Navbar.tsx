@@ -92,6 +92,7 @@ const Navbar = () => {
             <a
               href="tel:+40731758666"
               className="flex items-center gap-2 text-primary hover:text-gold-light transition-colors"
+              aria-label="Sună acum la Stefan Auto GVR"
             >
               <Phone className="w-4 h-4 icon-gold" strokeWidth={1.5} />
               <span className="text-sm tracking-wide">+40 731 758 666</span>
@@ -101,6 +102,7 @@ const Navbar = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="btn-luxury-filled text-xs py-2.5 px-5 flex items-center gap-2 rounded-sm"
+              aria-label="Contactează Stefan Auto GVR pe WhatsApp"
             >
               <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
               WhatsApp
@@ -170,6 +172,7 @@ const Navbar = () => {
                   <a
                     href="tel:+40731758666"
                     className="flex items-center gap-3 text-primary text-lg py-3 px-4 rounded-lg bg-primary/5 touch-feedback"
+                    aria-label="Sună acum la Stefan Auto GVR"
                   >
                     <Phone className="w-5 h-5" strokeWidth={1.5} />
                     +40 731 758 666
@@ -179,6 +182,7 @@ const Navbar = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-luxury-filled text-center py-4 rounded-lg touch-feedback"
+                    aria-label="Contactează Stefan Auto GVR pe WhatsApp"
                   >
                     <MessageCircle className="w-5 h-5 inline mr-2" strokeWidth={1.5} />
                     Scrie-ne pe WhatsApp

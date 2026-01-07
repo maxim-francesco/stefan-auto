@@ -12,7 +12,7 @@ const FloatingCTA = () => {
       <a
         href="tel:+40731758666"
         className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-gold active:scale-95 transition-transform"
-        aria-label="Sună acum"
+        aria-label="Sună acum la Stefan Auto GVR"
       >
         <Phone className="w-6 h-6" />
       </a>
@@ -21,7 +21,7 @@ const FloatingCTA = () => {
         target="_blank"
         rel="noopener noreferrer"
         className="w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg active:scale-95 transition-transform"
-        aria-label="WhatsApp"
+        aria-label="Contactează Stefan Auto GVR pe WhatsApp"
       >
         <MessageCircle className="w-6 h-6" />
       </a>
