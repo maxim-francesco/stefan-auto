@@ -10,7 +10,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { submitContactForm } from "@/services/api";
-import { toast } from "@/components/ui/use-toast";
+import { Textarea } from "@/components/ui/textarea";
+
+
+const numericField = (errorMessage: string) => z.string().regex(/^\d+$/, errorMessage);
+
+// Schema for "Mașini la Comandă" form
+const comandaFormSchema = z.object({
+  marcaModel: z.string().min(3, "Marca și modelul sunt obligatorii."),
+  bugetMaxim: numericField("Bugetul trebuie să fie un număr."),
+  anMinim: z.preprocess((val) => Number(val), z.number().min(2000, "Anul trebuie să fie după 2000").max(new Date().getFullYear() + 1)),
+  kmMaximi: numericField("Kilometrajul trebuie să fie un număr."),
+  caroserie: z.string().min(3, "Caroseria este obligatorie."),
+  combustibil: z.string().min(3, "Tipul de combustibil este obligatoriu."),
+  alteDetalii: z.string().optional(),
+  nume: z.string().min(2, "Numele este obligatoriu."),
+  telefon: z.string().min(10, "Număr de telefon invalid.").regex(/^[0-9+ ]+$/, "Format invalid."),
+});
+
+type ComandaFormValues = z.infer<typeof comandaFormSchema>;
+
 
 const buyBackFormSchema = z.object({
   marca: z.string().min(1, "Marca este obligatorie"),
@@ -29,16 +48,41 @@ type BuyBackFormValues = z.infer<typeof buyBackFormSchema>;
 const SpecialServices = () => {
   const [activeTab, setActiveTab] = useState<"comanda" | "buyback">("comanda");
   
-  const buyBackForm = useForm<BuyBackFormValues>({
-    resolver: zodResolver(buyBackFormSchema),
-    defaultValues: {
-      marca: "", model: "", an: undefined, km: "", motorizare: "", pretEstimativ: "",
-      nume: "", telefon: "", email: "",
-    },
-  });
+  const comandaForm = useForm<ComandaFormValues>({ resolver: zodResolver(comandaFormSchema) });
+  const buyBackForm = useForm<BuyBackFormValues>({ resolver: zodResolver(buyBackFormSchema) });
+
+  const onComandaSubmit = async (values: ComandaFormValues) => {
+    const message = `
+CERERE MAȘINĂ LA COMANDĂ:
+
+Marcă și Model: ${values.marcaModel}
+Buget Maxim: ${values.bugetMaxim} €
+An Minim: ${values.anMinim}
+Kilometraj Maxim: ${values.kmMaximi} km
+Caroserie: ${values.caroserie}
+Combustibil: ${values.combustibil}
+Alte Detalii: ${values.alteDetalii || 'Niciunul'}
+
+Date Contact:
+Nume: ${values.nume}
+Telefon: ${values.telefon}
+    `.trim();
+
+    try {
+      await submitContactForm({
+        name: values.nume,
+        email: 'comanda@stefanautogvr.ro', // Placeholder email
+        phone: values.telefon,
+        message: message,
+      });
+    } catch (error) {
+       console.error("Submission error:", error);
+       throw new Error("Submission failed");
+    }
+  };
+
 
   const onBuyBackSubmit = async (values: BuyBackFormValues) => {
-    const subject = `Cerere Buy-Back - ${values.marca} ${values.model}`;
     const message = `
 CERERE BUY-BACK: ${values.marca} ${values.model}
 
@@ -61,12 +105,10 @@ Email: ${values.email}
         name: values.nume,
         email: values.email,
         phone: values.telefon,
-        message: message, // `subject` is part of the message now
+        message: message,
       });
-      // The success state will be handled by form.formState.isSubmitSuccessful
     } catch (error) {
        console.error("Submission error:", error);
-       // The error state is handled by react-hook-form's state management
        throw new Error("Submission failed");
     }
   };
@@ -171,56 +213,68 @@ Email: ${values.email}
                 </div>
 
                 {/* Form */}
-                <div className="glass rounded-2xl p-6">
-                  <h3 className="font-display text-xl mb-6">Spune-ne ce cauți</h3>
-                  <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                    <div>
-                      <label className="text-sm text-muted-foreground block mb-2">Marcă dorită</label>
-                      <input
-                        type="text"
-                        placeholder="Ex: BMW, Mercedes, Audi..."
-                        className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm text-muted-foreground block mb-2">Model</label>
-                      <input
-                        type="text"
-                        placeholder="Ex: Seria 5, C-Class..."
-                        className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-sm text-muted-foreground block mb-2">An minim</label>
-                        <input
-                          type="number"
-                          placeholder="2018"
-                          className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm text-muted-foreground block mb-2">Buget maxim</label>
-                        <input
-                          type="text"
-                          placeholder="30.000 €"
-                          className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="text-sm text-muted-foreground block mb-2">Telefon</label>
-                      <input
-                        type="tel"
-                        placeholder="07XX XXX XXX"
-                        className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                      />
-                    </div>
-                    <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2">
-                      <Send className="w-4 h-4" />
-                      Trimite Cererea
-                    </button>
-                  </form>
+                <div className="glass rounded-2xl p-6 relative min-h-[500px]">
+                   <AnimatePresence mode="wait">
+                    {comandaForm.formState.isSubmitSuccessful ? (
+                      <motion.div key="success" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                        <h3 className="font-display text-2xl text-gold-gradient mb-4">Cerere Trimisă!</h3>
+                        <p className="text-muted-foreground mb-6">Vom analiza solicitarea și te vom contacta în cel mai scurt timp posibil.</p>
+                        <button onClick={() => comandaForm.reset()} className="btn-luxury flex items-center gap-2"><RefreshCw className="w-4 h-4" /> Trimite o altă cerere</button>
+                      </motion.div>
+                    ) : comandaForm.formState.isSubmitted && !comandaForm.formState.isSubmitSuccessful ? (
+                      <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                        <h3 className="font-display text-2xl text-destructive mb-4">Eroare la trimitere</h3>
+                        <p className="text-muted-foreground mb-6">Te rugăm să ne contactezi la <a href="tel:+40731758666" className="text-primary hover:underline">+40 731 758 666</a>.</p>
+                        <button onClick={() => comandaForm.reset(comandaForm.getValues())} className="btn-luxury flex items-center gap-2"><RefreshCw className="w-4 h-4" /> Încearcă din nou</button>
+                      </motion.div>
+                    ) : (
+                      <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                        <h3 className="font-display text-xl mb-6">Spune-ne ce cauți</h3>
+                         <Form {...comandaForm}>
+                          <form onSubmit={comandaForm.handleSubmit(onComandaSubmit)} className="space-y-4">
+                            <FormField control={comandaForm.control} name="marcaModel" render={({ field }) => (
+                                <FormItem><FormLabel>Marcă & Model</FormLabel><FormControl><Input placeholder="Ex: BMW Seria 5" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                            )} />
+                             <div className="grid grid-cols-2 gap-4">
+                                <FormField control={comandaForm.control} name="bugetMaxim" render={({ field }) => (
+                                    <FormItem><FormLabel>Buget Maxim (€)</FormLabel><FormControl><Input placeholder="30000" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                                )} />
+                                <FormField control={comandaForm.control} name="anMinim" render={({ field }) => (
+                                    <FormItem><FormLabel>An Minim</FormLabel><FormControl><Input type="number" placeholder="2020" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                                )} />
+                            </div>
+                             <div className="grid grid-cols-2 gap-4">
+                               <FormField control={comandaForm.control} name="kmMaximi" render={({ field }) => (
+                                    <FormItem><FormLabel>Km Maxim</FormLabel><FormControl><Input placeholder="90000" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                                )}/>
+                                <FormField control={comandaForm.control} name="combustibil" render={({ field }) => (
+                                    <FormItem><FormLabel>Combustibil</FormLabel><FormControl><Input placeholder="Diesel" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                                )}/>
+                            </div>
+                             <FormField control={comandaForm.control} name="caroserie" render={({ field }) => (
+                                <FormItem><FormLabel>Caroserie</FormLabel><FormControl><Input placeholder="Sedan, SUV..." {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                             <FormField control={comandaForm.control} name="alteDetalii" render={({ field }) => (
+                                <FormItem><FormLabel>Alte Detalii</FormLabel><FormControl><Textarea placeholder="Culoare, dotări specifice..." {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                            <hr className="!my-6 border-border/50"/>
+                             <div className="grid grid-cols-2 gap-4">
+                                <FormField control={comandaForm.control} name="nume" render={({ field }) => (
+                                    <FormItem><FormLabel>Numele tău</FormLabel><FormControl><Input placeholder="Nume Prenume" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                                )}/>
+                                 <FormField control={comandaForm.control} name="telefon" render={({ field }) => (
+                                    <FormItem><FormLabel>Telefon</FormLabel><FormControl><Input placeholder="07XX XXX XXX" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                                )}/>
+                            </div>
+                            <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2" disabled={comandaForm.formState.isSubmitting}>
+                              {comandaForm.formState.isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                              Trimite Cererea
+                            </button>
+                          </form>
+                        </Form>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             ) : (
@@ -358,3 +412,5 @@ Email: ${values.email}
 };
 
 export default SpecialServices;
+
+    
