@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import ScrollProgress from "./components/ScrollProgress";
 import FloatingCTA from "./components/FloatingCTA";
 import CarDetail from "./pages/CarDetail";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <ScrollProgress />
         <AnimatedRoutes />
         <FloatingCTA />
