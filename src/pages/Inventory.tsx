@@ -156,9 +156,20 @@ const Inventory = () => {
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCars.map((car, index) => (
-          <CarCard key={car.id || index} {...car} index={index} />
-        ))}
+        <AnimatePresence>
+          {filteredCars.map((car, index) => (
+            <motion.div
+              key={car.id || index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, delay: (index % 9) * 0.05 }}
+              layout
+            >
+              <CarCard {...car} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     );
   };

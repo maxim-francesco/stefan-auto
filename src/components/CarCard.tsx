@@ -1,8 +1,10 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Fuel, Gauge, Calendar, Settings2 } from "lucide-react";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 interface CarCardProps {
+  id?: string;
   image: string;
   brand: string;
   model: string;
@@ -17,6 +19,7 @@ interface CarCardProps {
 }
 
 const CarCard = ({
+  id,
   image,
   brand,
   model,
@@ -59,13 +62,9 @@ const CarCard = ({
     y.set(0);
   };
 
-  return (
+  const cardContent = (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -73,7 +72,7 @@ const CarCard = ({
         rotateY,
         transformStyle: "preserve-3d",
       }}
-      className="card-luxury group cursor-pointer"
+      className="card-luxury group h-full flex flex-col"
     >
       {/* Image Container */}
       <div className="relative img-zoom aspect-[16/10]">
@@ -107,7 +106,7 @@ const CarCard = ({
       </div>
 
       {/* Content */}
-      <div className="p-5" style={{ transform: "translateZ(20px)" }}>
+      <div className="p-5 flex-grow flex flex-col" style={{ transform: "translateZ(20px)" }}>
         {/* Title */}
         <h3 className="font-display text-xl mb-1">
           {brand} <span className="text-primary">{model}</span>
@@ -117,38 +116,46 @@ const CarCard = ({
         <div className="grid grid-cols-2 gap-3 mt-4 mb-5">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="w-4 h-4 text-primary/70" strokeWidth={1.5} />
-            <span className="text-sm">{year}</span>
+            <span className="text-sm">{year || 'N/A'}</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Gauge className="w-4 h-4 text-primary/70" strokeWidth={1.5} />
-            <span className="text-sm">{km.toLocaleString()} km</span>
+            <span className="text-sm">{km ? km.toLocaleString() : 'N/A'} km</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Fuel className="w-4 h-4 text-primary/70" strokeWidth={1.5} />
-            <span className="text-sm">{fuel}</span>
+            <span className="text-sm">{fuel || 'N/A'}</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Settings2 className="w-4 h-4 text-primary/70" strokeWidth={1.5} />
-            <span className="text-sm">{transmission}</span>
+            <span className="text-sm">{transmission || 'N/A'}</span>
           </div>
         </div>
 
         {/* Price */}
-        <div className="pt-4 border-t border-primary/10 flex items-center justify-between">
+        <div className="pt-4 border-t border-primary/10 flex items-center justify-between mt-auto">
           {price ? (
             <span className="font-display text-2xl text-gold-gradient">
-              {price.toLocaleString('ro-RO')} €
+              {price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </span>
           ) : (
             <span className="text-muted-foreground text-sm">Preț la cerere</span>
           )}
-          <button className="text-primary text-sm font-medium hover:text-gold-light transition-colors group/btn flex items-center gap-1">
+          <span className="text-primary text-sm font-medium hover:text-gold-light transition-colors group/btn flex items-center gap-1">
             Detalii 
             <span className="group-hover/btn:translate-x-1 transition-transform">→</span>
-          </button>
+          </span>
         </div>
       </div>
     </motion.div>
+  );
+
+  return id ? (
+    <Link to={`/stoc/${id}`} className="block h-full cursor-pointer">
+      {cardContent}
+    </Link>
+  ) : (
+    <div className="cursor-pointer h-full">{cardContent}</div>
   );
 };
 
