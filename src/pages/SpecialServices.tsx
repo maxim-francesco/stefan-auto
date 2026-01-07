@@ -70,7 +70,7 @@ Telefon: ${values.telefon}
     try {
       await submitContactForm({
         name: values.nume,
-        email: 'comanda@stefanautogvr.ro', // Placeholder email as client doesn't provide one
+        email: 'comanda@stefan.ro',
         phone: values.telefon,
         message: message,
       });
@@ -216,14 +216,14 @@ Email: ${values.email}
                    <AnimatePresence mode="wait">
                     {comandaForm.formState.isSubmitSuccessful ? (
                       <motion.div key="success" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-                        <h3 className="font-display text-2xl text-gold-gradient mb-4">Cerere Trimisă!</h3>
-                        <p className="text-muted-foreground mb-6">Vom analiza solicitarea și te vom contacta în cel mai scurt timp posibil.</p>
+                        <h3 className="font-display text-2xl text-gold-gradient mb-4">Solicitare Înregistrată!</h3>
+                        <p className="text-muted-foreground mb-6">Echipa Stefan Auto GVR va începe căutările și te va contacta în cel mai scurt timp.</p>
                         <button onClick={() => comandaForm.reset()} className="btn-luxury flex items-center gap-2"><RefreshCw className="w-4 h-4" /> Trimite o altă cerere</button>
                       </motion.div>
                     ) : comandaForm.formState.isSubmitted && !comandaForm.formState.isSubmitSuccessful ? (
                       <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
                         <h3 className="font-display text-2xl text-destructive mb-4">Eroare la trimitere</h3>
-                        <p className="text-muted-foreground mb-6">Te rugăm să ne contactezi la <a href="tel:+40731758666" className="text-primary hover:underline">+40 731 758 666</a>.</p>
+                        <p className="text-muted-foreground mb-6">Vă rugăm să ne contactați direct la <a href="tel:+40731758666" className="text-primary hover:underline">+40 731 758 666</a> pentru comanda dumneavoastră.</p>
                         <button onClick={() => comandaForm.reset(comandaForm.getValues())} className="btn-luxury flex items-center gap-2"><RefreshCw className="w-4 h-4" /> Încearcă din nou</button>
                       </motion.div>
                     ) : (
@@ -266,8 +266,7 @@ Email: ${values.email}
                                 )}/>
                             </div>
                             <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2" disabled={comandaForm.formState.isSubmitting}>
-                              {comandaForm.formState.isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                              Trimite Cererea
+                              {comandaForm.formState.isSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Se trimite solicitarea...</> : <><Send className="w-4 h-4" /> Trimite Cererea</>}
                             </button>
                           </form>
                         </Form>
