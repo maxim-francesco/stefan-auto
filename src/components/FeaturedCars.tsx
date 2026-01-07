@@ -21,11 +21,12 @@ const FeaturedCars = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: apiResponse, isLoading, isError } = useQuery({
-    queryKey: ['publicListings'], // This will reuse the data fetched by the Inventory page
-    queryFn: fetchPublicListings,
+    queryKey: ['publicListings'],
+    queryFn: () => fetchPublicListings({ limit: 5 }),
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  const featuredCars = (apiResponse?.data || []).slice(0, 5).map(car => ({
+  const featuredCars = (apiResponse?.data || []).map(car => ({
     id: car.id,
     image: car.images[0]?.url || "https://placehold.co/800x600?text=Imagine+Indisponibilă",
     brand: getAttribute(car, "marca") as string || 'N/A',
@@ -172,5 +173,3 @@ const FeaturedCars = () => {
     </section>
   );
 };
-
-export default FeaturedCars;

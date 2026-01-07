@@ -34,12 +34,23 @@ interface ApiResponse {
   };
 }
 
+interface FetchListingsParams {
+  limit?: number;
+  page?: number;
+  [key: string]: any; // Allow other dynamic filter params
+}
+
 /**
  * Fetches public car listings from the backend API.
  * @returns A promise that resolves to the API response.
  */
-export const fetchPublicListings = async (): Promise<ApiResponse> => {
-  const url = `${BASE_URL}/public/listings/search?businessId=${BUSINESS_ID}`;
+export const fetchPublicListings = async (params: FetchListingsParams = {}): Promise<ApiResponse> => {
+  const query = new URLSearchParams({
+    businessId: BUSINESS_ID,
+    ...params,
+  });
+  
+  const url = `${BASE_URL}/public/listings/search?${query.toString()}`;
 
   try {
     const response = await fetch(url);

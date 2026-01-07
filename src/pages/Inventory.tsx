@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, X, ChevronDown, Search, Loader2 } from "lucide-react";
@@ -31,7 +32,7 @@ const Inventory = () => {
   });
 
   const allCars = useMemo(() => {
-    if (!apiResponse) return [];
+    if (!apiResponse?.data) return [];
     return apiResponse.data.map(car => ({
       id: car.id,
       image: car.images[0]?.url || "https://placehold.co/800x600?text=Imagine+Indisponibilă",
@@ -60,9 +61,9 @@ const Inventory = () => {
   }, [allCars, selectedBrand, selectedFuel, selectedTransmission, searchQuery]);
 
   // Dynamically generate filter options from the available cars
-  const brands = useMemo(() => ["Toate", ...Array.from(new Set(allCars.map(car => car.brand)))], [allCars]);
-  const fuels = useMemo(() => ["Toate", ...Array.from(new Set(allCars.map(car => car.fuel)))], [allCars]);
-  const transmissions = useMemo(() => ["Toate", ...Array.from(new Set(allCars.map(car => car.transmission)))], [allCars]);
+  const brands = useMemo(() => ["Toate", ...Array.from(new Set(allCars.map(car => car.brand).filter(Boolean)))], [allCars]);
+  const fuels = useMemo(() => ["Toate", ...Array.from(new Set(allCars.map(car => car.fuel).filter(Boolean)))], [allCars]);
+  const transmissions = useMemo(() => ["Toate", ...Array.from(new Set(allCars.map(car => car.transmission).filter(Boolean)))], [allCars]);
 
 
   const FilterButton = ({ options, selected, onSelect, label }: {
@@ -321,5 +322,3 @@ const Inventory = () => {
     </div>
   );
 };
-
-export default Inventory;
