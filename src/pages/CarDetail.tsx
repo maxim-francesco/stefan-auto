@@ -399,116 +399,74 @@ const CarDetail = () => {
 
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-3 gap-8 mt-8">
-              {/* Left Column */}
-              <motion.div variants={staggerItem} className="lg:col-span-2 space-y-12">
-                
-                {/* 1. Image Gallery */}
-                <div 
-                  className="relative aspect-[16/10] rounded-xl overflow-hidden glass group cursor-pointer"
-                  onClick={() => images.length > 0 && setIsLightboxOpen(true)}
-                >
-                  <AnimatePresence initial={false}>
-                    <motion.img
-                      key={imageIndex}
-                      src={images[imageIndex]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă"}
-                      className="absolute w-full h-full object-cover"
-                      variants={galleryVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{
-                        opacity: { duration: 0.3 },
-                        scale: { duration: 0.3 }
-                      }}
-                       drag="x"
-                       dragConstraints={{ left: 0, right: 0 }}
-                       dragElastic={0.5}
-                       onDragEnd={(_e, { offset, velocity }) => {
-                        const swipePower = Math.abs(offset.x) * velocity.x;
-                        if (swipePower < -10000) {
-                          paginate(1);
-                        } else if (swipePower > 10000) {
-                          paginate(-1);
-                        }
-                       }}
-                    />
-                  </AnimatePresence>
-                  
-                  {images.length > 1 && (
-                    <>
-                      {/* Prev Arrow */}
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); paginate(-1); }}
-                        className="absolute top-1/2 left-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
-                      >
-                        <ChevronLeft className="w-6 h-6 text-gold" />
-                      </button>
-                      
-                      {/* Next Arrow */}
-                       <button 
-                        onClick={(e) => { e.stopPropagation(); paginate(1); }}
-                        className="absolute top-1/2 right-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
-                      >
-                        <ChevronRight className="w-6 h-6 text-gold" />
-                      </button>
+              <div className="lg:col-span-2 space-y-12">
+                <motion.div variants={staggerItem}>
+                  {/* 1. Image Gallery */}
+                  <div 
+                    className="relative aspect-[16/10] rounded-xl overflow-hidden glass group cursor-pointer"
+                    onClick={() => images.length > 0 && setIsLightboxOpen(true)}
+                  >
+                    <AnimatePresence initial={false}>
+                      <motion.img
+                        key={imageIndex}
+                        src={images[imageIndex]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă"}
+                        className="absolute w-full h-full object-cover"
+                        variants={galleryVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{
+                          opacity: { duration: 0.3 },
+                          scale: { duration: 0.3 }
+                        }}
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0.5}
+                        onDragEnd={(_e, { offset, velocity }) => {
+                          const swipePower = Math.abs(offset.x) * velocity.x;
+                          if (swipePower < -10000) {
+                            paginate(1);
+                          } else if (swipePower > 10000) {
+                            paginate(-1);
+                          }
+                        }}
+                      />
+                    </AnimatePresence>
+                    
+                    {images.length > 1 && (
+                      <>
+                        {/* Prev Arrow */}
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); paginate(-1); }}
+                          className="absolute top-1/2 left-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
+                        >
+                          <ChevronLeft className="w-6 h-6 text-gold" />
+                        </button>
+                        
+                        {/* Next Arrow */}
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); paginate(1); }}
+                          className="absolute top-1/2 right-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
+                        >
+                          <ChevronRight className="w-6 h-6 text-gold" />
+                        </button>
 
-                      {/* Image Counter */}
-                      <div className="absolute bottom-4 right-4 bg-black/50 text-white text-xs px-3 py-1.5 rounded-full z-10 backdrop-blur-sm">
-                        Poza {imageIndex + 1} din {images.length}
-                      </div>
-                    </>
-                  )}
-                </div>
-                
-                {/* Sections */}
-                <div className="space-y-12">
-                  
-                  {/* 3. Specificații Tehnice */}
-                  {techSpecs.length > 0 && (
-                    <div>
-                      <h2 className="font-display text-2xl mb-6 text-gold-gradient">Specificații Tehnice</h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                        {techSpecs.map((spec) => (
-                          <div key={spec.name} className="flex justify-between border-b border-border/50 pb-2">
-                            <span className="text-muted-foreground">{spec.name}</span>
-                            <span className="font-medium text-foreground text-right">{String(spec.value)}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* 4. Dotări și Echipamente */}
-                  {features.length > 0 && (
-                    <div>
-                      <h2 className="font-display text-2xl mb-6 text-gold-gradient">Dotări și Echipamente</h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                        {features.map((feature) => (
-                          <div key={feature} className="flex items-center gap-3">
-                            <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span className="text-foreground/90">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* 5. Descriere */}
-                  <div>
-                    <h2 className="font-display text-2xl mb-4 text-gold-gradient">Descriere</h2>
-                    <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                      <p>{car.description || "Descriere indisponibilă."}</p>
-                    </div>
+                        {/* Image Counter */}
+                        <div className="absolute bottom-4 right-4 bg-black/50 text-white text-xs px-3 py-1.5 rounded-full z-10 backdrop-blur-sm">
+                          Poza {imageIndex + 1} din {images.length}
+                        </div>
+                      </>
+                    )}
                   </div>
+                </motion.div>
 
-                </div>
+                {/* All other sections will be below the main grid */}
+              </div>
 
-              </motion.div>
-
-              {/* Right Column */}
-              <motion.div variants={staggerItem} className="lg:col-span-1">
+              {/* Right Column (Sticky) */}
+              <motion.div variants={staggerItem} className="lg:col-span-1 row-start-1 lg:row-start-auto">
                 <div className="sticky top-24 space-y-8">
-                  {/* 2. Detalii Vehicul */}
+                  {/* Detalii Vehicul */}
                   <div className="glass rounded-2xl p-6">
                     <h2 className="font-display text-2xl mb-4">Detalii Vehicul</h2>
                     
@@ -562,16 +520,52 @@ const CarDetail = () => {
                         </a>
                     </div>
                   </div>
-                  
-                  {/* 6. Calculator Finanțare */}
-                  {car.price && <FinancingCalculator price={car.price} carTitle={car.title} onCTAClick={handleFinancingCTA} />}
                 </div>
               </motion.div>
             </div>
-
+            
+            {/* Sections below the main grid */}
             <div className="grid lg:grid-cols-3 gap-8 mt-12">
-              <div className="lg:col-span-2">
-                 {/* 7. Contact Form */}
+              <div className="lg:col-span-2 space-y-12">
+                 {/* Specificații Tehnice */}
+                {techSpecs.length > 0 && (
+                  <motion.div variants={staggerItem}>
+                    <h2 className="font-display text-2xl mb-6 text-gold-gradient">Specificații Tehnice</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                      {techSpecs.map((spec) => (
+                        <div key={spec.name} className="flex justify-between border-b border-border/50 pb-2">
+                          <span className="text-muted-foreground">{spec.name}</span>
+                          <span className="font-medium text-foreground text-right">{String(spec.value)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Dotări și Echipamente */}
+                {features.length > 0 && (
+                  <motion.div variants={staggerItem}>
+                    <h2 className="font-display text-2xl mb-6 text-gold-gradient">Dotări și Echipamente</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                      {features.map((feature) => (
+                        <div key={feature} className="flex items-center gap-3">
+                          <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                          <span className="text-foreground/90">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Descriere */}
+                <motion.div variants={staggerItem}>
+                  <h2 className="font-display text-2xl mb-4 text-gold-gradient">Descriere</h2>
+                  <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                    <p>{car.description || "Descriere indisponibilă."}</p>
+                  </div>
+                </motion.div>
+                
+                 {/* Contact Form */}
                 <motion.div ref={contactFormRef} variants={staggerItem} className="glass rounded-2xl p-6 md:p-8">
                   <h2 className="font-display text-2xl mb-6">Contactează-ne pentru acest vehicul</h2>
                   <Form {...form}>
@@ -644,8 +638,18 @@ const CarDetail = () => {
                   </Form>
                 </motion.div>
               </div>
-            </div>
 
+              <div className="lg:col-span-1">
+                 <div className="sticky top-24">
+                  {/* Calculator Finanțare */}
+                  {car.price && (
+                    <motion.div variants={staggerItem}>
+                      <FinancingCalculator price={car.price} carTitle={car.title} onCTAClick={handleFinancingCTA} />
+                    </motion.div>
+                  )}
+                 </div>
+              </div>
+            </div>
           </StaggerContainer>
         </div>
       </main>
