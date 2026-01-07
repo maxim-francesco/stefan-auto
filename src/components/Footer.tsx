@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import logo from "@/assets/Stefan.png";
@@ -109,12 +108,17 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-xs">
+          <p className="text-muted-foreground text-xs text-center md:text-left">
             © {new Date().getFullYear()} STEFAN AUTO GVR SRL. Toate drepturile rezervate.
           </p>
-          <p className="text-muted-foreground text-xs">
-            Autoturisme rulate de calitate premium
-          </p>
+          <div className="flex items-center gap-4">
+             <a href="https://anpc.ro/" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+              ANPC
+            </a>
+            <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+              SOL
+            </a>
+          </div>
         </div>
       </div>
     </footer>
