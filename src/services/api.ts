@@ -86,7 +86,6 @@ export const fetchPublicListingById = async (id: string): Promise<ApiCar> => {
     }
 
     const data: ApiCar = await response.json();
-    console.log("Fetched Car Detail Data:", data); // As per instructions
     return data;
   } catch (error) {
     console.error(`Failed to fetch listing with id ${id}:`, error);
@@ -126,5 +125,3 @@ export const submitContactForm = async (formData: { name: string; email: string;
     throw error;
   }
 };
-
-    

@@ -199,20 +199,12 @@ const CarDetail = () => {
   const onSubmit = async (values: ContactFormValues) => {
     if (!id || !car) return;
 
-    const message = `
-      Nume: ${values.name}
-      Telefon: ${values.phone}
-      Email: ${values.email}
-      ---
-      Subiect: Interes pentru ${car.title} (ID: ${id})
-      ---
-      Mesaj: ${values.message || "Solicit mai multe detalii despre acest vehicul."}
-    `;
+    const messageWithSubject = `Subiect: Interes pentru ${car.title} (ID: ${id})\n\n${values.message || "Solicit mai multe detalii despre acest vehicul."}`;
 
     try {
       await submitContactForm({
         ...values,
-        message,
+        message: messageWithSubject,
       });
       toast({
         title: "Mesaj Trimis!",
@@ -227,6 +219,7 @@ const CarDetail = () => {
       });
     }
   };
+
 
   const handleFinancingCTA = () => {
     contactFormRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -516,7 +509,9 @@ const CarDetail = () => {
                   </div>
                 </motion.div>
 
-                <VehicleDetailsSection isMobile={true} />
+                <div className="block lg:hidden">
+                   <VehicleDetailsSection />
+                </div>
 
                 {/* Specificații Tehnice */}
                 {techSpecs.length > 0 && (
@@ -633,7 +628,9 @@ const CarDetail = () => {
               {/* Right Column */}
               <div className="lg:col-span-1">
                  <div className="sticky top-24 space-y-8">
-                   <VehicleDetailsSection />
+                   <div className="hidden lg:block">
+                      <VehicleDetailsSection />
+                   </div>
 
                   {/* Calculator Finanțare */}
                   {car.price && (
