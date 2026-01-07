@@ -1,7 +1,7 @@
 
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Loader2,
   AlertTriangle,
@@ -15,6 +15,7 @@ import {
   Send,
   Calculator,
   Building2,
+  ChevronRight,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -141,10 +142,13 @@ const CarDetail = () => {
   const { id } = useParams<{ id: string }>();
   const contactFormRef = useRef<HTMLDivElement>(null);
 
+  const [imageIndex, setImageIndex] = useState(0);
+
   const { data: car, isLoading, isError } = useQuery({
     queryKey: ["listing", id],
     queryFn: () => fetchPublicListingById(id!),
     enabled: !!id,
+    onSuccess: () => setImageIndex(0)
   });
 
   const form = useForm<ContactFormValues>({
@@ -189,6 +193,40 @@ const CarDetail = () => {
     form.setValue('message', `Salut, sunt interesat de o ofertă de finanțare pentru ${car?.title}.`);
   }
 
+  const paginate = (newDirection: number) => {
+    if (car && car.images) {
+      let newIndex = imageIndex + newDirection;
+      if (newIndex < 0) {
+        newIndex = car.images.length - 1;
+      } else if (newIndex >= car.images.length) {
+        newIndex = 0;
+      }
+      setImageIndex(newIndex);
+    }
+  };
+
+  const galleryVariants = {
+    enter: (direction: number) => {
+      return {
+        x: direction > 0 ? 1000 : -1000,
+        opacity: 0
+      };
+    },
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => {
+      return {
+        zIndex: 0,
+        x: direction < 0 ? 1000 : -1000,
+        opacity: 0
+      };
+    }
+  };
+  
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -215,7 +253,7 @@ const CarDetail = () => {
     );
   }
 
-  const mainImage = car.images?.[0]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă";
+  const images = car.images || [];
 
   const carDetails = {
     year: getAttribute(car, 'an'),
@@ -250,9 +288,58 @@ const CarDetail = () => {
             <div className="grid lg:grid-cols-3 gap-8 mt-8">
               {/* Left Column - Gallery & Description */}
               <motion.div variants={staggerItem} className="lg:col-span-2 space-y-12">
-                {/* Main Image */}
-                <div className="relative aspect-[16/10] rounded-xl overflow-hidden glass">
-                  <img src={mainImage} alt={car.title} className="w-full h-full object-cover" />
+                
+                {/* Image Gallery */}
+                <div className="relative aspect-[16/10] rounded-xl overflow-hidden glass group">
+                  <AnimatePresence initial={false}>
+                    <motion.img
+                      key={imageIndex}
+                      src={images[imageIndex]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă"}
+                      className="absolute w-full h-full object-cover"
+                      variants={galleryVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        x: { type: "spring", stiffness: 300, damping: 30 },
+                        opacity: { duration: 0.2 }
+                      }}
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={1}
+                      onDragEnd={(_e, { offset, velocity }) => {
+                        const swipe = Math.abs(offset.x);
+                        if (swipe > 100) {
+                          paginate(offset.x > 0 ? -1 : 1);
+                        }
+                      }}
+                    />
+                  </AnimatePresence>
+                  
+                  {images.length > 1 && (
+                    <>
+                      {/* Prev Arrow */}
+                      <button 
+                        onClick={() => paginate(-1)}
+                        className="absolute top-1/2 left-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
+                      >
+                        <ChevronLeft className="w-6 h-6 text-gold" />
+                      </button>
+                      
+                      {/* Next Arrow */}
+                       <button 
+                        onClick={() => paginate(1)}
+                        className="absolute top-1/2 right-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
+                      >
+                        <ChevronRight className="w-6 h-6 text-gold" />
+                      </button>
+
+                      {/* Image Counter */}
+                      <div className="absolute bottom-4 right-4 bg-black/50 text-white text-xs px-3 py-1.5 rounded-full z-10 backdrop-blur-sm">
+                        Poza {imageIndex + 1} din {images.length}
+                      </div>
+                    </>
+                  )}
                 </div>
                 
                 {/* Description */}
