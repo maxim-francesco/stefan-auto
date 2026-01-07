@@ -29,7 +29,7 @@ const HeroSection = () => {
       <div className="absolute bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[80px] animate-float" style={{ animationDelay: "-3s" }} />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 pt-20">
+      <div className="relative z-10 container mx-auto px-4 pt-32 md:pt-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Tagline */}
           <motion.div
