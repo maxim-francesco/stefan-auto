@@ -1,13 +1,13 @@
-
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter, X, ChevronDown, Search, Loader2 } from "lucide-react";
+import { Filter, X, ChevronDown, Search, Loader2, Frown, RefreshCw } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CarCard from "@/components/CarCard";
 import { fetchPublicListings, ApiCar } from "@/services/api";
+import { Link } from "react-router-dom";
 
 // Helper function to find a specific attribute value
 const getAttribute = (car: ApiCar, attributeName: string): string | number | null => {
@@ -26,7 +26,7 @@ const Inventory = () => {
   const [selectedTransmission, setSelectedTransmission] = useState("Toate");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: apiResponse, isLoading, isError } = useQuery({
+  const { data: apiResponse, isLoading, isError, refetch } = useQuery({
     queryKey: ['publicListings'],
     queryFn: fetchPublicListings,
   });
@@ -100,10 +100,21 @@ const Inventory = () => {
   
     if (isError) {
       return (
-        <div className="text-center py-20">
-          <p className="text-destructive-foreground text-lg">A apărut o eroare la încărcarea mașinilor.</p>
-          <p className="text-muted-foreground mt-2">Vă rugăm să încercați din nou mai târziu.</p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-20 glass rounded-2xl"
+        >
+          <h3 className="font-display text-xl text-destructive-foreground mb-2">Ceva nu a funcționat</h3>
+          <p className="text-muted-foreground mb-6">A apărut o eroare la încărcarea mașinilor.</p>
+          <button
+            onClick={() => refetch()}
+            className="btn-luxury-filled flex items-center justify-center gap-2 mx-auto"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Încearcă din nou
+          </button>
+        </motion.div>
       );
     }
 
@@ -112,22 +123,33 @@ const Inventory = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center py-20"
+          className="text-center py-20 glass rounded-2xl"
         >
-          <p className="text-muted-foreground text-lg">
+          <Frown className="w-12 h-12 text-primary mx-auto mb-4" />
+          <h3 className="font-display text-xl text-foreground mb-2">Niciun vehicul disponibil</h3>
+          <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
             Nu am găsit autoturisme care să corespundă criteriilor tale.
+            Contactează-ne pentru o ofertă personalizată.
           </p>
-          <button
-            onClick={() => {
-              setSelectedBrand("Toate");
-              setSelectedFuel("Toate");
-              setSelectedTransmission("Toate");
-              setSearchQuery("");
-            }}
-            className="text-primary mt-4 hover:text-gold-light transition-colors"
-          >
-            Resetează filtrele
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => {
+                setSelectedBrand("Toate");
+                setSelectedFuel("Toate");
+                setSelectedTransmission("Toate");
+                setSearchQuery("");
+              }}
+              className="btn-luxury flex items-center justify-center gap-2"
+            >
+              Resetează filtrele
+            </button>
+            <Link
+              to="/servicii"
+              className="btn-luxury-filled flex items-center justify-center gap-2"
+            >
+              Mașini la Comandă
+            </Link>
+          </div>
         </motion.div>
       );
     }
