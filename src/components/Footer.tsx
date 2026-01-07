@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/Stefan.png";
 
 const Footer = () => {
   return (
@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <img
               src={logo}
-              alt="Stefan Auto GVR"
+              alt="Stefan Auto GVR Logo"
               className="h-20 w-auto mb-6"
             />
             <p className="text-muted-foreground text-sm leading-relaxed">

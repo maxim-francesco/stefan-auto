@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, MessageCircle } from "lucide-react";
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/Stefan.png";
 
 const navLinks = [
   { name: "Acasă", path: "/" },
@@ -58,7 +58,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center gap-3 touch-feedback">
             <img
               src={logo}
-              alt="Stefan Auto GVR"
+              alt="Stefan Auto GVR Logo"
               className="h-12 md:h-14 w-auto object-contain"
             />
           </Link>
