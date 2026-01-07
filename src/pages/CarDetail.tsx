@@ -1,3 +1,4 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -12,6 +13,7 @@ import {
   Phone,
   MessageCircle,
   Send,
+  Calculator,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,6 +26,8 @@ import { toast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import { Slider } from "@/components/ui/slider";
 
 const getAttribute = (car: ApiCar, attributeName: string): string | number | boolean | null => {
   const attr = car.attributeValues.find(
@@ -41,6 +45,69 @@ const contactFormSchema = z.object({
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+const FinancingCalculator = ({ price }: { price: number }) => {
+  const [downPayment, setDownPayment] = useState(price * 0.15);
+  const [term, setTerm] = useState(60);
+  const interestRate = 8.9 / 100; // 8.9% annual interest rate
+
+  const loanAmount = price - downPayment;
+  const monthlyInterestRate = interestRate / 12;
+  const numberOfPayments = term;
+
+  const monthlyPayment =
+    loanAmount > 0
+      ? (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) /
+        (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1)
+      : 0;
+
+  return (
+    <div className="glass rounded-2xl p-6 md:p-8 mt-8">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
+            <Calculator className="w-6 h-6 text-primary-foreground" />
+        </div>
+        <h2 className="font-display text-2xl">Calculator Finanțare</h2>
+      </div>
+
+      <div className="space-y-6">
+        <div>
+          <div className="flex justify-between items-end mb-2">
+            <FormLabel>Avans</FormLabel>
+            <span className="text-primary font-medium">{downPayment.toLocaleString('ro-RO')} €</span>
+          </div>
+          <Slider
+            min={0}
+            max={price * 0.8}
+            step={500}
+            value={[downPayment]}
+            onValueChange={(value) => setDownPayment(value[0])}
+          />
+        </div>
+        <div>
+          <div className="flex justify-between items-end mb-2">
+            <FormLabel>Perioadă</FormLabel>
+            <span className="text-primary font-medium">{term} luni</span>
+          </div>
+          <Slider
+            min={12}
+            max={84}
+            step={12}
+            value={[term]}
+            onValueChange={(value) => setTerm(value[0])}
+          />
+        </div>
+        <div className="text-center bg-navy-lighter rounded-xl p-6 mt-4">
+            <p className="text-muted-foreground text-sm mb-2">Rată lunară estimativă</p>
+            <p className="font-display text-4xl text-gold-gradient">
+                {Math.round(monthlyPayment).toLocaleString('ro-RO')} € / lună
+            </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 const CarDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -239,71 +306,75 @@ const CarDetail = () => {
 
               {/* Right Column - Details & CTA */}
               <motion.div variants={staggerItem} className="lg:col-span-1">
-                <div className="sticky top-24 glass rounded-2xl p-6">
-                  <h2 className="font-display text-2xl mb-4">Detalii Vehicul</h2>
+                <div className="sticky top-24">
+                  <div className="glass rounded-2xl p-6">
+                    <h2 className="font-display text-2xl mb-4">Detalii Vehicul</h2>
+                    
+                    {car.price ? (
+                      <p className="font-display text-4xl text-gold-gradient mb-6">
+                        {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
+                      </p>
+                    ) : (
+                      <p className="bg-primary/10 text-primary px-4 py-2 rounded-lg mb-6">
+                        Preț la cerere
+                      </p>
+                    )}
+
+                    {/* Specs */}
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div className="flex items-center gap-3">
+                        <Calendar className="w-5 h-5 text-primary/70" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">An</p>
+                          <p className="text-sm font-medium">{carDetails.year || 'N/A'}</p>
+                        </div>
+                      </div>
+                       <div className="flex items-center gap-3">
+                        <Gauge className="w-5 h-5 text-primary/70" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Kilometraj</p>
+                          <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString()} km` : 'N/A'}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Fuel className="w-5 h-5 text-primary/70" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Combustibil</p>
+                          <p className="text-sm font-medium">{carDetails.fuel || 'N/A'}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Settings2 className="w-5 h-5 text-primary/70" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Transmisie</p>
+                          <p className="text-sm font-medium">{carDetails.transmission || 'N/A'}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-border pt-6 flex-col gap-3 hidden lg:flex">
+                       <a
+                          href="tel:0731758666"
+                          className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
+                        >
+                          <Phone className="w-4 h-4" />
+                          Sună Acum
+                        </a>
+                        <a
+                          href="https://wa.me/40731758666"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-luxury w-full flex items-center justify-center gap-2 py-3"
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                          Contactează pe WhatsApp
+                        </a>
+                    </div>
+                  </div>
                   
-                  {car.price ? (
-                    <p className="font-display text-4xl text-gold-gradient mb-6">
-                      {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
-                    </p>
-                  ) : (
-                    <p className="bg-primary/10 text-primary px-4 py-2 rounded-lg mb-6">
-                      Preț la cerere
-                    </p>
-                  )}
-
-                  {/* Specs */}
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="flex items-center gap-3">
-                      <Calendar className="w-5 h-5 text-primary/70" />
-                      <div>
-                        <p className="text-xs text-muted-foreground">An</p>
-                        <p className="text-sm font-medium">{carDetails.year || 'N/A'}</p>
-                      </div>
-                    </div>
-                     <div className="flex items-center gap-3">
-                      <Gauge className="w-5 h-5 text-primary/70" />
-                      <div>
-                        <p className="text-xs text-muted-foreground">Kilometraj</p>
-                        <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString()} km` : 'N/A'}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Fuel className="w-5 h-5 text-primary/70" />
-                      <div>
-                        <p className="text-xs text-muted-foreground">Combustibil</p>
-                        <p className="text-sm font-medium">{carDetails.fuel || 'N/A'}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Settings2 className="w-5 h-5 text-primary/70" />
-                      <div>
-                        <p className="text-xs text-muted-foreground">Transmisie</p>
-                        <p className="text-sm font-medium">{carDetails.transmission || 'N/A'}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-border pt-6 flex-col gap-3 hidden lg:flex">
-                     <a
-                        href="tel:0731758666"
-                        className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
-                      >
-                        <Phone className="w-4 h-4" />
-                        Sună Acum
-                      </a>
-                      <a
-                        href="https://wa.me/40731758666"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-luxury w-full flex items-center justify-center gap-2 py-3"
-                      >
-                        <MessageCircle className="w-4 h-4" />
-                        Contactează pe WhatsApp
-                      </a>
-                  </div>
-
+                  {car.price && <FinancingCalculator price={car.price} />}
                 </div>
+
               </motion.div>
             </div>
           </StaggerContainer>
