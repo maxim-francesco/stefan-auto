@@ -92,3 +92,36 @@ export const fetchPublicListingById = async (id: string): Promise<ApiCar> => {
     throw error;
   }
 };
+
+/**
+ * Submits the contact form to the backend.
+ * @param formData The data from the contact form.
+ * @returns A promise that resolves when the form is submitted.
+ */
+export const submitContactForm = async (formData: { name: string; email: string; phone: string; message: string; }) => {
+  const url = `${BASE_URL}/public/contact`;
+  const payload = {
+    ...formData,
+    businessId: BUSINESS_ID,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: response.statusText }));
+      throw new Error(errorData.message || 'Failed to submit form');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to submit contact form:", error);
+    throw error;
+  }
+};
