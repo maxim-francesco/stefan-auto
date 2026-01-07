@@ -575,7 +575,7 @@ const CarDetail = () => {
                             <FormItem>
                               <FormLabel>Email</FormLabel>
                               <FormControl>
-                                <Input placeholder="email@exemplu.com" {...field} className="input-luxury" />
+                                <Input placeholder="contact@stefan.ro" {...field} className="input-luxury" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -649,7 +649,7 @@ const CarDetail = () => {
                                 </div>
                                 <div className="border-t border-border pt-6 flex flex-col gap-3">
                                 <a
-                                    href="tel:0731758666"
+                                    href="tel:+40731758666"
                                     className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
                                     >
                                     <Phone className="w-4 h-4" />
@@ -719,7 +719,7 @@ const CarDetail = () => {
         transition={{ delay: 0.5, type: 'spring', stiffness: 100 }}
         className="fixed bottom-0 left-0 right-0 glass-strong p-3 flex gap-3 lg:hidden z-40"
       >
-        <a href="tel:0731758666" className="btn-luxury flex-1 flex items-center justify-center py-3">
+        <a href="tel:+40731758666" className="btn-luxury flex-1 flex items-center justify-center py-3">
           <Phone className="w-4 h-4 mr-2" />
           Sună Acum
         </a>

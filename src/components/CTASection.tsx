@@ -46,11 +46,11 @@ const CTASection = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <a
-              href="tel:0731758666"
+              href="tel:+40731758666"
               className="btn-luxury-filled flex items-center justify-center gap-3 py-4 px-8 rounded-sm touch-feedback"
             >
               <Phone className="w-5 h-5" strokeWidth={1.5} />
-              Sună Acum: 0731 758 666
+              Sună Acum: +40 731 758 666
             </a>
             <a
               href="https://wa.me/40731758666"

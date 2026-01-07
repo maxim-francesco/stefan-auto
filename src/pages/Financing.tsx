@@ -157,7 +157,7 @@ const Financing = () => {
                     *Dobândă indicativă de {interestRate}% p.a. Calculul este orientativ.
                   </p>
                   <a
-                    href="tel:0731758666"
+                    href="tel:+40731758666"
                     className="btn-luxury-filled w-full mt-6 text-center"
                   >
                     Solicită Ofertă

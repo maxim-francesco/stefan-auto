@@ -42,7 +42,7 @@ const Contact = () => {
                 <div className="space-y-4">
                   {/* Phone */}
                   <a
-                    href="tel:0731758666"
+                    href="tel:+40731758666"
                     className="glass rounded-xl p-6 flex items-center gap-5 group hover:border-primary/30 transition-all duration-300"
                   >
                     <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary transition-colors">
@@ -50,7 +50,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Telefon</p>
-                      <p className="text-xl font-display text-gold-gradient">0731 758 666</p>
+                      <p className="text-xl font-display text-gold-gradient">+40 731 758 666</p>
                     </div>
                   </a>
 
@@ -76,8 +76,8 @@ const Contact = () => {
                       <MapPin className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Locație</p>
-                      <p className="text-lg font-medium">Galați, România</p>
+                      <p className="text-sm text-muted-foreground">Adresă</p>
+                      <p className="text-lg font-medium">Str. Cireșului 16 C, Dobroești 077086</p>
                     </div>
                   </div>
 
@@ -95,16 +95,7 @@ const Contact = () => {
 
                 {/* Map */}
                 <div className="rounded-xl overflow-hidden h-64 border border-border">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d87456.71394445746!2d27.972946!3d45.436988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b6de58b96b90d1%3A0xc4bb0b6d9f16b8c5!2sGala%C8%9Bi!5e0!3m2!1sen!2sro!4v1704540000000!5m2!1sen!2sro"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Stefan Auto GVR Location"
-                  />
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2847.4721054196702!2d26.1687459!3d44.464494800000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1f9904c532127%3A0x2f7859f8e487d579!2sSc%20Stefan%20Auto-GVR%20Srl!5e0!3m2!1sen!2sro!4v1767797028211!5m2!1sen!2sro" width="100%" height="450" style={{ border:0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
               </motion.div>
 
@@ -139,7 +130,7 @@ const Contact = () => {
                       <label className="text-sm text-muted-foreground block mb-2">Email</label>
                       <input
                         type="email"
-                        placeholder="email@exemplu.ro"
+                        placeholder="contact@stefan.ro"
                         className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
                       />
                     </div>

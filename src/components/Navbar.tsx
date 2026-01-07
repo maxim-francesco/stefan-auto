@@ -59,7 +59,7 @@ const Navbar = () => {
             <img
               src={logo}
               alt="Stefan Auto GVR Logo"
-              className="h-14 md:h-16 w-auto object-contain"
+              className="h-16 md:h-20 w-auto object-contain"
             />
           </Link>
 
@@ -90,11 +90,11 @@ const Navbar = () => {
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-4">
             <a
-              href="tel:0731758666"
+              href="tel:+40731758666"
               className="flex items-center gap-2 text-primary hover:text-gold-light transition-colors"
             >
               <Phone className="w-4 h-4 icon-gold" strokeWidth={1.5} />
-              <span className="text-sm tracking-wide">0731 758 666</span>
+              <span className="text-sm tracking-wide">+40 731 758 666</span>
             </a>
             <a
               href="https://wa.me/40731758666"
@@ -168,11 +168,11 @@ const Navbar = () => {
                   className="mt-4 pt-4 border-t border-border/50 flex flex-col gap-3"
                 >
                   <a
-                    href="tel:0731758666"
+                    href="tel:+40731758666"
                     className="flex items-center gap-3 text-primary text-lg py-3 px-4 rounded-lg bg-primary/5 touch-feedback"
                   >
                     <Phone className="w-5 h-5" strokeWidth={1.5} />
-                    0731 758 666
+                    +40 731 758 666
                   </a>
                   <a
                     href="https://wa.me/40731758666"

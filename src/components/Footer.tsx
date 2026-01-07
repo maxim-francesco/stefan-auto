@@ -11,12 +11,13 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <img
               src={logo}
-              alt="Stefan Auto GVR Logo"
+              alt="STEFAN AUTO GVR SRL Logo"
               className="h-20 w-auto mb-6"
             />
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Autoturisme rulate premium cu garanție inclusă. 
-              Experiență de peste 10 ani în domeniul auto.
+              STEFAN AUTO GVR SRL <br />
+              CUI: 47133950 <br />
+              Nr. Reg. Com.: J23/7668/2022
             </p>
           </div>
 
@@ -67,11 +68,11 @@ const Footer = () => {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="tel:0731758666"
+                  href="tel:+40731758666"
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors text-sm"
                 >
                   <Phone className="w-4 h-4 text-primary" strokeWidth={1.5} />
-                  0731 758 666
+                  +40 731 758 666
                 </a>
               </li>
               <li>
@@ -85,7 +86,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start gap-3 text-muted-foreground text-sm">
                 <MapPin className="w-4 h-4 text-primary mt-0.5" strokeWidth={1.5} />
-                <span>Galați, România</span>
+                <span>Str. Cireșului 16 C, Dobroești 077086</span>
               </li>
               <li className="flex items-start gap-3 text-muted-foreground text-sm">
                 <Clock className="w-4 h-4 text-primary mt-0.5" strokeWidth={1.5} />
@@ -98,7 +99,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-xs">
-            © {new Date().getFullYear()} Stefan Auto GVR. Toate drepturile rezervate.
+            © {new Date().getFullYear()} STEFAN AUTO GVR SRL. Toate drepturile rezervate.
           </p>
           <p className="text-muted-foreground text-xs">
             Autoturisme rulate de calitate premium
