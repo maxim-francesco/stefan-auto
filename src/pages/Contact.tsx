@@ -1,9 +1,51 @@
+
 import { motion } from "framer-motion";
-import { Phone, MessageCircle, MapPin, Clock, Mail, Send } from "lucide-react";
+import { Phone, MessageCircle, MapPin, Clock, Send, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "@/components/ui/use-toast";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { submitContactForm } from "@/services/api";
+
+const contactFormSchema = z.object({
+  name: z.string().min(2, { message: "Numele este obligatoriu." }),
+  phone: z.string().min(10, { message: "Numărul de telefon este invalid." }),
+  email: z.string().email({ message: "Adresa de email este invalidă." }),
+  message: z.string().min(10, { message: "Mesajul trebuie să conțină cel puțin 10 caractere." }),
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 const Contact = () => {
+
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: { name: "", phone: "", email: "", message: "" },
+  });
+
+  const onSubmit = async (values: ContactFormValues) => {
+    try {
+      await submitContactForm(values);
+      toast({
+        title: "Mesaj Trimis cu Succes!",
+        description: "Vă mulțumim. Un consultant vă va contacta în cel mai scurt timp.",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Eroare la Trimitere",
+        description: "A apărut o problemă. Vă rugăm să încercați din nou mai târziu.",
+      });
+    }
+  };
+
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -107,57 +149,74 @@ const Contact = () => {
               >
                 <div className="glass rounded-2xl p-8">
                   <h2 className="font-display text-2xl mb-6">Trimite-ne un Mesaj</h2>
-                  <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-sm text-muted-foreground block mb-2">Nume</label>
-                        <input
-                          type="text"
-                          placeholder="Numele tău"
-                          className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                   <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                       <div className="grid md:grid-cols-2 gap-4">
+                         <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Nume</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Numele tău" {...field} className="input-luxury" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                         <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Telefon</FormLabel>
+                              <FormControl>
+                                <Input placeholder="07XX XXX XXX" {...field} className="input-luxury" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
                       </div>
-                      <div>
-                        <label className="text-sm text-muted-foreground block mb-2">Telefon</label>
-                        <input
-                          type="tel"
-                          placeholder="07XX XXX XXX"
-                          className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input placeholder="contact@exemplu.ro" {...field} className="input-luxury" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                       <FormField
+                          control={form.control}
+                          name="message"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Mesaj</FormLabel>
+                              <FormControl>
+                                <Textarea placeholder="Scrie mesajul tău aici..." {...field} className="input-luxury" rows={4} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="text-sm text-muted-foreground block mb-2">Email</label>
-                      <input
-                        type="email"
-                        placeholder="contact@stefan.ro"
-                        className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm text-muted-foreground block mb-2">Subiect</label>
-                      <select className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors appearance-none cursor-pointer">
-                        <option>Selectează subiectul</option>
-                        <option>Întrebare despre un vehicul</option>
-                        <option>Finanțare</option>
-                        <option>Mașini la comandă</option>
-                        <option>Buy-back</option>
-                        <option>Altele</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="text-sm text-muted-foreground block mb-2">Mesaj</label>
-                      <textarea
-                        rows={5}
-                        placeholder="Scrie mesajul tău aici..."
-                        className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
-                      />
-                    </div>
-                    <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-4">
-                      <Send className="w-4 h-4" />
-                      Trimite Mesajul
-                    </button>
-                  </form>
+                      <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-4" disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4" />
+                            Trimite Mesajul
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  </Form>
                 </div>
               </motion.div>
             </div>
@@ -171,3 +230,5 @@ const Contact = () => {
 };
 
 export default Contact;
+
+    

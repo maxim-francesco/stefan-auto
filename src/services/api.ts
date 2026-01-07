@@ -1,3 +1,4 @@
+
 // src/services/api.ts
 import { BASE_URL, BUSINESS_ID } from "@/config/api";
 
@@ -125,3 +126,5 @@ export const submitContactForm = async (formData: { name: string; email: string;
     throw error;
   }
 };
+
+    
