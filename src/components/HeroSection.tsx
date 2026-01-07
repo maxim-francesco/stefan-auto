@@ -70,7 +70,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-16 md:mb-16"
           >
             <Link to="/stoc" className="btn-luxury-filled py-4 px-10 rounded-sm">
               Vezi Stocul
@@ -85,7 +85,7 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mt-24 md:mt-0"
           >
             {[
               { icon: Shield, label: "Garanție Premium Inclusă", sublabel: "Pe fiecare vehicul" },
