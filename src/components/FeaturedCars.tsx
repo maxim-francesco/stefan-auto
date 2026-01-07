@@ -173,3 +173,5 @@ const FeaturedCars = () => {
     </section>
   );
 };
+
+export default FeaturedCars;
