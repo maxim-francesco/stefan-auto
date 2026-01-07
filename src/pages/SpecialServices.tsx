@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Car, CheckCircle, ArrowRight, Upload, Send, FileText, Phone } from "lucide-react";
@@ -195,53 +196,45 @@ const SpecialServices = () => {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-sm text-muted-foreground block mb-2">Marcă</label>
-                        <input
-                          type="text"
-                          placeholder="BMW"
-                          className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                        />
+                        <input type="text" placeholder="Ex: BMW" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
                       </div>
                       <div>
                         <label className="text-sm text-muted-foreground block mb-2">Model</label>
-                        <input
-                          type="text"
-                          placeholder="Seria 3"
-                          className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                        />
+                        <input type="text" placeholder="Ex: Seria 3" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-sm text-muted-foreground block mb-2">An fabricație</label>
-                        <input
-                          type="number"
-                          placeholder="2019"
-                          className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                        />
+                        <input type="number" placeholder="2019" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
                       </div>
                       <div>
                         <label className="text-sm text-muted-foreground block mb-2">Kilometraj</label>
-                        <input
-                          type="text"
-                          placeholder="85.000 km"
-                          className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                        />
+                        <input type="text" placeholder="Ex: 85.000" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
                       </div>
                     </div>
+                     <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm text-muted-foreground block mb-2">Motorizare</label>
+                        <input type="text" placeholder="Ex: 2.0 Diesel" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
+                      </div>
+                      <div>
+                        <label className="text-sm text-muted-foreground block mb-2">Preț Estimativ</label>
+                        <input type="text" placeholder="Ex: 15.000 €" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
+                      </div>
+                    </div>
+                    <hr className="border-border/50 my-4" />
+                     <div>
+                        <label className="text-sm text-muted-foreground block mb-2">Nume</label>
+                        <input type="text" placeholder="Numele tău" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
+                      </div>
                     <div>
                       <label className="text-sm text-muted-foreground block mb-2">Telefon</label>
-                      <input
-                        type="tel"
-                        placeholder="07XX XXX XXX"
-                        className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
-                      />
+                      <input type="tel" placeholder="07XX XXX XXX" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
                     </div>
                     <div>
-                      <label className="text-sm text-muted-foreground block mb-2">Încarcă poze (opțional)</label>
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer">
-                        <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-                        <p className="text-sm text-muted-foreground">Click sau trage pozele aici</p>
-                      </div>
+                      <label className="text-sm text-muted-foreground block mb-2">Email</label>
+                      <input type="email" placeholder="contact@exemplu.ro" className="w-full bg-navy-lighter border border-border rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary/50" />
                     </div>
                     <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2">
                       <FileText className="w-4 h-4" />
@@ -261,3 +254,5 @@ const SpecialServices = () => {
 };
 
 export default SpecialServices;
+
+    
