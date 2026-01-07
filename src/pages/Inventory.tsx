@@ -27,7 +27,7 @@ const Inventory = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: apiResponse, isLoading, isError, refetch } = useQuery({
-    queryKey: ['publicListings'],
+    queryKey: ['publicListings', 'all'],
     queryFn: fetchPublicListings,
   });
 

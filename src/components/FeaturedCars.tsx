@@ -21,7 +21,7 @@ const FeaturedCars = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: apiResponse, isLoading, isError } = useQuery({
-    queryKey: ['publicListings'],
+    queryKey: ['publicListings', { limit: 5 }],
     queryFn: () => fetchPublicListings({ limit: 5 }),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
