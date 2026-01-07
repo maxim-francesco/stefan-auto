@@ -162,19 +162,30 @@ const CarDetail = () => {
 
     const techSpecs: { name: string; value: string | number }[] = [];
     const features: string[] = [];
-    const displayedSpecs = new Set(['an', 'kilometraj', 'combustibil', 'cutie de viteze']);
+    
+    // These are displayed prominently already, so we exclude them from the detailed specs list.
+    const displayedSpecs = new Set([
+      'marca', 'model', 'an', 'kilometraj', 'combustibil', 'cutie de viteze', 'pret'
+    ]);
 
     car.attributeValues.forEach(attr => {
-        const { attribute, stringValue, numberValue, booleanValue } = attr;
-        
-        if (attribute.type === 'STRING' || attribute.type === 'NUMBER') {
-            const value = stringValue ?? numberValue;
-            if (value !== null && !displayedSpecs.has(attribute.name.toLowerCase())) {
-                techSpecs.push({ name: attribute.name, value: value });
-            }
-        } else if (attribute.type === 'BOOLEAN' && booleanValue === true) {
-            features.push(attribute.name);
+      const { attribute, stringValue, numberValue, booleanValue } = attr;
+      const attrNameLower = attribute.name.toLowerCase();
+      
+      if (attribute.type === 'STRING' || attribute.type === 'NUMBER') {
+        let value = stringValue ?? numberValue;
+        if (value !== null && !displayedSpecs.has(attrNameLower)) {
+          // Format specific values with units
+          if (attrNameLower === 'putere' && typeof value === 'number') {
+            value = `${value} CP`;
+          } else if (attrNameLower === 'capacitate cilindrica' && typeof value === 'number') {
+            value = `${value.toLocaleString('ro-RO')} cm³`;
+          }
+          techSpecs.push({ name: attribute.name, value: value });
         }
+      } else if (attribute.type === 'BOOLEAN' && booleanValue === true) {
+        features.push(attribute.name);
+      }
     });
 
     return { techSpecs, features };
@@ -578,7 +589,7 @@ const CarDetail = () => {
                         <Gauge className="w-5 h-5 text-primary/70" />
                         <div>
                           <p className="text-xs text-muted-foreground">Kilometraj</p>
-                          <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString()} km` : 'N/A'}</p>
+                          <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString('ro-RO')} km` : 'N/A'}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
