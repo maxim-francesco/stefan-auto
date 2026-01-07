@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { ChevronDown, Shield, Award, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -47,7 +48,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.4 }}
-            className="font-display text-5xl md:text-6xl lg:text-7xl font-medium mb-6 leading-tight"
+            className="font-display text-4xl md:text-6xl lg:text-7xl font-medium mb-6 leading-tight"
           >
             <span className="text-foreground">Stefan Auto GVR -</span>
             <br />
@@ -59,7 +60,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-foreground/70 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-foreground/70 text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
           >
             Stefan Auto GVR SRL din Dobroești oferă o selecție premium de mașini second hand, fiecare vehicul fiind selectat cu grijă și oferit cu garanție inclusă și posibilitate de finanțare tbi bank sau BT.
           </motion.p>
