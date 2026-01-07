@@ -124,7 +124,7 @@ const Footer = () => {
         {/* Credits Line */}
         <div className="mt-10 text-center">
             <p className="text-lg text-gold-gradient">
-                Construit și proiectat de Francesco Maxim | <a href="tel:+407058990675" className="hover:underline">+407058990675</a>
+                Construit și proiectat de Francesco Maxim | <a href="tel:+40758990675" className="hover:underline">+40758990675</a>
             </p>
         </div>
       </div>
