@@ -399,9 +399,10 @@ const CarDetail = () => {
 
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-3 gap-8 mt-8">
+              {/* Left Column */}
               <div className="lg:col-span-2 space-y-12">
+                {/* 1. Image Gallery */}
                 <motion.div variants={staggerItem}>
-                  {/* 1. Image Gallery */}
                   <div 
                     className="relative aspect-[16/10] rounded-xl overflow-hidden glass group cursor-pointer"
                     onClick={() => images.length > 0 && setIsLightboxOpen(true)}
@@ -435,7 +436,6 @@ const CarDetail = () => {
                     
                     {images.length > 1 && (
                       <>
-                        {/* Prev Arrow */}
                         <button 
                           onClick={(e) => { e.stopPropagation(); paginate(-1); }}
                           className="absolute top-1/2 left-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
@@ -443,7 +443,6 @@ const CarDetail = () => {
                           <ChevronLeft className="w-6 h-6 text-gold" />
                         </button>
                         
-                        {/* Next Arrow */}
                         <button 
                           onClick={(e) => { e.stopPropagation(); paginate(1); }}
                           className="absolute top-1/2 right-4 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 text-white/70 hover:bg-black/50 hover:text-white transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
@@ -451,7 +450,6 @@ const CarDetail = () => {
                           <ChevronRight className="w-6 h-6 text-gold" />
                         </button>
 
-                        {/* Image Counter */}
                         <div className="absolute bottom-4 right-4 bg-black/50 text-white text-xs px-3 py-1.5 rounded-full z-10 backdrop-blur-sm">
                           Poza {imageIndex + 1} din {images.length}
                         </div>
@@ -460,74 +458,46 @@ const CarDetail = () => {
                   </div>
                 </motion.div>
 
-                {/* All other sections will be below the main grid */}
-              </div>
-
-              {/* Right Column (Sticky) */}
-              <motion.div variants={staggerItem} className="lg:col-span-1 row-start-1 lg:row-start-auto">
-                <div className="sticky top-24 space-y-8">
-                  {/* Detalii Vehicul */}
-                  <div className="glass rounded-2xl p-6">
-                    <h2 className="font-display text-2xl mb-4">Detalii Vehicul</h2>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="flex items-center gap-3">
-                        <Calendar className="w-5 h-5 text-primary/70" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">An</p>
-                          <p className="text-sm font-medium">{String(carDetails.year) || 'N/A'}</p>
+                <div className="lg:hidden">
+                    <motion.div variants={staggerItem}>
+                        <div className="glass rounded-2xl p-6">
+                            <h2 className="font-display text-2xl mb-4">Detalii Vehicul</h2>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex items-center gap-3">
+                                    <Calendar className="w-5 h-5 text-primary/70" />
+                                    <div>
+                                        <p className="text-xs text-muted-foreground">An</p>
+                                        <p className="text-sm font-medium">{String(carDetails.year) || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <Gauge className="w-5 h-5 text-primary/70" />
+                                    <div>
+                                        <p className="text-xs text-muted-foreground">Kilometraj</p>
+                                        <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString('ro-RO')} km` : 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <Fuel className="w-5 h-5 text-primary/70" />
+                                    <div>
+                                        <p className="text-xs text-muted-foreground">Combustibil</p>
+                                        <p className="text-sm font-medium">{String(carDetails.fuel) || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <Settings2 className="w-5 h-5 text-primary/70" />
+                                    <div>
+                                        <p className="text-xs text-muted-foreground">Transmisie</p>
+                                        <p className="text-sm font-medium">{String(carDetails.transmission) || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                       <div className="flex items-center gap-3">
-                        <Gauge className="w-5 h-5 text-primary/70" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Kilometraj</p>
-                          <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString('ro-RO')} km` : 'N/A'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Fuel className="w-5 h-5 text-primary/70" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Combustibil</p>
-                          <p className="text-sm font-medium">{String(carDetails.fuel) || 'N/A'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Settings2 className="w-5 h-5 text-primary/70" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Transmisie</p>
-                          <p className="text-sm font-medium">{String(carDetails.transmission) || 'N/A'}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="border-t border-border pt-6 flex-col gap-3 hidden lg:flex">
-                       <a
-                          href="tel:0731758666"
-                          className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
-                        >
-                          <Phone className="w-4 h-4" />
-                          Sună Acum
-                        </a>
-                        <a
-                          href="https://wa.me/40731758666"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-luxury w-full flex items-center justify-center gap-2 py-3"
-                        >
-                          <MessageCircle className="w-4 h-4" />
-                          Contactează pe WhatsApp
-                        </a>
-                    </div>
-                  </div>
+                    </motion.div>
                 </div>
-              </motion.div>
-            </div>
-            
-            {/* Sections below the main grid */}
-            <div className="grid lg:grid-cols-3 gap-8 mt-12">
-              <div className="lg:col-span-2 space-y-12">
-                 {/* Specificații Tehnice */}
+
+
+                {/* Specificații Tehnice */}
                 {techSpecs.length > 0 && (
                   <motion.div variants={staggerItem}>
                     <h2 className="font-display text-2xl mb-6 text-gold-gradient">Specificații Tehnice</h2>
@@ -639,8 +609,66 @@ const CarDetail = () => {
                 </motion.div>
               </div>
 
+              {/* Right Column */}
               <div className="lg:col-span-1">
-                 <div className="sticky top-24">
+                 <div className="sticky top-24 space-y-8">
+                    {/* Detalii Vehicul - Desktop */}
+                    <div className="hidden lg:block">
+                        <motion.div variants={staggerItem}>
+                             <div className="glass rounded-2xl p-6">
+                                <h2 className="font-display text-2xl mb-4">Detalii Vehicul</h2>
+                                <div className="grid grid-cols-2 gap-4 mb-6">
+                                    <div className="flex items-center gap-3">
+                                        <Calendar className="w-5 h-5 text-primary/70" />
+                                        <div>
+                                            <p className="text-xs text-muted-foreground">An</p>
+                                            <p className="text-sm font-medium">{String(carDetails.year) || 'N/A'}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <Gauge className="w-5 h-5 text-primary/70" />
+                                        <div>
+                                            <p className="text-xs text-muted-foreground">Kilometraj</p>
+                                            <p className="text-sm font-medium">{carDetails.mileage ? `${Number(carDetails.mileage).toLocaleString('ro-RO')} km` : 'N/A'}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <Fuel className="w-5 h-5 text-primary/70" />
+                                        <div>
+                                            <p className="text-xs text-muted-foreground">Combustibil</p>
+                                            <p className="text-sm font-medium">{String(carDetails.fuel) || 'N/A'}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <Settings2 className="w-5 h-5 text-primary/70" />
+                                        <div>
+                                            <p className="text-xs text-muted-foreground">Transmisie</p>
+                                            <p className="text-sm font-medium">{String(carDetails.transmission) || 'N/A'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="border-t border-border pt-6 flex flex-col gap-3">
+                                <a
+                                    href="tel:0731758666"
+                                    className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
+                                    >
+                                    <Phone className="w-4 h-4" />
+                                    Sună Acum
+                                    </a>
+                                    <a
+                                    href="https://wa.me/40731758666"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-luxury w-full flex items-center justify-center gap-2 py-3"
+                                    >
+                                    <MessageCircle className="w-4 h-4" />
+                                    Contactează pe WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+
                   {/* Calculator Finanțare */}
                   {car.price && (
                     <motion.div variants={staggerItem}>
