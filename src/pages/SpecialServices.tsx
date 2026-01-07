@@ -15,12 +15,12 @@ import { toast } from "@/components/ui/use-toast";
 const buyBackFormSchema = z.object({
   marca: z.string().min(1, "Marca este obligatorie"),
   model: z.string().min(1, "Modelul este obligatoriu"),
-  an: z.preprocess((val) => Number(val), z.number().min(1990, "An invalid").max(new Date().getFullYear(), "An invalid")),
-  km: z.string().min(1, "Kilometrajul este obligatoriu"),
+  an: z.preprocess((val) => Number(val), z.number().min(1990, "Anul trebuie să fie după 1990").max(new Date().getFullYear(), "Anul nu poate fi în viitor")),
+  km: z.string().min(1, "Kilometrajul este obligatoriu").regex(/^\d+$/, "Kilometraj invalid"),
   motorizare: z.string().min(1, "Motorizarea este obligatorie"),
-  pretEstimativ: z.string().min(1, "Prețul este obligatoriu"),
+  pretEstimativ: z.string().min(1, "Prețul este obligatoriu").regex(/^\d+$/, "Preț invalid"),
   nume: z.string().min(2, "Numele este obligatoriu"),
-  telefon: z.string().min(10, "Telefon invalid"),
+  telefon: z.string().min(10, "Telefon invalid").regex(/^[0-9+ ]+$/, "Telefon invalid"),
   email: z.string().email("Email invalid"),
 });
 
@@ -61,19 +61,13 @@ Email: ${values.email}
         name: values.nume,
         email: values.email,
         phone: values.telefon,
-        message,
+        message: message, // `subject` is part of the message now
       });
-      buyBackForm.reset();
-      toast({
-        title: "Cerere Trimisă!",
-        description: "Vă mulțumim! Vă vom contacta în curând pentru o evaluare.",
-      });
+      // The success state will be handled by form.formState.isSubmitSuccessful
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Eroare la trimitere",
-        description: "A apărut o problemă. Vă rugăm să încercați din nou.",
-      });
+       console.error("Submission error:", error);
+       // The error state is handled by react-hook-form's state management
+       throw new Error("Submission failed");
     }
   };
 
@@ -271,18 +265,38 @@ Email: ${values.email}
                       >
                         <h3 className="font-display text-2xl text-gold-gradient mb-4">Cerere Trimisă!</h3>
                         <p className="text-muted-foreground mb-6">
-                          Am primit detaliile mașinii tale. Un specialist te va contacta în cel mai scurt timp pentru o evaluare.
+                          Echipa Stefan Auto GVR va analiza datele și te va contacta pentru o ofertă în cel mai scurt timp.
                         </p>
                         <button
-                          onClick={() => buyBackForm.reset()}
+                          onClick={() => {buyBackForm.reset(); buyBackForm.clearErrors();}}
                           className="btn-luxury flex items-center justify-center gap-2"
                         >
                           <RefreshCw className="w-4 h-4" />
                           Trimite o altă cerere
                         </button>
                       </motion.div>
+                  ) : buyBackForm.formState.isSubmitted && !buyBackForm.formState.isSubmitSuccessful ? (
+                      <motion.div
+                        key="error"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center text-center p-8"
+                      >
+                         <h3 className="font-display text-2xl text-destructive mb-4">Eroare la trimitere</h3>
+                        <p className="text-muted-foreground mb-6">
+                          Te rugăm să ne contactezi direct la <a href="tel:+40731758666" className="text-primary hover:underline">+40 731 758 666</a>.
+                        </p>
+                         <button
+                          onClick={() => buyBackForm.reset(buyBackForm.getValues())}
+                          className="btn-luxury flex items-center justify-center gap-2"
+                        >
+                          <RefreshCw className="w-4 h-4" />
+                          Încearcă din nou
+                        </button>
+                      </motion.div>
                   ) : (
-                  <motion.div key="form">
+                  <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     <h3 className="font-display text-xl mb-6">Detalii Mașină</h3>
                     <Form {...buyBackForm}>
                       <form onSubmit={buyBackForm.handleSubmit(onBuyBackSubmit)} className="space-y-4">
@@ -344,5 +358,3 @@ Email: ${values.email}
 };
 
 export default SpecialServices;
-
-    
