@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, MessageCircle, MapPin, Clock, Send, Loader2, RefreshCw } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -115,6 +115,7 @@ const Contact = () => {
                     <div>
                       <p className="text-sm text-muted-foreground">Adresă</p>
                       <p className="text-lg font-medium">Str. Cireșului 16 C, Dobroești 077086</p>
+                      <p className="text-sm text-primary/80">Parc auto rulate Dobroești, Ilfov</p>
                     </div>
                   </div>
 

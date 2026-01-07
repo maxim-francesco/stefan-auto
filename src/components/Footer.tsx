@@ -96,7 +96,10 @@ const Footer = () => {
               </li>
               <li className="flex items-start gap-3 text-muted-foreground text-sm">
                 <MapPin className="w-4 h-4 text-primary mt-0.5" strokeWidth={1.5} />
-                <span>Str. Cireșului 16 C, Dobroești 077086</span>
+                <span>
+                  Str. Cireșului 16 C, Dobroești 077086 <br />
+                  <span className="font-semibold text-primary/80">Parc auto rulate Dobroești, Ilfov</span>
+                </span>
               </li>
               <li className="flex items-start gap-3 text-muted-foreground text-sm">
                 <Clock className="w-4 h-4 text-primary mt-0.5" strokeWidth={1.5} />

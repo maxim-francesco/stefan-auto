@@ -61,8 +61,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-foreground/70 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
           >
-            Descoperă colecția noastră exclusivă de autoturisme rulate, 
-            selectate cu grijă și oferite cu garanție inclusă.
+            Stefan Auto GVR SRL din Dobroești oferă o selecție premium de mașini second hand, fiecare vehicul fiind selectat cu grijă și oferit cu garanție inclusă și posibilitate de finanțare tbi bank sau BT.
           </motion.p>
 
           {/* CTA Buttons */}
