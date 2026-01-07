@@ -19,7 +19,7 @@ export interface ApiCar {
   description: string;
   price: number | null;
   status: "AVAILABLE" | "SOLD";
-  images: { url: string }[];
+  images: { url: string; order: number }[];
   attributeValues: AttributeValue[];
 }
 
@@ -65,6 +65,30 @@ export const fetchPublicListings = async (params: FetchListingsParams = {}): Pro
   } catch (error) {
     console.error("Failed to fetch listings:", error);
     // Re-throw the error to be handled by react-query
+    throw error;
+  }
+};
+
+/**
+ * Fetches a single public car listing by its ID.
+ * @param id The ID of the car listing.
+ * @returns A promise that resolves to the car data.
+ */
+export const fetchPublicListingById = async (id: string): Promise<ApiCar> => {
+  const url = `${BASE_URL}/public/listings/${id}`;
+
+  try {
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    const data: ApiCar = await response.json();
+    console.log("Fetched Car Detail Data:", data); // As per instructions
+    return data;
+  } catch (error) {
+    console.error(`Failed to fetch listing with id ${id}:`, error);
     throw error;
   }
 };

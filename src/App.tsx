@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import ScrollProgress from "./components/ScrollProgress";
 import FloatingCTA from "./components/FloatingCTA";
+import CarDetail from "./pages/CarDetail";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const AnimatedRoutes = () => {
         <Routes location={location}>
           <Route path="/" element={<Index />} />
           <Route path="/stoc" element={<Inventory />} />
+          <Route path="/stoc/:id" element={<CarDetail />} />
           <Route path="/finantare" element={<Financing />} />
           <Route path="/servicii" element={<SpecialServices />} />
           <Route path="/contact" element={<Contact />} />
