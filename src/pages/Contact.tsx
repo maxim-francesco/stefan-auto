@@ -1,12 +1,11 @@
 
 import { motion } from "framer-motion";
-import { Phone, MessageCircle, MapPin, Clock, Send, Loader2 } from "lucide-react";
+import { Phone, MessageCircle, MapPin, Clock, Send, Loader2, RefreshCw } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,19 +29,12 @@ const Contact = () => {
 
   const onSubmit = async (values: ContactFormValues) => {
     try {
-      const response = await submitContactForm(values);
-      console.log("Form submission response:", response);
-      toast({
-        title: "Mesaj Trimis cu Succes!",
-        description: "Vă mulțumim. Un consultant vă va contacta în cel mai scurt timp.",
-      });
+      await submitContactForm(values);
       form.reset();
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Eroare la Trimitere",
-        description: "A apărut o problemă. Vă rugăm să încercați din nou mai târziu.",
-      });
+       console.error("Submission error:", error);
+       // The error state is handled by the form's submission status
+       throw new Error("Submission failed");
     }
   };
 
@@ -148,76 +140,131 @@ const Contact = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <div className="glass rounded-2xl p-8">
-                  <h2 className="font-display text-2xl mb-6">Trimite-ne un Mesaj</h2>
-                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                       <div className="grid md:grid-cols-2 gap-4">
-                         <FormField
-                          control={form.control}
-                          name="name"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Nume</FormLabel>
-                              <FormControl>
-                                <Input placeholder="Numele tău" {...field} className="input-luxury" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                         <FormField
-                          control={form.control}
-                          name="phone"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Telefon</FormLabel>
-                              <FormControl>
-                                <Input placeholder="07XX XXX XXX" {...field} className="input-luxury" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input placeholder="contact@exemplu.ro" {...field} className="input-luxury" />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                       <FormField
-                          control={form.control}
-                          name="message"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Mesaj</FormLabel>
-                              <FormControl>
-                                <Textarea placeholder="Scrie mesajul tău aici..." {...field} className="input-luxury" rows={4} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-4" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <>
-                            <Send className="w-4 h-4" />
-                            Trimite Mesajul
-                          </>
-                        )}
-                      </button>
-                    </form>
-                  </Form>
+                <div className="glass rounded-2xl p-8 relative min-h-[500px]">
+                  <AnimatePresence mode="wait">
+                    {form.formState.isSubmitSuccessful ? (
+                       <motion.div
+                        key="success"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center text-center p-8"
+                      >
+                        <h3 className="font-display text-2xl text-gold-gradient mb-4">Mulțumim!</h3>
+                        <p className="text-muted-foreground mb-6">
+                          Mesajul tău a fost trimis către echipa Stefan Auto GVR. Te vom contacta în cel mai scurt timp.
+                        </p>
+                        <button
+                          onClick={() => form.reset()}
+                          className="btn-luxury flex items-center justify-center gap-2"
+                        >
+                          <RefreshCw className="w-4 h-4" />
+                          Trimite un alt mesaj
+                        </button>
+                      </motion.div>
+                    ) : form.formState.isSubmitted && !form.formState.isSubmitSuccessful ? (
+                      <motion.div
+                        key="error"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="absolute inset-0 flex flex-col items-center justify-center text-center p-8"
+                      >
+                         <h3 className="font-display text-2xl text-destructive mb-4">A apărut o eroare</h3>
+                        <p className="text-muted-foreground mb-6">
+                          Vă rugăm să ne contactați telefonic la <a href="tel:+40731758666" className="text-primary hover:underline">+40 731 758 666</a>.
+                        </p>
+                         <button
+                          onClick={() => form.reset(form.getValues())}
+                          className="btn-luxury flex items-center justify-center gap-2"
+                        >
+                          <RefreshCw className="w-4 h-4" />
+                          Încearcă din nou
+                        </button>
+                      </motion.div>
+                    ) : (
+                      <motion.div 
+                        key="form"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="w-full"
+                      >
+                        <h2 className="font-display text-2xl mb-6">Trimite-ne un Mesaj</h2>
+                        <Form {...form}>
+                          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                            <div className="grid md:grid-cols-2 gap-4">
+                              <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Nume</FormLabel>
+                                    <FormControl>
+                                      <Input placeholder="Numele tău" {...field} className="input-luxury" />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Telefon</FormLabel>
+                                    <FormControl>
+                                      <Input placeholder="07XX XXX XXX" {...field} className="input-luxury" />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                            <FormField
+                              control={form.control}
+                              name="email"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Email</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="contact@exemplu.ro" {...field} className="input-luxury" />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="message"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Mesaj</FormLabel>
+                                    <FormControl>
+                                      <Textarea placeholder="Scrie mesajul tău aici..." {...field} className="input-luxury" rows={4} />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-4" disabled={form.formState.isSubmitting}>
+                              {form.formState.isSubmitting ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                  Se trimite...
+                                </>
+                              ) : (
+                                <>
+                                  <Send className="w-4 h-4" />
+                                  Trimite Mesajul
+                                </>
+                              )}
+                            </button>
+                          </form>
+                        </Form>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </motion.div>
             </div>
@@ -231,5 +278,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
-    
