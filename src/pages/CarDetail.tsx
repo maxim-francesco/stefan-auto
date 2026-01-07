@@ -87,7 +87,7 @@ const FinancingCalculator = ({ price, carTitle, onCTAClick }: { price: number, c
           </div>
           <Slider
             min={0}
-            max={price * 0.8}
+            max={price * 0.5}
             step={500}
             value={[downPayment]}
             onValueChange={(value) => setDownPayment(value[0])}
@@ -100,7 +100,7 @@ const FinancingCalculator = ({ price, carTitle, onCTAClick }: { price: number, c
           </div>
           <Slider
             min={12}
-            max={84}
+            max={60}
             step={12}
             value={[term]}
             onValueChange={(value) => setTerm(value[0])}
