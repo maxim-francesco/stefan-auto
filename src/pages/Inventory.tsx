@@ -1,4 +1,3 @@
-
 import { useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Frown, RefreshCw } from "lucide-react";
@@ -124,7 +123,7 @@ const Inventory = () => {
               Stoc Disponibil
             </span>
             <h1 className="font-display text-4xl md:text-5xl mt-2 mb-4">
-              Colecția <span className="text-gold-gradient">Auto</span>
+              Descoperă <span className="text-gold-gradient">Colecția Noastră</span>
             </h1>
             <p className="text-muted-foreground max-w-xl">
               Descoperă autoturismele noastre premium, fiecare verificat și oferit cu garanție.
