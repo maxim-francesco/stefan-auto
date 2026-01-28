@@ -60,7 +60,7 @@ const Navbar = () => {
             <img
               src={logo}
               alt="Stefan Auto GVR Logo"
-              className="h-20 w-auto object-contain"
+              className="h-24 w-auto object-contain"
             />
           </Link>
 
