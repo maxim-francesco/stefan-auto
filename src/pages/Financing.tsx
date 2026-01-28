@@ -1,6 +1,7 @@
+
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Calculator, Shield, Clock, CheckCircle, Building2 } from "lucide-react";
+import { Calculator, Shield, Clock, CheckCircle, Building2, Phone, MessageCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
@@ -10,19 +11,18 @@ const partners = [
   { name: "Mogo", logo: "MOGO" },
   { name: "Ontopay", logo: "ONTOPAY" },
   { name: "BT", logo: "BT" },
-  { name: "Porsche Leasing", logo: "PORSCHE" },
 ];
 
 const benefits = [
   {
     icon: Clock,
     title: "Aprobare Rapidă",
-    description: "Primești răspuns în maxim 2 ore.",
+    description: "Aprobare rapidă în 30 de minute.",
   },
   {
     icon: CheckCircle,
-    title: "Avans Minim",
-    description: "Pornind de la doar 10% din valoarea mașinii.",
+    title: "Avans Zero",
+    description: "Posibilitate de finanțare cu avans zero.",
   },
   {
     icon: Shield,
@@ -35,7 +35,7 @@ const Financing = () => {
   const [carPrice, setCarPrice] = useState(25000);
   const [downPayment, setDownPayment] = useState(5000);
   const [months, setMonths] = useState(60);
-  const interestRate = 9.9;
+  const interestRate = 7.99;
 
   const loanAmount = carPrice - downPayment;
   const monthlyRate = interestRate / 100 / 12;
@@ -134,7 +134,7 @@ const Financing = () => {
                     <input
                       type="range"
                       min="12"
-                      max="84"
+                      max="60"
                       step="12"
                       value={months}
                       onChange={(e) => setMonths(Number(e.target.value))}
@@ -142,7 +142,7 @@ const Financing = () => {
                     />
                     <div className="flex justify-between text-xs text-muted-foreground mt-1">
                       <span>12 luni</span>
-                      <span>84 luni</span>
+                      <span>60 luni</span>
                     </div>
                   </div>
                 </div>
@@ -153,16 +153,31 @@ const Financing = () => {
                   <p className="font-display text-5xl text-gold-gradient mb-4">
                     {isNaN(monthlyPayment) ? "0" : Math.round(monthlyPayment).toLocaleString()} €
                   </p>
-                  <p className="text-xs text-muted-foreground text-center">
+                  
+                  <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
+                     <a
+                      href="tel:+40731758666"
+                      className="btn-luxury-filled flex-1 flex items-center justify-center gap-2 py-3"
+                      aria-label="Sună acum pentru finanțare"
+                    >
+                      <Phone className="w-4 h-4" />
+                      Sună Acum
+                    </a>
+                    <a
+                      href="https://wa.me/40731758666?text=Bună!%20Sunt%20interesat%20de%20o%20ofertă%20de%20finanțare."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#25D366] text-white flex-1 flex items-center justify-center gap-2 py-3 rounded-sm font-medium uppercase text-sm transition-colors hover:bg-[#25D366]/90"
+                      aria-label="Contactează pe WhatsApp pentru finanțare"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      WhatsApp
+                    </a>
+                  </div>
+                  
+                  <p className="text-xs text-muted-foreground text-center mt-4">
                     *Dobândă indicativă de {interestRate}% p.a. Calculul este orientativ.
                   </p>
-                  <a
-                    href="tel:+40731758666"
-                    className="btn-luxury-filled w-full mt-6 text-center"
-                    aria-label="Solicită ofertă de finanțare"
-                  >
-                    Solicită Ofertă
-                  </a>
                 </div>
               </div>
             </div>

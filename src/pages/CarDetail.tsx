@@ -55,13 +55,12 @@ const partners = [
   "Mogo",
   "Ontopay",
   "BT",
-  "Porsche Leasing",
 ];
 
-const FinancingCalculator = ({ price, carTitle, onCTAClick }: { price: number, carTitle: string, onCTAClick: () => void }) => {
+const FinancingCalculator = ({ price, carTitle }: { price: number, carTitle: string }) => {
   const [downPayment, setDownPayment] = useState(Math.round(price * 0.15));
   const [term, setTerm] = useState(60);
-  const interestRate = 8.9 / 100; // 8.9% annual interest rate
+  const interestRate = 7.99 / 100; // 7.99% annual interest rate
 
   const loanAmount = price - downPayment;
   const monthlyInterestRate = interestRate / 12;
@@ -116,12 +115,23 @@ const FinancingCalculator = ({ price, carTitle, onCTAClick }: { price: number, c
             </p>
         </div>
         
-        <button 
-          onClick={onCTAClick}
-          className="btn-luxury-filled w-full text-center py-3"
-        >
-          Solicită Ofertă Personalizată
-        </button>
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
+            <a href="tel:+40731758666" className="btn-luxury-filled flex-1 flex items-center justify-center gap-2 py-3">
+                <Phone className="w-4 h-4" />
+                Sună Acum
+            </a>
+            <a
+            href={`https://wa.me/40731758666?text=Bună!%20Sunt%20interesat%20de%20o%20ofertă%20de%20finanțare%20pentru%20${encodeURIComponent(carTitle)}.`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#25D366] text-white flex-1 flex items-center justify-center gap-2 py-3 rounded-sm font-medium uppercase text-sm transition-colors hover:bg-[#25D366]/90"
+            >
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+            </a>
+        </div>
+        <p className="text-xs text-muted-foreground text-center mt-2">*Calcul orientativ. Dobândă de la 7.99%.</p>
+
 
         <div className="text-center pt-4 border-t border-border/50">
             <div className="flex items-center justify-center gap-2 mb-4">
@@ -679,7 +689,7 @@ const CarDetail = () => {
                   {/* Calculator Finanțare */}
                   {car.price && (
                     <motion.div variants={staggerItem}>
-                      <FinancingCalculator price={car.price} carTitle={car.title} onCTAClick={handleFinancingCTA} />
+                      <FinancingCalculator price={car.price} carTitle={car.title} />
                     </motion.div>
                   )}
                  </div>
