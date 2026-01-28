@@ -184,7 +184,7 @@ Email: ${values.email}
                     Serviciul <span className="text-gold-gradient">Concierge</span>
                   </h2>
                   <p className="text-muted-foreground leading-relaxed">
-                    Mașini la comandă din Germania, Olanda, Belgia (excluzând Italia și Franța).
+                    Mașini la comandă din Germania, Olanda, Belgia.
                   </p>
 
                   <div className="space-y-4">
@@ -410,3 +410,5 @@ Email: ${values.email}
 };
 
 export default SpecialServices;
+
+    
