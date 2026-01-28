@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Car, CheckCircle, Send, FileText, Phone, Loader2, RefreshCw } from "lucide-react";
+import { Search, Car, CheckCircle, Send, FileText, Phone, Loader2, RefreshCw, MessageCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useForm } from "react-hook-form";
@@ -302,6 +302,27 @@ Email: ${values.email}
                       </div>
                     ))}
                   </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <a
+                      href="tel:0731758666"
+                      className="btn-luxury-filled flex-1 flex items-center justify-center gap-2 py-3"
+                      aria-label="Sună pentru o evaluare buy-back"
+                    >
+                      <Phone className="w-4 h-4" />
+                      Apel Consultanță
+                    </a>
+                    <a
+                      href="https://wa.me/40731758666?text=Bună!%20Sunt%20interesat%20de%20o%20evaluare%20buy-back%20pentru%20mașina%20mea."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#25D366] text-white flex-1 flex items-center justify-center gap-2 py-3 rounded-sm font-medium uppercase text-sm transition-colors hover:bg-[#25D366]/90"
+                      aria-label="Contactează pe WhatsApp pentru buy-back"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      Contact WhatsApp
+                    </a>
+                  </div>
                 </div>
 
                 {/* Form */}
@@ -410,5 +431,3 @@ Email: ${values.email}
 };
 
 export default SpecialServices;
-
-    
