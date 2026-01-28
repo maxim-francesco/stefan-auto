@@ -119,16 +119,6 @@ const Contact = () => {
                     </div>
                   </div>
 
-                  {/* Hours */}
-                  <div className="glass rounded-xl p-6 flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Program</p>
-                      <p className="text-lg font-medium">Luni - Sâmbătă: 09:00 - 19:00</p>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Map */}

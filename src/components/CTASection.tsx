@@ -57,7 +57,7 @@ const CTASection = () => {
               href="https://wa.me/40731758666"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-luxury flex items-center justify-center gap-3 py-4 px-8 rounded-sm touch-feedback"
+              className="bg-[#25D366] text-white flex items-center justify-center gap-3 py-4 px-8 rounded-sm touch-feedback font-medium tracking-widest uppercase text-sm transition-all duration-300 hover:bg-[#25D366]/90 shadow-lg"
               aria-label="Contactează Stefan Auto GVR pe WhatsApp"
             >
               <MessageCircle className="w-5 h-5" strokeWidth={1.5} />

@@ -60,7 +60,7 @@ const Navbar = () => {
             <img
               src={logo}
               alt="Stefan Auto GVR Logo"
-              className="h-16 md:h-20 w-auto object-contain"
+              className="h-20 w-auto object-contain"
             />
           </Link>
 
@@ -102,7 +102,7 @@ const Navbar = () => {
               href="https://wa.me/40731758666"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-luxury-filled text-xs py-2.5 px-5 flex items-center gap-2 rounded-sm"
+              className="bg-[#25D366] text-white text-xs py-2.5 px-5 flex items-center gap-2 rounded-sm hover:bg-[#25D366]/90 transition-colors"
               aria-label="Contactează Stefan Auto GVR pe WhatsApp"
             >
               <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
@@ -182,7 +182,7 @@ const Navbar = () => {
                     href="https://wa.me/40731758666"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-luxury-filled text-center py-4 rounded-lg touch-feedback"
+                    className="bg-[#25D366] text-white text-center py-4 rounded-lg touch-feedback hover:bg-[#25D366]/90 transition-colors"
                     aria-label="Contactează Stefan Auto GVR pe WhatsApp"
                   >
                     <MessageCircle className="w-5 h-5 inline mr-2" strokeWidth={1.5} />

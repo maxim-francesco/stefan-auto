@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageCircle, Facebook } from "lucide-react";
 import logo from "@/assets/Stefan.png";
 
 const Footer = () => {
@@ -12,7 +12,7 @@ const Footer = () => {
             <img
               src={logo}
               alt="STEFAN AUTO GVR SRL Logo"
-              className="h-20 w-auto mb-6"
+              className="h-24 w-auto mb-6"
             />
             <p className="text-muted-foreground text-sm leading-relaxed">
               STEFAN AUTO GVR SRL <br />
@@ -101,11 +101,20 @@ const Footer = () => {
                   <span className="font-semibold text-primary/80">Parc auto rulate Dobroești, Ilfov</span>
                 </span>
               </li>
-              <li className="flex items-start gap-3 text-muted-foreground text-sm">
-                <Clock className="w-4 h-4 text-primary mt-0.5" strokeWidth={1.5} />
-                <span>Luni - Sâmbătă: 09:00 - 19:00</span>
-              </li>
             </ul>
+            <div className="mt-6">
+                <h5 className="font-display text-base mb-4 text-gold-gradient">Ne găsiți și pe:</h5>
+                <div className="flex flex-col items-start gap-3">
+                     <a href="https://www.tiktok.com/@stefanautogvr" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 text-sm">
+                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-2.43.05-4.85-.38-6.75-1.9-1.42-1.13-2.2-2.7-2.4-4.35-.02-.24-.03-.48-.03-.73v-5.04c.25 0 .5 0 .74 0 1.13 0 2.25-.01 3.38-.02 1.5-.01 2.99-.01 4.49-.01.02-3.46.02-6.92.01-10.38z"></path></svg>
+                        <span>Stefan auto gvr</span>
+                    </a>
+                    <a href="https://www.facebook.com/stefanautogvr" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 text-sm">
+                        <Facebook className="w-5 h-5" />
+                        <span>Stefan auto-gvr</span>
+                    </a>
+                </div>
+            </div>
           </div>
         </div>
 

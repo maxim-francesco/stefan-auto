@@ -445,7 +445,7 @@ const CarDetail = () => {
                         href="https://wa.me/40731758666"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-luxury w-full flex items-center justify-center gap-2 py-3"
+                        className="bg-[#25D366] text-white w-full flex items-center justify-center gap-2 py-3 rounded-sm font-medium tracking-widest uppercase text-sm transition-colors hover:bg-[#25D366]/90"
                         aria-label="Contactează Stefan Auto GVR pe WhatsApp"
                     >
                         <MessageCircle className="w-4 h-4" />
@@ -731,7 +731,7 @@ const CarDetail = () => {
           <Phone className="w-4 h-4 mr-2" />
           Sună Acum
         </a>
-         <a href="https://wa.me/40731758666" target="_blank" rel="noopener noreferrer" className="btn-luxury-filled flex-1 flex items-center justify-center py-3" aria-label="Contactează pe WhatsApp">
+         <a href="https://wa.me/40731758666" target="_blank" rel="noopener noreferrer" className="bg-[#25D366] text-white flex-1 flex items-center justify-center py-3 rounded-sm font-medium tracking-widest uppercase text-sm transition-colors hover:bg-[#25D366]/90" aria-label="Contactează pe WhatsApp">
           <MessageCircle className="w-4 h-4 mr-2" />
           WhatsApp
         </a>
