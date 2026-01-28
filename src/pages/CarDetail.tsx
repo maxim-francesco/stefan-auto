@@ -116,7 +116,7 @@ const FinancingCalculator = ({ price, carTitle }: { price: number, carTitle: str
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3 w-full">
-            <a href="tel:+40731758666" className="btn-luxury-filled flex-1 flex items-center justify-center gap-2 py-3">
+            <a href="tel:0731758666" className="btn-luxury-filled flex-1 flex items-center justify-center gap-2 py-3">
                 <Phone className="w-4 h-4" />
                 Sună Acum
             </a>
@@ -444,7 +444,7 @@ const CarDetail = () => {
             {!isMobile && (
                 <div className="border-t border-border pt-6 flex flex-col gap-3">
                     <a
-                        href="tel:+40731758666"
+                        href="tel:0731758666"
                         className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-3"
                         aria-label="Sună acum la Stefan Auto GVR"
                     >
@@ -737,7 +737,7 @@ const CarDetail = () => {
         transition={{ delay: 0.5, type: 'spring', stiffness: 100 }}
         className="fixed bottom-0 left-0 right-0 glass-strong p-3 flex gap-3 lg:hidden z-40"
       >
-        <a href="tel:+40731758666" className="btn-luxury flex-1 flex items-center justify-center py-3" aria-label="Sună acum">
+        <a href="tel:0731758666" className="btn-luxury flex-1 flex items-center justify-center py-3" aria-label="Sună acum">
           <Phone className="w-4 h-4 mr-2" />
           Sună Acum
         </a>

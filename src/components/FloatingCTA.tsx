@@ -10,7 +10,7 @@ const FloatingCTA = () => {
       className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 lg:hidden"
     >
       <a
-        href="tel:+40731758666"
+        href="tel:0731758666"
         className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-gold active:scale-95 transition-transform"
         aria-label="Sună acum la Stefan Auto GVR"
       >

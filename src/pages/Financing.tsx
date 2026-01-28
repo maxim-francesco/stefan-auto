@@ -156,7 +156,7 @@ const Financing = () => {
                   
                   <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
                      <a
-                      href="tel:+40731758666"
+                      href="tel:0731758666"
                       className="btn-luxury-filled flex-1 flex items-center justify-center gap-2 py-3"
                       aria-label="Sună acum pentru finanțare"
                     >

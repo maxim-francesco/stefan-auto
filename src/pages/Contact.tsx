@@ -77,7 +77,7 @@ const Contact = () => {
                 <div className="space-y-4">
                   {/* Phone */}
                   <a
-                    href="tel:+40731758666"
+                    href="tel:0731758666"
                     className="glass rounded-xl p-6 flex items-center gap-5 group hover:border-primary/30 transition-all duration-300"
                     aria-label="Sună acum la Stefan Auto GVR"
                   >
@@ -86,7 +86,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Telefon</p>
-                      <p className="text-xl font-display text-gold-gradient">+40 731 758 666</p>
+                      <p className="text-xl font-display text-gold-gradient">0731 758 666</p>
                     </div>
                   </a>
 
@@ -165,7 +165,7 @@ const Contact = () => {
                       >
                          <h3 className="font-display text-2xl text-destructive mb-4">A apărut o eroare</h3>
                         <p className="text-muted-foreground mb-6">
-                          Vă rugăm să ne contactați telefonic la <a href="tel:+40731758666" className="text-primary hover:underline">+40 731 758 666</a>.
+                          Vă rugăm să ne contactați telefonic la <a href="tel:0731758666" className="text-primary hover:underline">0731 758 666</a>.
                         </p>
                          <button
                           onClick={() => form.reset(form.getValues())}

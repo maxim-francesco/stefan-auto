@@ -202,7 +202,7 @@ Email: ${values.email}
                   </div>
 
                   <a
-                    href="tel:+40731758666"
+                    href="tel:0731758666"
                     className="btn-luxury-filled inline-flex items-center gap-2"
                     aria-label="Sună pentru o consultație"
                   >
@@ -223,7 +223,7 @@ Email: ${values.email}
                     ) : comandaForm.formState.isSubmitted && !comandaForm.formState.isSubmitSuccessful ? (
                       <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
                         <h3 className="font-display text-2xl text-destructive mb-4">Eroare la trimitere</h3>
-                        <p className="text-muted-foreground mb-6">Vă rugăm să ne contactați direct la <a href="tel:+40731758666" className="text-primary hover:underline">+40 731 758 666</a> pentru comanda dumneavoastră.</p>
+                        <p className="text-muted-foreground mb-6">Vă rugăm să ne contactați direct la <a href="tel:0731758666" className="text-primary hover:underline">0731 758 666</a> pentru comanda dumneavoastră.</p>
                         <button onClick={() => comandaForm.reset(comandaForm.getValues())} className="btn-luxury flex items-center gap-2"><RefreshCw className="w-4 h-4" /> Încearcă din nou</button>
                       </motion.div>
                     ) : (
@@ -337,7 +337,7 @@ Email: ${values.email}
                       >
                          <h3 className="font-display text-2xl text-destructive mb-4">Eroare la trimitere</h3>
                         <p className="text-muted-foreground mb-6">
-                          Te rugăm să ne contactezi direct la <a href="tel:+40731758666" className="text-primary hover:underline">+40 731 758 666</a>.
+                          Te rugăm să ne contactezi direct la <a href="tel:0731758666" className="text-primary hover:underline">0731 758 666</a>.
                         </p>
                          <button
                           onClick={() => buyBackForm.reset(buyBackForm.getValues())}
