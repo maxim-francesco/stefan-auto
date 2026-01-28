@@ -184,8 +184,7 @@ Email: ${values.email}
                     Serviciul <span className="text-gold-gradient">Concierge</span>
                   </h2>
                   <p className="text-muted-foreground leading-relaxed">
-                    Nu ai găsit mașina dorită în stocul nostru? Lasă-ne pe noi să o căutăm pentru tine. 
-                    Aducem vehiculul visurilor tale direct din Germania, Italia, Austria sau alte țări europene.
+                    Mașini la comandă din Germania, Olanda, Belgia (excluzând Italia și Franța).
                   </p>
 
                   <div className="space-y-4">

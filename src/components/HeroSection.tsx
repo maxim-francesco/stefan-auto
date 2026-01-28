@@ -62,7 +62,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-foreground/70 text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            Stefan Auto GVR SRL din Dobroești oferă o selecție premium de mașini second hand, fiecare vehicul fiind selectat cu grijă și oferit cu garanție inclusă și posibilitate de finanțare tbi bank sau BT.
+            Stefan Auto GVR oferă o selecție de mașini SH premium. Mașini second hand premium și de buget cu posibilitatea de achiziție și în rate, inclusiv cu avans zero.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -88,7 +88,7 @@ const HeroSection = () => {
             className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mt-24 md:mt-0"
           >
             {[
-              { icon: Shield, label: "Garanție Premium Inclusă", sublabel: "Pe fiecare vehicul" },
+              { icon: Shield, label: "Garanție Inclusă", sublabel: "Pe fiecare vehicul" },
               { icon: Award, label: "Calitate Premium", sublabel: "Verificare completă" },
               { icon: Clock, label: "Livrare Rapidă", sublabel: "În toată țara" },
             ].map((item, index) => (

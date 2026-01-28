@@ -32,7 +32,7 @@ const services: Service[] = [
   },
   {
     icon: ShieldCheck,
-    title: "Garanție Premium Inclusă",
+    title: "Garanție Inclusă",
     description: "Fiecare vehicul vine cu garanție pentru liniștea ta.",
     gridClass: "",
   },
