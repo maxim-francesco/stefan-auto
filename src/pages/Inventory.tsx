@@ -1,3 +1,4 @@
+
 import { useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Frown, RefreshCw } from "lucide-react";
@@ -21,7 +22,7 @@ const getAttribute = (car: ApiCar, attributeName: string): string | number | nul
 const Inventory = () => {
   const { data: apiResponse, isLoading, isError, refetch } = useQuery({
     queryKey: ['publicListings', 'all'],
-    queryFn: () => fetchPublicListings(),
+    queryFn: () => fetchPublicListings({ limit: 100 }),
   });
 
   const allCars = useMemo(() => {
