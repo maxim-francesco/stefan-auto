@@ -87,7 +87,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Telefon</p>
-                      <p className="text-xl font-semibold text-primary">0731 758 666</p>
+                      <p className="text-xl font-medium text-primary">0731 758 666</p>
                     </div>
                   </a>
 
@@ -124,7 +124,7 @@ const Contact = () => {
 
                 {/* Map */}
                 <div className="rounded-xl overflow-hidden h-64 border border-border">
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2847.4721054196702!2d26.1687459!3d44.464494800000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1f9904c532127%3A0x2f7859f8e487d579!2sSc%20Stefan%20Auto-GVR%20Srl!5e0!3m2!1sen!2sro!4v1767797028211!5m2!1sen!2sro" width="100%" height="450" style={{ border:0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Locație Stefan Auto GVR pe Hartă"></iframe>
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2850.347330188371!2d26.211213712569556!3d44.40551797095575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDTCsDI0JzE5LjkiTiAyNsKwMTInNDkuNyJF!5e0!3m2!1sen!2sro!4v1769871014781!5m2!1sen!2sro" width="600" height="450" style={{border:0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
               </motion.div>
 
