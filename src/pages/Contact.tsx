@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, MessageCircle, MapPin, Clock, Send, Loader2, RefreshCw } from "lucide-react";
@@ -86,7 +87,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Telefon</p>
-                      <p className="text-xl font-display text-gold-gradient">0731 758 666</p>
+                      <p className="text-xl font-semibold text-primary">0731 758 666</p>
                     </div>
                   </a>
 
