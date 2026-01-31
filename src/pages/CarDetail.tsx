@@ -490,7 +490,7 @@ const CarDetail = () => {
             </motion.h1>
             
             {car.price ? (
-              <motion.p variants={staggerItem} className="font-display text-4xl text-gold-gradient mb-6">
+              <motion.p variants={staggerItem} className="font-semibold text-4xl text-gold-gradient mb-6">
                 {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
               </motion.p>
             ) : (
