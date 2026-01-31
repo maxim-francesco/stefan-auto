@@ -105,15 +105,15 @@ const Footer = () => {
               </li>
             </ul>
             <div className="mt-6">
-                <h5 className="font-display text-base mb-4 text-gold-gradient">Ne găsiți și pe:</h5>
-                <div className="flex flex-col items-start gap-3">
-                     <a href="https://www.tiktok.com/@auto.sh.rate.avans.0?_r=1&_t=ZN-93Ru6FYY01e" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                        <FaTiktok className="w-5 h-5" />
-                        <span>auto.sh.rate.avans.0</span>
+                <h5 className="font-display text-lg mb-6 text-gold-gradient">Ne găsiți și pe:</h5>
+                <div className="flex flex-col items-start gap-4">
+                     <a href="https://www.tiktok.com/@auto.sh.rate.avans.0?_r=1&_t=ZN-93Ru6FYY01e" target="_blank" rel="noopener noreferrer" className="text-foreground/80 hover:text-primary transition-colors flex items-center gap-3 text-lg font-medium">
+                        <FaTiktok className="w-6 h-6" />
+                        <span>Stefan Auto GVR</span>
                     </a>
-                    <a href="https://www.facebook.com/share/18K1aijRxX/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                        <FaFacebook className="w-5 h-5" />
-                        <span>Stefan auto-gvr</span>
+                    <a href="https://www.facebook.com/share/18K1aijRxX/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="text-foreground/80 hover:text-primary transition-colors flex items-center gap-3 text-lg font-medium">
+                        <FaFacebook className="w-6 h-6" />
+                        <span>Stefan Auto GVR</span>
                     </a>
                 </div>
             </div>
