@@ -115,8 +115,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Adresă</p>
-                      <p className="text-lg font-medium">Str. Cireșului 16 C, Dobroești 077086</p>
-                      <p className="text-sm text-primary/80">Parc auto rulate Dobroești, Ilfov</p>
+                      <p className="text-lg font-medium">Str. Dr. între Tarlale 21, 077106 Cățelu</p>
+                      <p className="text-sm text-primary/80">Parc auto rulate Cățelu, Ilfov</p>
                     </div>
                   </div>
 
