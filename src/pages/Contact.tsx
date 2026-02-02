@@ -124,7 +124,7 @@ const Contact = () => {
 
                 {/* Map */}
                 <div className="rounded-xl overflow-hidden h-64 border border-border">
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2850.347330188371!2d26.211213712569556!3d44.40551797095575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDTCsDI0JzE5LjkiTiAyNsKwMTInNDkuNyJF!5e0!3m2!1sen!2sro!4v1769871014781!5m2!1sen!2sro" width="600" height="450" style={{border:0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d712.5876788321549!2d26.213135828584548!3d44.40544849818474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1fc689e1beb13%3A0x7dd894a8b3898792!2sStr.%20Dr.%20%C3%AEntre%20Tarlale%2021%2C%20077106%20C%C4%83%C8%9Belu!5e0!3m2!1sen!2sro!4v1769992660274!5m2!1sen!2sro" width="600" height="450" style={{border:0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
               </motion.div>
 
