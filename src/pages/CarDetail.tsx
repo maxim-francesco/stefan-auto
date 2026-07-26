@@ -18,6 +18,7 @@ import {
   ChevronRight,
   X,
   CheckCircle,
+  ShieldCheck,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -498,6 +499,21 @@ const CarDetail = () => {
                 Preț la cerere
               </motion.p>
             )}
+
+            <motion.div variants={staggerItem} className="mb-6">
+              <Link
+                to="/garantie"
+                className="glass inline-flex items-center gap-3 rounded-lg px-4 py-3 transition-colors hover:border-primary/30"
+              >
+                <ShieldCheck className="w-5 h-5 text-primary shrink-0" strokeWidth={1.5} />
+                <span className="text-sm text-foreground">
+                  Garanție 12 luni sau 8.000 km
+                  <span className="block text-xs text-muted-foreground">
+                    Vezi termenii și condițiile de acordare
+                  </span>
+                </span>
+              </Link>
+            </motion.div>
 
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-3 gap-8 mt-8">

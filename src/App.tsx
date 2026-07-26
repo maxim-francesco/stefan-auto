@@ -18,6 +18,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiePolicy from "./pages/CookiePolicy";
+import WarrantyTerms from "./pages/WarrantyTerms";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const AnimatedRoutes = () => {
           <Route path="/servicii" element={<SpecialServices />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/termeni-si-conditii" element={<TermsAndConditions />} />
+          <Route path="/garantie" element={<WarrantyTerms />} />
           <Route path="/politica-de-confidentialitate" element={<PrivacyPolicy />} />
           <Route path="/politica-de-cookies" element={<CookiePolicy />} />
           <Route path="*" element={<NotFound />} />

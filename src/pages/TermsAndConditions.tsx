@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Link } from "react-router-dom";
 
 const TermsAndConditions = () => {
   return (
@@ -43,7 +44,13 @@ const TermsAndConditions = () => {
               
               <h2 className="text-xl font-display text-foreground">4. Garanția Vehiculelor</h2>
               <p>
-                Toate autoturismele comercializate beneficiază de garanție în conformitate cu legislația în vigoare din România (Legea nr. 449/2003 privind vânzarea produselor și garanțiile asociate acestora). Perioada specifică de garanție și condițiile detaliate (piese acoperite, excluderi) sunt specificate în contractul de vânzare-cumpărare și în certificatul de garanție aferent fiecărui vehicul în parte.
+                Toate autoturismele comercializate beneficiază de garanție în conformitate cu legislația în vigoare din România (OUG nr. 140/2021 privind anumite aspecte referitoare la contractele de vânzare de bunuri și OG nr. 21/1992 privind protecția consumatorilor). Perioada specifică de garanție și condițiile detaliate (piese acoperite, excluderi) sunt specificate în{" "}
+                <Link to="/garantie" className="text-primary hover:underline">
+                  Termeni și condiții acordare garanție
+                </Link>.
+              </p>
+              <p>
+                Autovehiculele comercializate în regim de consignație nu beneficiază de garanție comercială.
               </p>
 
               <h2 className="text-xl font-display text-foreground">5. Responsabilitățile Utilizatorului</h2>

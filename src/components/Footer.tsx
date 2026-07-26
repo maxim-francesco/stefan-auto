@@ -59,6 +59,11 @@ const Footer = () => {
                         Termeni și Condiții
                     </Link>
                 </li>
+                <li>
+                    <Link to="/garantie" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                        Termeni și condiții acordare garanție
+                    </Link>
+                </li>
                  <li>
                     <Link to="/politica-de-confidentialitate" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                         Politică de Confidențialitate
