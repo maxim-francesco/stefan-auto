@@ -1,5 +1,5 @@
 export const WARRANTY_META = {
-  lastUpdated: "26 aprilie 2026",
+  lastUpdated: "26 februarie 2026",
   durationMonths: 12,
   durationKm: 8000,
   coverageLimitRon: 5000,
