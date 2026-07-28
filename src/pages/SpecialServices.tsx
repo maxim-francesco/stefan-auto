@@ -56,7 +56,7 @@ const SpecialServices = () => {
 CERERE MAȘINĂ LA COMANDĂ:
 
 Mașină dorită: ${values.marcaModel}
-Buget: ${values.bugetMaxim} €
+Buget: ${values.bugetMaxim} LEI
 An minim: ${values.anMinim}
 Km maximi: ${values.kmMaximi} km
 Caroserie: ${values.caroserie}
@@ -91,7 +91,7 @@ Model: ${values.model}
 An Fabricație: ${values.an}
 Kilometraj: ${values.km} km
 Motorizare: ${values.motorizare}
-Preț Estimat: ${values.pretEstimativ} €
+Preț Estimat: ${values.pretEstimativ} LEI
 
 Date Contact:
 Nume: ${values.nume}
@@ -236,7 +236,7 @@ Email: ${values.email}
                             )} />
                              <div className="grid grid-cols-2 gap-4">
                                 <FormField control={comandaForm.control} name="bugetMaxim" render={({ field }) => (
-                                    <FormItem><FormLabel>Buget Maxim (€)</FormLabel><FormControl><Input placeholder="30000" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                                    <FormItem><FormLabel>Buget Maxim (LEI)</FormLabel><FormControl><Input placeholder="30000" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
                                 )} />
                                 <FormField control={comandaForm.control} name="anMinim" render={({ field }) => (
                                     <FormItem><FormLabel>An Minim</FormLabel><FormControl><Input type="number" placeholder="2020" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
@@ -394,7 +394,7 @@ Email: ${values.email}
                             <FormItem><FormLabel>Motorizare</FormLabel><FormControl><Input placeholder="Ex: 2.0 Diesel" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
                           )} />
                           <FormField control={buyBackForm.control} name="pretEstimativ" render={({ field }) => (
-                            <FormItem><FormLabel>Preț Estimat (€)</FormLabel><FormControl><Input placeholder="Ex: 15.000" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                            <FormItem><FormLabel>Preț Estimat (LEI)</FormLabel><FormControl><Input placeholder="Ex: 15.000" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
                           )} />
                         </div>
                         <hr className="border-border/50 !my-6" />

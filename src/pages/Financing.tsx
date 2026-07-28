@@ -87,7 +87,7 @@ const Financing = () => {
                   <div>
                     <div className="flex justify-between mb-2">
                       <label className="text-sm text-muted-foreground">Prețul Mașinii</label>
-                      <span className="text-primary font-medium">{carPrice.toLocaleString()} €</span>
+                      <span className="text-primary font-medium">{carPrice.toLocaleString()} LEI</span>
                     </div>
                     <input
                       type="range"
@@ -99,8 +99,8 @@ const Financing = () => {
                       className="w-full accent-primary"
                     />
                     <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>5.000 €</span>
-                      <span>100.000 €</span>
+                      <span>5.000 LEI</span>
+                      <span>100.000 LEI</span>
                     </div>
                   </div>
 
@@ -108,7 +108,7 @@ const Financing = () => {
                   <div>
                     <div className="flex justify-between mb-2">
                       <label className="text-sm text-muted-foreground">Avans</label>
-                      <span className="text-primary font-medium">{downPayment.toLocaleString()} €</span>
+                      <span className="text-primary font-medium">{downPayment.toLocaleString()} LEI</span>
                     </div>
                     <input
                       type="range"
@@ -120,8 +120,8 @@ const Financing = () => {
                       className="w-full accent-primary"
                     />
                     <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>0 €</span>
-                      <span>{(carPrice * 0.5).toLocaleString()} €</span>
+                      <span>0 LEI</span>
+                      <span>{(carPrice * 0.5).toLocaleString()} LEI</span>
                     </div>
                   </div>
 
@@ -151,7 +151,7 @@ const Financing = () => {
                 <div className="flex flex-col justify-center items-center bg-navy-lighter rounded-xl p-8">
                   <p className="text-muted-foreground text-sm mb-2">Rata Lunară Estimată</p>
                   <p className="font-display text-5xl text-gold-gradient mb-4">
-                    {isNaN(monthlyPayment) ? "0" : Math.round(monthlyPayment).toLocaleString()} €
+                    {isNaN(monthlyPayment) ? "0" : Math.round(monthlyPayment).toLocaleString()} LEI
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
