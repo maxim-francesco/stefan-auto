@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { EUR_TO_RON } from "@/config/api";
 import { fetchPublicListingById, submitContactForm, ApiCar } from "@/services/api";
 import StaggerContainer, { staggerItem } from "@/components/StaggerContainer";
 import { useForm } from "react-hook-form";
@@ -85,7 +86,9 @@ const FinancingCalculator = ({ price, carTitle }: { price: number, carTitle: str
         <div>
           <div className="flex justify-between items-end mb-2">
             <label className="text-sm font-medium text-muted-foreground">Avans</label>
-            <span className="text-primary font-medium">{downPayment.toLocaleString('ro-RO')} EUR</span>
+            <span className="text-primary font-medium">
+              {downPayment.toLocaleString('ro-RO')} EUR / {(downPayment * EUR_TO_RON).toLocaleString('ro-RO')} LEI
+            </span>
           </div>
           <Slider
             min={0}
@@ -112,6 +115,9 @@ const FinancingCalculator = ({ price, carTitle }: { price: number, carTitle: str
             <p className="text-muted-foreground text-sm mb-2">Rată lunară estimativă</p>
             <p className="font-display text-4xl text-gold-gradient">
                 {Math.round(monthlyPayment).toLocaleString('ro-RO')} EUR / lună
+            </p>
+            <p className="text-sm text-muted-foreground mt-1">
+                ~ {Math.round(monthlyPayment * EUR_TO_RON).toLocaleString('ro-RO')} LEI / lună
             </p>
         </div>
         
@@ -180,7 +186,7 @@ const CarDetail = () => {
     if (car) {
       const { marca, model, year, mileage, price } = carDetailsMemo;
       const newTitle = `${marca} ${model} ${year} | Stefan Auto GVR`;
-      const newDescription = `Descoperă acest ${marca} ${model} din ${year} la Stefan Auto GVR. ${mileage.toLocaleString('ro-RO')} km, stare impecabilă, preț ${price ? price.toLocaleString('ro-RO') + ' EUR' : 'la cerere'}. Vezi detalii și finanțare.`;
+      const newDescription = `Descoperă acest ${marca} ${model} din ${year} la Stefan Auto GVR. ${mileage.toLocaleString('ro-RO')} km, stare impecabilă, preț ${price ? price.toLocaleString('ro-RO') + ' EUR (~' + (price * EUR_TO_RON).toLocaleString('ro-RO') + ' LEI)' : 'la cerere'}. Vezi detalii și finanțare.`;
       const imageUrl = car.images[0]?.url || '';
 
       document.title = newTitle;
@@ -490,9 +496,14 @@ const CarDetail = () => {
             </motion.h1>
             
             {car.price ? (
-              <motion.p variants={staggerItem} className="font-semibold text-4xl text-gold-gradient mb-6">
-                {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
-              </motion.p>
+              <motion.div variants={staggerItem} className="mb-6">
+                <span className="font-semibold text-4xl text-gold-gradient block leading-none">
+                  {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
+                </span>
+                <span className="text-base text-muted-foreground block mt-2">
+                  {(car.price * EUR_TO_RON).toLocaleString('ro-RO', { style: 'currency', currency: 'RON', minimumFractionDigits: 0 })}
+                </span>
+              </motion.div>
             ) : (
               <motion.p variants={staggerItem} className="bg-primary/10 text-primary px-4 py-2 rounded-lg mb-6 inline-block">
                 Preț la cerere

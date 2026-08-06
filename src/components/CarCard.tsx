@@ -2,6 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Fuel, Gauge, Calendar, Settings2 } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { EUR_TO_RON } from "@/config/api";
 
 interface CarCardProps {
   id?: string;
@@ -128,9 +129,14 @@ const CarCard = ({
         {/* Price */}
         <div className="pt-4 border-t border-primary/10 flex items-center justify-between mt-auto">
           {price ? (
-            <span className="font-semibold text-2xl text-gold-gradient">
-              {price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-            </span>
+            <div className="flex flex-col">
+              <span className="font-semibold text-2xl text-gold-gradient leading-none">
+                {price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+              </span>
+              <span className="text-xs text-muted-foreground/80 mt-1">
+                {(price * EUR_TO_RON).toLocaleString('ro-RO', { style: 'currency', currency: 'RON', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+              </span>
+            </div>
           ) : (
             <span className="text-muted-foreground text-sm">Preț la cerere</span>
           )}

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { WARRANTY_META, WARRANTY_SECTIONS } from "@/content/warranty";
+import { EUR_TO_RON } from "@/config/api";
 
 const WarrantyTerms = () => {
   const renderParagraphWithLinks = (text: string) => {
@@ -97,7 +98,7 @@ const WarrantyTerms = () => {
                   Limită despăgubire
                 </div>
                 <div className="font-display text-2xl text-gold-gradient">
-                  {WARRANTY_META.coverageLimitRon.toLocaleString("ro-RO")} EUR
+                  {WARRANTY_META.coverageLimitRon.toLocaleString("ro-RO")} EUR / {(WARRANTY_META.coverageLimitRon * EUR_TO_RON).toLocaleString("ro-RO")} LEI
                 </div>
               </div>
               <div className="col-span-1 sm:col-span-3 text-sm text-muted-foreground mt-2">

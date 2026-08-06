@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { submitContactForm } from "@/services/api";
 import { Textarea } from "@/components/ui/textarea";
+import { EUR_TO_RON } from "@/config/api";
 
 
 const numericField = (errorMessage: string) => z.string().regex(/^\d+$/, errorMessage);
@@ -51,12 +52,15 @@ const SpecialServices = () => {
   const comandaForm = useForm<ComandaFormValues>({ resolver: zodResolver(comandaFormSchema) });
   const buyBackForm = useForm<BuyBackFormValues>({ resolver: zodResolver(buyBackFormSchema) });
 
+  const bugetMaximVal = comandaForm.watch("bugetMaxim");
+  const pretEstimativVal = buyBackForm.watch("pretEstimativ");
+
   const onComandaSubmit = async (values: ComandaFormValues) => {
     const message = `
 CERERE MAȘINĂ LA COMANDĂ:
 
 Mașină dorită: ${values.marcaModel}
-Buget: ${values.bugetMaxim} EUR
+Buget: ${values.bugetMaxim} EUR (~${(Number(values.bugetMaxim) * EUR_TO_RON).toLocaleString('ro-RO')} LEI)
 An minim: ${values.anMinim}
 Km maximi: ${values.kmMaximi} km
 Caroserie: ${values.caroserie}
@@ -91,7 +95,7 @@ Model: ${values.model}
 An Fabricație: ${values.an}
 Kilometraj: ${values.km} km
 Motorizare: ${values.motorizare}
-Preț Estimat: ${values.pretEstimativ} EUR
+Preț Estimat: ${values.pretEstimativ} EUR (~${(Number(values.pretEstimativ) * EUR_TO_RON).toLocaleString('ro-RO')} LEI)
 
 Date Contact:
 Nume: ${values.nume}
@@ -236,7 +240,18 @@ Email: ${values.email}
                             )} />
                              <div className="grid grid-cols-2 gap-4">
                                 <FormField control={comandaForm.control} name="bugetMaxim" render={({ field }) => (
-                                    <FormItem><FormLabel>Buget Maxim (EUR)</FormLabel><FormControl><Input placeholder="30000" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                                    <FormItem>
+                                      <FormLabel>Buget Maxim (EUR)</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="30000" {...field} className="input-luxury" />
+                                      </FormControl>
+                                      {bugetMaximVal && !isNaN(Number(bugetMaximVal)) && (
+                                        <span className="text-xs text-primary/80 mt-1 block">
+                                          Echivalent: {(Number(bugetMaximVal) * EUR_TO_RON).toLocaleString('ro-RO')} LEI
+                                        </span>
+                                      )}
+                                      <FormMessage />
+                                    </FormItem>
                                 )} />
                                 <FormField control={comandaForm.control} name="anMinim" render={({ field }) => (
                                     <FormItem><FormLabel>An Minim</FormLabel><FormControl><Input type="number" placeholder="2020" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
@@ -394,7 +409,18 @@ Email: ${values.email}
                             <FormItem><FormLabel>Motorizare</FormLabel><FormControl><Input placeholder="Ex: 2.0 Diesel" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
                           )} />
                           <FormField control={buyBackForm.control} name="pretEstimativ" render={({ field }) => (
-                            <FormItem><FormLabel>Preț Estimat (EUR)</FormLabel><FormControl><Input placeholder="Ex: 15.000" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                            <FormItem>
+                              <FormLabel>Preț Estimat (EUR)</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Ex: 15000" {...field} className="input-luxury" />
+                              </FormControl>
+                              {pretEstimativVal && !isNaN(Number(pretEstimativVal)) && (
+                                <span className="text-xs text-primary/80 mt-1 block">
+                                  Echivalent: {(Number(pretEstimativVal) * EUR_TO_RON).toLocaleString('ro-RO')} LEI
+                                </span>
+                              )}
+                              <FormMessage />
+                            </FormItem>
                           )} />
                         </div>
                         <hr className="border-border/50 !my-6" />

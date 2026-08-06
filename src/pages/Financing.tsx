@@ -5,6 +5,7 @@ import { Calculator, Shield, Clock, CheckCircle, Building2, Phone, MessageCircle
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
+import { EUR_TO_RON } from "@/config/api";
 
 const partners = [
   { name: "TBI Bank", logo: "TBI" },
@@ -87,7 +88,7 @@ const Financing = () => {
                   <div>
                     <div className="flex justify-between mb-2">
                       <label className="text-sm text-muted-foreground">Prețul Mașinii</label>
-                      <span className="text-primary font-medium">{carPrice.toLocaleString()} EUR</span>
+                      <span className="text-primary font-medium">{carPrice.toLocaleString()} EUR / {(carPrice * EUR_TO_RON).toLocaleString()} LEI</span>
                     </div>
                     <input
                       type="range"
@@ -99,8 +100,8 @@ const Financing = () => {
                       className="w-full accent-primary"
                     />
                     <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>5.000 EUR</span>
-                      <span>100.000 EUR</span>
+                      <span>5.000 EUR / 25.000 LEI</span>
+                      <span>100.000 EUR / 500.000 LEI</span>
                     </div>
                   </div>
 
@@ -108,7 +109,7 @@ const Financing = () => {
                   <div>
                     <div className="flex justify-between mb-2">
                       <label className="text-sm text-muted-foreground">Avans</label>
-                      <span className="text-primary font-medium">{downPayment.toLocaleString()} EUR</span>
+                      <span className="text-primary font-medium">{downPayment.toLocaleString()} EUR / {(downPayment * EUR_TO_RON).toLocaleString()} LEI</span>
                     </div>
                     <input
                       type="range"
@@ -120,8 +121,8 @@ const Financing = () => {
                       className="w-full accent-primary"
                     />
                     <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>0 EUR</span>
-                      <span>{(carPrice * 0.5).toLocaleString()} EUR</span>
+                      <span>0 EUR / 0 LEI</span>
+                      <span>{(carPrice * 0.5).toLocaleString()} EUR / {(carPrice * 0.5 * EUR_TO_RON).toLocaleString()} LEI</span>
                     </div>
                   </div>
 
@@ -150,8 +151,11 @@ const Financing = () => {
                 {/* Result */}
                 <div className="flex flex-col justify-center items-center bg-navy-lighter rounded-xl p-8">
                   <p className="text-muted-foreground text-sm mb-2">Rata Lunară Estimată</p>
-                  <p className="font-display text-5xl text-gold-gradient mb-4">
+                  <p className="font-display text-5xl text-gold-gradient mb-1">
                     {isNaN(monthlyPayment) ? "0" : Math.round(monthlyPayment).toLocaleString()} EUR
+                  </p>
+                  <p className="text-lg text-muted-foreground mb-4">
+                    ~ {isNaN(monthlyPayment) ? "0" : Math.round(monthlyPayment * EUR_TO_RON).toLocaleString()} LEI / lună
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
