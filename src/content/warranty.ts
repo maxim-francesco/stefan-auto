@@ -24,7 +24,7 @@ export const WARRANTY_SECTIONS: WarrantySection[] = [
     highlight: true,
     paragraphs: [
       "Autovehiculele comercializate de STEFAN AUTO GVR SRL beneficiază de garanție comercială pe o perioadă de 12 luni sau 8.000 km parcurși de la momentul achiziției, în funcție de care dintre cele două condiții este atinsă prima.",
-      "Limita maximă de despăgubire acordată în baza prezentei garanții comerciale este de 5.000 lei.",
+      "Limita maximă de despăgubire acordată în baza prezentei garanții comerciale este de 5.000 EUR.",
       "Prezenta garanție comercială se acordă suplimentar față de garanția legală de conformitate și nu limitează drepturile conferite consumatorului de OUG nr. 140/2021 și de OG nr. 21/1992 privind protecția consumatorilor.",
     ],
   },

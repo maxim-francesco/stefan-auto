@@ -39,7 +39,7 @@ const TermsAndConditions = () => {
 
               <h2 className="text-xl font-display text-foreground">3. Descrierea Produselor și Prețuri</h2>
               <p>
-                Ne străduim să oferim descrieri cât mai exacte și complete ale autoturismelor listate. Totuși, pot exista erori umane. Fotografiile au caracter informativ. Prețurile sunt exprimate în LEI și, dacă nu se specifică altfel, includ TVA. Ne rezervăm dreptul de a modifica prețurile fără o notificare prealabilă.
+                Ne străduim să oferim descrieri cât mai exacte și complete ale autoturismelor listate. Totuși, pot exista erori umane. Fotografiile au caracter informativ. Prețurile sunt exprimate în EUR și, dacă nu se specifică altfel, includ TVA. Ne rezervăm dreptul de a modifica prețurile fără o notificare prealabilă.
               </p>
               
               <h2 className="text-xl font-display text-foreground">4. Garanția Vehiculelor</h2>

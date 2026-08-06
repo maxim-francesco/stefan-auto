@@ -97,7 +97,7 @@ const WarrantyTerms = () => {
                   Limită despăgubire
                 </div>
                 <div className="font-display text-2xl text-gold-gradient">
-                  {WARRANTY_META.coverageLimitRon.toLocaleString("ro-RO")} lei
+                  {WARRANTY_META.coverageLimitRon.toLocaleString("ro-RO")} EUR
                 </div>
               </div>
               <div className="col-span-1 sm:col-span-3 text-sm text-muted-foreground mt-2">

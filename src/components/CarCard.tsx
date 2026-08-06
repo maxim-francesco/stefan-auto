@@ -129,7 +129,7 @@ const CarCard = ({
         <div className="pt-4 border-t border-primary/10 flex items-center justify-between mt-auto">
           {price ? (
             <span className="font-semibold text-2xl text-gold-gradient">
-              {price.toLocaleString('ro-RO', { style: 'currency', currency: 'RON', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+              {price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </span>
           ) : (
             <span className="text-muted-foreground text-sm">Preț la cerere</span>

@@ -85,7 +85,7 @@ const FinancingCalculator = ({ price, carTitle }: { price: number, carTitle: str
         <div>
           <div className="flex justify-between items-end mb-2">
             <label className="text-sm font-medium text-muted-foreground">Avans</label>
-            <span className="text-primary font-medium">{downPayment.toLocaleString('ro-RO')} LEI</span>
+            <span className="text-primary font-medium">{downPayment.toLocaleString('ro-RO')} EUR</span>
           </div>
           <Slider
             min={0}
@@ -111,7 +111,7 @@ const FinancingCalculator = ({ price, carTitle }: { price: number, carTitle: str
         <div className="text-center bg-navy-lighter rounded-xl p-6 mt-4">
             <p className="text-muted-foreground text-sm mb-2">Rată lunară estimativă</p>
             <p className="font-display text-4xl text-gold-gradient">
-                {Math.round(monthlyPayment).toLocaleString('ro-RO')} LEI / lună
+                {Math.round(monthlyPayment).toLocaleString('ro-RO')} EUR / lună
             </p>
         </div>
         
@@ -180,7 +180,7 @@ const CarDetail = () => {
     if (car) {
       const { marca, model, year, mileage, price } = carDetailsMemo;
       const newTitle = `${marca} ${model} ${year} | Stefan Auto GVR`;
-      const newDescription = `Descoperă acest ${marca} ${model} din ${year} la Stefan Auto GVR. ${mileage.toLocaleString('ro-RO')} km, stare impecabilă, preț ${price ? price.toLocaleString('ro-RO') + ' LEI' : 'la cerere'}. Vezi detalii și finanțare.`;
+      const newDescription = `Descoperă acest ${marca} ${model} din ${year} la Stefan Auto GVR. ${mileage.toLocaleString('ro-RO')} km, stare impecabilă, preț ${price ? price.toLocaleString('ro-RO') + ' EUR' : 'la cerere'}. Vezi detalii și finanțare.`;
       const imageUrl = car.images[0]?.url || '';
 
       document.title = newTitle;
@@ -491,7 +491,7 @@ const CarDetail = () => {
             
             {car.price ? (
               <motion.p variants={staggerItem} className="font-semibold text-4xl text-gold-gradient mb-6">
-                {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'RON', minimumFractionDigits: 0 })}
+                {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
               </motion.p>
             ) : (
               <motion.p variants={staggerItem} className="bg-primary/10 text-primary px-4 py-2 rounded-lg mb-6 inline-block">
