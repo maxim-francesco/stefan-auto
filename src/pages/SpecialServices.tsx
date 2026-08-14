@@ -77,6 +77,7 @@ Telefon: ${values.telefon}
         email: 'comanda@stefan.ro',
         phone: values.telefon,
         message: message,
+        type: 'ORDER',
       });
     } catch (error) {
        console.error("Submission error:", error);
@@ -109,6 +110,7 @@ Email: ${values.email}
         email: values.email,
         phone: values.telefon,
         message: message,
+        type: 'BUYBACK',
       });
     } catch (error) {
        console.error("Submission error:", error);

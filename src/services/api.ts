@@ -98,11 +98,12 @@ export const fetchPublicListingById = async (id: string): Promise<ApiCar> => {
  * @param formData The data from the contact form.
  * @returns A promise that resolves when the form is submitted.
  */
-export const submitContactForm = async (formData: { name: string; email: string; phone: string; message: string; }) => {
+export const submitContactForm = async (formData: { name: string; email: string; phone: string; message: string; type?: string; listingId?: string; }) => {
   const url = `${BASE_URL}/public/contact`;
   const payload = {
     ...formData,
     businessId: BUSINESS_ID,
+    type: formData.type || "GENERAL",
   };
 
   try {
@@ -125,3 +126,37 @@ export const submitContactForm = async (formData: { name: string; email: string;
     throw error;
   }
 };
+
+/**
+ * Submits a review to the backend.
+ * @param reviewData The data for the review.
+ * @returns A promise that resolves when the review is submitted.
+ */
+export const submitReview = async (reviewData: { name: string; email?: string; rating: number; comment: string; }) => {
+  const url = `${BASE_URL}/public/reviews`;
+  const payload = {
+    ...reviewData,
+    businessId: BUSINESS_ID,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: response.statusText }));
+      throw new Error(errorData.message || 'Failed to submit review');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to submit review:", error);
+    throw error;
+  }
+};
+

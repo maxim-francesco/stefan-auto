@@ -30,7 +30,10 @@ const Contact = () => {
 
   const onSubmit = async (values: ContactFormValues) => {
     try {
-      await submitContactForm(values);
+      await submitContactForm({
+        ...values,
+        type: "GENERAL",
+      });
       form.reset();
     } catch (error) {
        console.error("Submission error:", error);
