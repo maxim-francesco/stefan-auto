@@ -5,17 +5,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import CarCard from "./CarCard";
 import { fetchPublicListings, ApiCar } from "@/services/api";
-
-
-// Helper function to find a specific attribute value
-const getAttribute = (car: ApiCar, attributeName: string): string | number | null => {
-  const attr = car.attributeValues.find(
-    (a) => a.attribute.name.toLowerCase() === attributeName.toLowerCase()
-  );
-  if (!attr) return null;
-  return attr.stringValue ?? attr.numberValue;
-};
-
+import { getAttr, getAttrNumber, getAttrYear } from "@/lib/attributes";
 
 const FeaturedCars = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -28,13 +18,13 @@ const FeaturedCars = () => {
 
   const featuredCars = (apiResponse?.data || []).map(car => ({
     id: car.id,
-    image: car.images[0]?.url || "https://placehold.co/800x600?text=Imagine+Indisponibilă",
-    brand: getAttribute(car, "marca") as string || 'N/A',
-    model: getAttribute(car, "model") as string || car.title.split(' ').slice(1).join(' '),
-    year: getAttribute(car, "an") as number || 0,
-    km: getAttribute(car, "kilometraj") as number || 0,
-    fuel: getAttribute(car, "combustibil") as string || 'N/A',
-    transmission: getAttribute(car, "cutie de viteze") as string || 'N/A',
+    image: car.images[0]?.url || "/placeholder.svg",
+    brand: (getAttr(car.attributeValues, "attr:make", "Marca") as string) || 'N/A',
+    model: (getAttr(car.attributeValues, "attr:model", "Model") as string) || '',
+    year: getAttrYear(car.attributeValues, "attr:year", "An") || 0,
+    km: getAttrNumber(car.attributeValues, "attr:mileage", "Kilometraj") || 0,
+    fuel: (getAttr(car.attributeValues, "attr:fuelType", "Combustibil") as string) || 'N/A',
+    transmission: (getAttr(car.attributeValues, "attr:gearbox", "Cutie de viteze") as string) || 'N/A',
     price: car.price ?? undefined,
     priceOnRequest: !car.price,
   }));

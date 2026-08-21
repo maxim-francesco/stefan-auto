@@ -21,8 +21,9 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { EUR_TO_RON } from "@/config/api";
+import { EUR_TO_RON, EUR_TO_RON_LABEL } from "@/config/api";
 import { fetchPublicListingById, submitContactForm, ApiCar } from "@/services/api";
+import { getAttr, getAttrNumber, getAttrYear } from "@/lib/attributes";
 import StaggerContainer, { staggerItem } from "@/components/StaggerContainer";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,22 +32,18 @@ import { toast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Slider } from "@/components/ui/slider";
-
-const getAttribute = (car: ApiCar, attributeName: string): string | number | boolean | null => {
-  const attr = car.attributeValues.find(
-    (a) => a.attribute.name.toLowerCase() === attributeName.toLowerCase()
-  );
-  if (!attr) return null;
-  return attr.stringValue ?? attr.numberValue ?? attr.booleanValue;
-};
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Numele este obligatoriu." }),
   phone: z.string().min(10, { message: "Numărul de telefon este invalid." }),
   email: z.string().email({ message: "Adresa de email este invalidă." }),
   message: z.string().optional(),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: "Trebuie să fii de acord cu Politica de Confidențialitate.",
+  }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -117,7 +114,7 @@ const FinancingCalculator = ({ price, carTitle }: { price: number, carTitle: str
                 {Math.round(monthlyPayment).toLocaleString('ro-RO')} EUR / lună
             </p>
             <p className="text-sm text-muted-foreground mt-1">
-                ~ {Math.round(monthlyPayment * EUR_TO_RON).toLocaleString('ro-RO')} LEI / lună
+                ~ {Math.round(monthlyPayment * EUR_TO_RON).toLocaleString('ro-RO')} LEI / lună ({EUR_TO_RON_LABEL})
             </p>
         </div>
         
@@ -174,10 +171,10 @@ const CarDetail = () => {
   const carDetailsMemo = useMemo(() => {
     if (!car) return {};
     return {
-      marca: getAttribute(car, 'marca') as string || '',
-      model: getAttribute(car, 'model') as string || '',
-      year: getAttribute(car, 'an') as number || new Date().getFullYear(),
-      mileage: getAttribute(car, 'kilometraj') as number || 0,
+      marca: (getAttr(car.attributeValues, 'attr:make', 'Marca') as string) || '',
+      model: (getAttr(car.attributeValues, 'attr:model', 'Model') as string) || '',
+      year: getAttrYear(car.attributeValues, 'attr:year', 'An') || new Date().getFullYear(),
+      mileage: getAttrNumber(car.attributeValues, 'attr:mileage', 'Kilometraj') || 0,
       price: car.price,
     };
   }, [car]);
@@ -243,7 +240,7 @@ const CarDetail = () => {
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
-    defaultValues: { name: "", phone: "", email: "" },
+    defaultValues: { name: "", phone: "", email: "", gdprConsent: false },
   });
 
   const onSubmit = async (values: ContactFormValues) => {
@@ -254,9 +251,11 @@ const CarDetail = () => {
     try {
       await submitContactForm({
         name: values.name,
-        email: values.email || 'contact@stefanautogvr.ro', // Use a placeholder if email is not required/provided
+        email: values.email,
         phone: values.phone,
         message: messageWithSubject,
+        type: "STOCK",
+        listingId: id,
       });
       toast({
         title: "Mesaj Trimis!",
@@ -322,7 +321,7 @@ const CarDetail = () => {
        <AnimatePresence initial={false}>
             <motion.img
               key={imageIndex}
-              src={images[imageIndex]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă"}
+              src={images[imageIndex]?.url || "/placeholder.svg"}
               alt={`Foto ${car?.title} - Stefan Auto GVR Dobroesti (${imageIndex + 1}/${images.length})`}
               className="max-w-full max-h-full object-contain"
               variants={galleryVariants}
@@ -405,12 +404,12 @@ const CarDetail = () => {
 
 
   const carDetails = {
-    marca: getAttribute(car, 'marca'),
-    model: getAttribute(car, 'model'),
-    year: getAttribute(car, 'an'),
-    mileage: getAttribute(car, 'kilometraj'),
-    fuel: getAttribute(car, 'combustibil'),
-    transmission: getAttribute(car, 'cutie de viteze'),
+    marca: getAttr(car.attributeValues, 'attr:make', 'Marca'),
+    model: getAttr(car.attributeValues, 'attr:model', 'Model'),
+    year: getAttrYear(car.attributeValues, 'attr:year', 'An'),
+    mileage: getAttrNumber(car.attributeValues, 'attr:mileage', 'Kilometraj'),
+    fuel: getAttr(car.attributeValues, 'attr:fuelType', 'Combustibil'),
+    transmission: getAttr(car.attributeValues, 'attr:gearbox', 'Cutie de viteze'),
   };
   
   const VehicleDetailsSection = ({ isMobile = false }) => (
@@ -501,7 +500,7 @@ const CarDetail = () => {
                   {car.price.toLocaleString('ro-RO', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })}
                 </span>
                 <span className="text-base text-muted-foreground block mt-2">
-                  {(car.price * EUR_TO_RON).toLocaleString('ro-RO', { style: 'currency', currency: 'RON', minimumFractionDigits: 0 })}
+                  {(car.price * EUR_TO_RON).toLocaleString('ro-RO', { style: 'currency', currency: 'RON', minimumFractionDigits: 0 })} ({EUR_TO_RON_LABEL})
                 </span>
               </motion.div>
             ) : (
@@ -525,7 +524,7 @@ const CarDetail = () => {
                     <AnimatePresence initial={false}>
                       <motion.img
                         key={imageIndex}
-                        src={images[imageIndex]?.url || "https://placehold.co/1200x800?text=Imagine+Indisponibilă"}
+                        src={images[imageIndex]?.url || "/placeholder.svg"}
                         alt={`Foto ${car.title} - Stefan Auto GVR Dobroesti`}
                         className="absolute w-full h-full object-cover"
                         variants={galleryVariants}
@@ -677,6 +676,27 @@ const CarDetail = () => {
                             </FormItem>
                           )}
                         />
+                      <FormField
+                        control={form.control}
+                        name="gdprConsent"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-2">
+                            <FormControl>
+                              <Checkbox
+                                id="cardetail-gdpr"
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel htmlFor="cardetail-gdpr" className="text-sm font-normal text-muted-foreground cursor-pointer">
+                                Sunt de acord cu <a href="/politica-de-confidentialitate" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Politica de Confidențialitate</a>.
+                              </FormLabel>
+                              <FormMessage />
+                            </div>
+                          </FormItem>
+                        )}
+                      />
                       <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-4" disabled={form.formState.isSubmitting}>
                         {form.formState.isSubmitting ? (
                           <Loader2 className="w-4 h-4 animate-spin" />

@@ -1,11 +1,19 @@
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Calculator, Shield, Clock, CheckCircle, Building2, Phone, MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Calculator, Shield, Clock, CheckCircle, Building2, Phone, MessageCircle, Send, Loader2, RefreshCw } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import { EUR_TO_RON } from "@/config/api";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { submitContactForm } from "@/services/api";
 
 const partners = [
   { name: "TBI Bank", logo: "TBI" },
@@ -32,6 +40,18 @@ const benefits = [
   },
 ];
 
+const financingFormSchema = z.object({
+  nume: z.string().min(2, { message: "Numele este obligatoriu." }),
+  telefon: z.string().min(10, { message: "Numărul de telefon este invalid." }).regex(/^[0-9+ ]+$/, { message: "Numărul de telefon este invalid." }),
+  email: z.string().email({ message: "Adresa de email este invalidă." }),
+  mesaj: z.string().optional(),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: "Trebuie să fii de acord cu Politica de Confidențialitate.",
+  }),
+});
+
+type FinancingFormValues = z.infer<typeof financingFormSchema>;
+
 const Financing = () => {
   const [carPrice, setCarPrice] = useState(25000);
   const [downPayment, setDownPayment] = useState(5000);
@@ -41,6 +61,49 @@ const Financing = () => {
   const loanAmount = carPrice - downPayment;
   const monthlyRate = interestRate / 100 / 12;
   const monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+
+  const form = useForm<FinancingFormValues>({
+    resolver: zodResolver(financingFormSchema),
+    defaultValues: {
+      nume: "",
+      telefon: "",
+      email: "",
+      mesaj: "",
+      gdprConsent: false,
+    },
+  });
+
+  const onSubmit = async (values: FinancingFormValues) => {
+    try {
+      const calculatedEUR = isNaN(monthlyPayment) ? 0 : Math.round(monthlyPayment);
+      const calculatedRON = isNaN(monthlyPayment) ? 0 : Math.round(monthlyPayment * EUR_TO_RON);
+
+      const composedMessage = `SOLICITARE FINANȚARE AUTO:
+
+Preț Mașină: ${carPrice.toLocaleString()} EUR (${(carPrice * EUR_TO_RON).toLocaleString()} LEI)
+Avans: ${downPayment.toLocaleString()} EUR (${(downPayment * EUR_TO_RON).toLocaleString()} LEI)
+Perioadă: ${months} luni
+Rată Lunară Estimată: ${calculatedEUR.toLocaleString()} EUR (${calculatedRON.toLocaleString()} LEI)
+
+${values.mesaj ? `Mesaj client: ${values.mesaj}` : ""}`.trim();
+
+      const payload = {
+        type: "FINANCING",
+        name: values.nume,
+        email: values.email,
+        phone: values.telefon,
+        message: composedMessage,
+      };
+
+      console.log("Submitting financing lead payload:", payload);
+
+      await submitContactForm(payload);
+      form.reset();
+    } catch (error) {
+      console.error("Submission error:", error);
+      throw new Error("Submission failed");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -81,7 +144,7 @@ const Financing = () => {
                 <h2 className="font-display text-2xl">Calculator de Credit</h2>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-2 gap-8 mb-10">
                 {/* Inputs */}
                 <div className="space-y-6">
                   {/* Car Price */}
@@ -184,6 +247,161 @@ const Financing = () => {
                   </p>
                 </div>
               </div>
+
+              {/* Lead Form Section BELOW Calculator Result */}
+              <div className="border-t border-border pt-8 mt-6">
+                <div className="max-w-2xl mx-auto relative min-h-[400px]">
+                  <AnimatePresence mode="wait">
+                    {form.formState.isSubmitSuccessful ? (
+                      <motion.div
+                        key="success"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="flex flex-col items-center justify-center text-center p-8"
+                      >
+                        <h3 className="font-display text-2xl text-gold-gradient mb-4">Mulțumim!</h3>
+                        <p className="text-muted-foreground mb-6">
+                          Solicitarea ta de finanțare a fost trimisă cu succes. Te vom contacta în cel mai scurt timp.
+                        </p>
+                        <button
+                          onClick={() => form.reset()}
+                          className="btn-luxury flex items-center justify-center gap-2"
+                        >
+                          <RefreshCw className="w-4 h-4" />
+                          Trimite o altă solicitare
+                        </button>
+                      </motion.div>
+                    ) : form.formState.isSubmitted && !form.formState.isSubmitSuccessful ? (
+                      <motion.div
+                        key="error"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="flex flex-col items-center justify-center text-center p-8"
+                      >
+                        <h3 className="font-display text-2xl text-destructive mb-4">A apărut o eroare</h3>
+                        <p className="text-muted-foreground mb-6">
+                          Vă rugăm să ne contactați telefonic la <a href="tel:0731758666" className="text-primary hover:underline">0731 758 666</a>.
+                        </p>
+                        <button
+                          onClick={() => form.reset(form.getValues())}
+                          className="btn-luxury flex items-center justify-center gap-2"
+                        >
+                          <RefreshCw className="w-4 h-4" />
+                          Încearcă din nou
+                        </button>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="form"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="w-full"
+                      >
+                        <h3 className="font-display text-2xl mb-2 text-center">Solicită Ofertă de Finanțare</h3>
+                        <p className="text-muted-foreground text-sm text-center mb-6">
+                          Completează datele tale mai jos pentru a primi o ofertă personalizată pe baza calculului efectuat.
+                        </p>
+
+                        <Form {...form}>
+                          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                            <div className="grid md:grid-cols-2 gap-4">
+                              <FormField
+                                control={form.control}
+                                name="nume"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Nume</FormLabel>
+                                    <FormControl>
+                                      <Input placeholder="Numele tău" {...field} className="input-luxury" />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={form.control}
+                                name="telefon"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Telefon</FormLabel>
+                                    <FormControl>
+                                      <Input placeholder="07XX XXX XXX" {...field} className="input-luxury" />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                            <FormField
+                              control={form.control}
+                              name="email"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Email</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="contact@exemplu.ro" {...field} className="input-luxury" />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="mesaj"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Mesaj (opțional)</FormLabel>
+                                  <FormControl>
+                                    <Textarea placeholder="Alte detalii sau preferințe..." {...field} className="input-luxury" rows={3} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="gdprConsent"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-2">
+                                  <FormControl>
+                                    <Checkbox
+                                      id="financing-gdpr"
+                                      checked={field.value}
+                                      onCheckedChange={field.onChange}
+                                    />
+                                  </FormControl>
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel htmlFor="financing-gdpr" className="text-sm font-normal text-muted-foreground cursor-pointer">
+                                      Sunt de acord cu <a href="/politica-de-confidentialitate" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Politica de Confidențialitate</a>.
+                                    </FormLabel>
+                                    <FormMessage />
+                                  </div>
+                                </FormItem>
+                              )}
+                            />
+                            <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2 py-4" disabled={form.formState.isSubmitting}>
+                              {form.formState.isSubmitting ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                  Se trimite...
+                                </>
+                              ) : (
+                                <>
+                                  <Send className="w-4 h-4" />
+                                  Trimite Solicitarea
+                                </>
+                              )}
+                            </button>
+                          </form>
+                        </Form>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
             </div>
           </motion.div>
 
@@ -266,3 +484,4 @@ const Financing = () => {
 };
 
 export default Financing;
+

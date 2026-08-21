@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { submitContactForm } from "@/services/api";
 
 const contactFormSchema = z.object({
@@ -17,6 +18,9 @@ const contactFormSchema = z.object({
   phone: z.string().min(10, { message: "Numărul de telefon este invalid." }),
   email: z.string().email({ message: "Adresa de email este invalidă." }),
   message: z.string().min(10, { message: "Mesajul trebuie să conțină cel puțin 10 caractere." }),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: "Trebuie să fii de acord cu Politica de Confidențialitate.",
+  }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -25,13 +29,14 @@ const Contact = () => {
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
-    defaultValues: { name: "", phone: "", email: "", message: "" },
+    defaultValues: { name: "", phone: "", email: "", message: "", gdprConsent: false },
   });
 
   const onSubmit = async (values: ContactFormValues) => {
     try {
+      const { gdprConsent, ...payload } = values;
       await submitContactForm({
-        ...values,
+        ...payload,
         type: "GENERAL",
       });
       form.reset();
@@ -241,6 +246,27 @@ const Contact = () => {
                                       <Textarea placeholder="Scrie mesajul tău aici..." {...field} className="input-luxury" rows={4} />
                                     </FormControl>
                                     <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={form.control}
+                                name="gdprConsent"
+                                render={({ field }) => (
+                                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-2">
+                                    <FormControl>
+                                      <Checkbox
+                                        id="contact-gdpr"
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                      />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                      <FormLabel htmlFor="contact-gdpr" className="text-sm font-normal text-muted-foreground cursor-pointer">
+                                        Sunt de acord cu <a href="/politica-de-confidentialitate" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Politica de Confidențialitate</a>.
+                                      </FormLabel>
+                                      <FormMessage />
+                                    </div>
                                   </FormItem>
                                 )}
                               />

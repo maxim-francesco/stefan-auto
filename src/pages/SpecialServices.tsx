@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { submitContactForm } from "@/services/api";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { EUR_TO_RON } from "@/config/api";
 
 
@@ -27,6 +28,10 @@ const comandaFormSchema = z.object({
   alteDetalii: z.string().optional(),
   nume: z.string().min(2, "Numele este obligatoriu."),
   telefon: z.string().min(10, "Număr de telefon invalid.").regex(/^[0-9+ ]+$/, "Format invalid."),
+  email: z.string().email("Email invalid."),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: "Trebuie să fii de acord cu Politica de Confidențialitate.",
+  }),
 });
 
 type ComandaFormValues = z.infer<typeof comandaFormSchema>;
@@ -42,6 +47,9 @@ const buyBackFormSchema = z.object({
   nume: z.string().min(2, "Numele este obligatoriu"),
   telefon: z.string().min(10, "Telefon invalid").regex(/^[0-9+ ]+$/, "Telefon invalid"),
   email: z.string().email("Email invalid"),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: "Trebuie să fii de acord cu Politica de Confidențialitate.",
+  }),
 });
 
 type BuyBackFormValues = z.infer<typeof buyBackFormSchema>;
@@ -49,8 +57,8 @@ type BuyBackFormValues = z.infer<typeof buyBackFormSchema>;
 const SpecialServices = () => {
   const [activeTab, setActiveTab] = useState<"comanda" | "buyback">("comanda");
   
-  const comandaForm = useForm<ComandaFormValues>({ resolver: zodResolver(comandaFormSchema) });
-  const buyBackForm = useForm<BuyBackFormValues>({ resolver: zodResolver(buyBackFormSchema) });
+  const comandaForm = useForm<ComandaFormValues>({ resolver: zodResolver(comandaFormSchema), defaultValues: { gdprConsent: false } });
+  const buyBackForm = useForm<BuyBackFormValues>({ resolver: zodResolver(buyBackFormSchema), defaultValues: { gdprConsent: false } });
 
   const bugetMaximVal = comandaForm.watch("bugetMaxim");
   const pretEstimativVal = buyBackForm.watch("pretEstimativ");
@@ -68,13 +76,15 @@ Combustibil: ${values.combustibil}
 Detalii suplimentare: ${values.alteDetalii || 'Niciunul'}
 
 Date Contact Client:
+Nume: ${values.nume}
 Telefon: ${values.telefon}
+Email: ${values.email}
     `.trim();
 
     try {
       await submitContactForm({
         name: values.nume,
-        email: 'comanda@stefan.ro',
+        email: values.email,
         phone: values.telefon,
         message: message,
         type: 'ORDER',
@@ -282,6 +292,30 @@ Email: ${values.email}
                                     <FormItem><FormLabel>Telefon</FormLabel><FormControl><Input placeholder="07XX XXX XXX" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
                                 )}/>
                             </div>
+                            <FormField control={comandaForm.control} name="email" render={({ field }) => (
+                                <FormItem><FormLabel>Email</FormLabel><FormControl><Input placeholder="contact@exemplu.ro" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
+                            )}/>
+                            <FormField
+                              control={comandaForm.control}
+                              name="gdprConsent"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-2">
+                                  <FormControl>
+                                    <Checkbox
+                                      id="comanda-gdpr"
+                                      checked={field.value}
+                                      onCheckedChange={field.onChange}
+                                    />
+                                  </FormControl>
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel htmlFor="comanda-gdpr" className="text-sm font-normal text-muted-foreground cursor-pointer">
+                                      Sunt de acord cu <a href="/politica-de-confidentialitate" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Politica de Confidențialitate</a>.
+                                    </FormLabel>
+                                    <FormMessage />
+                                  </div>
+                                </FormItem>
+                              )}
+                            />
                             <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2" disabled={comandaForm.formState.isSubmitting}>
                               {comandaForm.formState.isSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Se trimite solicitarea...</> : <><Send className="w-4 h-4" /> Trimite Cererea</>}
                             </button>
@@ -437,6 +471,27 @@ Email: ${values.email}
                             <FormItem><FormLabel>Email</FormLabel><FormControl><Input placeholder="contact@exemplu.ro" {...field} className="input-luxury" /></FormControl><FormMessage /></FormItem>
                           )} />
                         </div>
+                        <FormField
+                          control={buyBackForm.control}
+                          name="gdprConsent"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-2">
+                              <FormControl>
+                                <Checkbox
+                                  id="buyback-gdpr"
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                              <div className="space-y-1 leading-none">
+                                <FormLabel htmlFor="buyback-gdpr" className="text-sm font-normal text-muted-foreground cursor-pointer">
+                                  Sunt de acord cu <a href="/politica-de-confidentialitate" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Politica de Confidențialitate</a>.
+                                </FormLabel>
+                                <FormMessage />
+                              </div>
+                            </FormItem>
+                          )}
+                        />
                         <button type="submit" className="btn-luxury-filled w-full flex items-center justify-center gap-2" disabled={buyBackForm.formState.isSubmitting}>
                            {buyBackForm.formState.isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
                           Solicită Evaluare Gratuită
